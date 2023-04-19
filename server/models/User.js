@@ -2,9 +2,7 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-
 const UserSchema = new Schema({
-
   firstName: {
     type: String,
     required: true,
@@ -20,7 +18,7 @@ const UserSchema = new Schema({
     max: 20,
     min: 8,
     required: true,
-    unique: true, 
+    unique: true,
   },
   email: {
     type: String,
@@ -34,12 +32,16 @@ const UserSchema = new Schema({
     minlength: 5,
   },
   role: {
-    type: String,
-    required:true,
-    enum: ['teacher','student','admin'],
+    type: Types.Schema.ObjectId,
+    ref: 'Role',
   },
- 
-},);
+  todoLists: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'todoList',
+    },
+  ],
+});
 
 
 // set up pre-save middleware to create password
@@ -59,5 +61,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
 };
 
 
+const userResolvers = {};
+
 const User = model('User', UserSchema);
-module.exports = User;
+module.exports = { User, userResolvers };

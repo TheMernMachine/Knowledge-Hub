@@ -1,52 +1,47 @@
 // Require schema and model from mongoose
 const { Schema, model } = require('mongoose');
 const courseSchema = new Schema({
-    title:{
+    title: {
         type: String,
-        required:true,
+        required: true,
     },
     description: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
-
-    price:{
+    price: {
         type: Number,
-        required:true,
+        required: true,
         default: 'USD',
     },
 
-   content:[
-    {
-        type: String,
-        enum: ['test','quizzes','assigments', 'notes'],
-        required:true
-   },
-],
-
-    startDate:{
+    content: [
+        {
+            type: String,
+            enum: ['test', 'quizzes', 'assigments', 'notes'],
+            required: true
+        },
+    ],
+    startDate: {
         type: Date,
-        required:true,
+        required: true,
         default: Date.now,
     },
-
-
     teacher: [
         {
             type: String,
-            required:true,
+            required: true,
         },
     ],
     students: [
         {
             type: String,
-            required:true,
-        },   
+            required: true,
+        },
     ],
+});
 
-
-
-},);
+const courseResolvers = {};
 
 const Course = model('Course', courseSchema);
-module.exports = Course;
+module.exports = {Course, courseResolvers};
