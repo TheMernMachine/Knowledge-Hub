@@ -1,9 +1,14 @@
-const Assignments = require('./Assignments');
-const Forum = require('./Forum');
-const User = require('./User');
-const Course = require('./Course');
-const Alert = require('./Alerts');
-const LessonNotes = require('./LessonNotes');
-const Quiz = require('./Quiz');
+// const {Alerts, alertResolvers} = require('./Alerts');
+const {Assignments, assignmentResolvers} = require('./Assignments');
+// const {Content, contentResolvers} = require('./Content');
+// const {Course, courseResolvers} = require('./Course');
+// const {Forum, forumResolvers} = require('./Forum');
+// const {LessonNotes, lessonNotesResolvers} = require('./LessonNotes');
+// const {Questions, questionResolvers} = require('./Questions');
+// const {Quizzes, quizResolvers} = require('./Quizzes');
+// const {Role, roleResolvers} = require('./Role');
+// const {Todo, todoResolvers} = require('./Todo');
+const {User, userResolvers} = require('./User');
 
-module.exports = { Assignments, Forum, User, Course, Alert, LessonNotes, Quiz };
+
+module.exports = { Assignments, assignmentResolvers, User, userResolvers, };

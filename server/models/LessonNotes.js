@@ -11,7 +11,6 @@ const lessonNotes = new Schema({
     type: String,
     required: true,
   },
-  comments: [Comments],
 });
 
 const lessonResolvers = {};

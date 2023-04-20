@@ -11,10 +11,11 @@ const forumSchema = new Schema({
         required: true
     },
     postAuthor: {
-        type: ID,
+        type: Schema.Types.ObjectId,
+        ref: 'user',
         required: true,
     },
-    comments: [Comments],
+   
 },);
 
 const forumResolvers = {
