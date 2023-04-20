@@ -1,82 +1,45 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-{  
-  type User {
-    _id: ID!
-    firstName: String!
-    lastName: String!
-    email: String!
-    password: String!
-    role: String!
-  }
+    type User {
+        _id: ID
+        firstName: String
+        lastName: String
+        username: String
+        email: String
+        password: String
+    }
 
-  type Alerts {
-    _id: ID!
-    message: String!
-    severity: AlertSeverity!
-  }
-  
-  enum AlertSeverity {
-    low
-    medium
-    high
-    info
-  }
-  
+    type Assignments {
+        _id: ID
+        title: String
+        question: String
+        due_date: String
+        alert: String
+        assignmentResponse: String
+    }
 
-  
-  type Course {
-    _id: ID!
-    title: String!
-    description: String!
-    price: Int!
-    content: [ String! ]
-    startDate: Date!
-    teacher: User
-    students: [ User ]
-  }
+     type Auth {
+        token: ID!
+        user: User
+    }
 
-  type Lesson {
-    _id: ID!
-    title: String!
-    content: String!
-    comments: [ Comments ]
-  }
+    type Query {
+        users: [User]
+        user(username: String!): User
+        me: User
+        assignments: [Assignments]
+        assignment(_id: ID!): Assignments
+    }
 
-  type Assignment {
-    _id: ID!
-    title: String!
-    question: String!
-    due_date: Date!
-    alert: { Alerts }
-    assignmentResponse: [ String! ]
-  }
-
-  type Forum {
-    _id: ID!
-    title: String!
-    description: String!
-    comments: [ commentSchema ]
-  }
-
-  type Query {
-    users: [User]
-    user(_id: ID!, firstName: String!, lastName: String!): User
-    courses: [Course]
-    course(_id: ID!, title: String!): Course
-    lessonNote(_id: ID!, title: String!): LessonNotes
-    assignments(due_date: Date!): [Assignment]
-    assignment(_id: ID!): Assignment
-    forums: Forum
-    forum(_id: ID!): Forum
-  }
-
-  type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!, role: String!): Auth
-    updateUser(firstName: String!. lastName: String!, email: String!, password: String!, role: String!): User
-    login(email: String!, password: String!): Auth
-    addCourse()
-  }
-}
+    type Mutation {
+        addUser(firstName: String!, lastName: String!, username: String!, email: String!, password: String!): Auth
+        login(email: String!, password: String!): Auth
+        updateUser(username: String, email: String, password: String): User
+        addAssignment(title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
+        updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
+        deleteAssignment(_id: ID!): Assignments
+    }
 `
+
+module.exports = typeDefs;

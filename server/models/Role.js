@@ -1,7 +1,6 @@
 const {Schema, model} = require('mongoose');
 
 const roleSchema = new Schema({
-
     name: {
         type: String,
         required: true,
@@ -14,7 +13,11 @@ const roleSchema = new Schema({
     ],
 });
 
-const roleResolvers = {};
-
 const Role = model('role', roleSchema);
+
+
+const roleResolvers = {
+    
+};
+
 module.exports = {roleSchema, roleResolvers};

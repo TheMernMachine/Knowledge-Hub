@@ -13,5 +13,11 @@ const todoListSchema = new Schema({
     ],
 });
 
-const todoResolvers = {};
+const TodoList = model('todoList', todoListSchema);
+
+
+const todoResolvers = {
+   
+};
+
 module.exports = { todoListSchema, todoResolvers };

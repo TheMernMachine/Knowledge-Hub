@@ -2,7 +2,7 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
   firstName: {
     type: String,
     required: true,
@@ -36,7 +36,7 @@ const UserSchema = new Schema({
     default: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
   },
   role: {
-    type: Types.Schema.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Role',
   },
   todoLists: [
@@ -64,8 +64,49 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
+const User = model('User', userSchema);
 
-const userResolvers = {};
+const userResolvers = {
 
-const User = model('User', UserSchema);
+  getAllUsers: async () => {
+    const users = await User.find();
+    return users;
+  },
+
+  getMe: async (parent, args, context) => {
+    if (context.user) {
+      return User.findOne({ _id: context.user._id }).populate("thoughts");
+    }
+    throw new AuthenticationError("You need to be logged in!");
+  },
+
+  createUser: async ({ firstName, lastName, username, email, password  }) => {
+    const user = await User.create({ firstName, lastName, username, email, password });
+    const token = signToken(user);
+    return { token, user };
+  },
+
+  updateUser: async (parent, args, context) => {
+    if (context.user) {
+      return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+    }
+    throw new AuthenticationError('Not logged in');
+  },
+
+  login: async (parent, { email, password }) => {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new AuthenticationError('Incorrect credentials');
+    }
+    const correctPw = await user.isCorrectPassword(password);
+    if (!correctPw) {
+      throw new AuthenticationError('Incorrect credentials');
+    }
+    const token = signToken(user);
+    return { token, user };
+  },
+
+
+
+};
 module.exports = { User, userResolvers };
