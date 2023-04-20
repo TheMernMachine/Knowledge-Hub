@@ -11,6 +11,21 @@ const typeDefs = gql`
     role: String!
   }
 
+  type Alerts {
+    _id: ID!
+    message: String!
+    severity: AlertSeverity!
+  }
+  
+  enum AlertSeverity {
+    low
+    medium
+    high
+    info
+  }
+  
+
+  
   type Course {
     _id: ID!
     title: String!
