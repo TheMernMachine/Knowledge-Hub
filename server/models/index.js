@@ -7,8 +7,11 @@ const {Assignments, assignmentResolvers} = require('./Assignments');
 // const {Questions, questionResolvers} = require('./Questions');
 // const {Quizzes, quizResolvers} = require('./Quizzes');
 // const {Role, roleResolvers} = require('./Role');
-// const {Todo, todoResolvers} = require('./Todo');
+const {todoListSchema, todoResolvers} = require('./TodoList');
 const {User, userResolvers} = require('./User');
 
 
-module.exports = { Assignments, assignmentResolvers, User, userResolvers, };
+module.exports = { Assignments, assignmentResolvers,
+  User, userResolvers,
+  todoListSchema, todoResolvers,
+};
