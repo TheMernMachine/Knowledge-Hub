@@ -4,6 +4,7 @@ const { User, userResolvers,
   Course, courseResolvers,
   todoListSchema, todoResolvers,
   Alert, alertResolvers,
+  Questions, questionResolvers,
 } = require("../models");
 const { signToken } = require("../utils/auth");
 
@@ -41,25 +42,35 @@ const resolvers = {
         course: async (parent, { _id }) => {
             return courseResolvers.getSingleCourse(_id);
         },
+        questions: async () => {
+            return questionResolvers.getQuestions();
+        },
+        question: async (parent, {_id }) =>{
+            return questionResolvers.getSingleQuestion(_id);
+        }
     },
 
-    //queries fetch data
-    //mutations change data
+ 
         
     Mutation: {
-
+        addQuestion: async (parent,{title, options,answer}) =>{
+            return  questionResolvers.addQuestion(title, options,answer);
+         },
+         removeQuestion: async (parent,{ _id }) =>{
+            return  questionResolvers.removeQuestion( _id );
+         },
+          updateQuestion: async (parent,{_id,title,optiions,answer}) =>{
+            return  questionResolvers.updateQuestion({_id,title,optiions,answer});
+         },
         addAlert: async (parent,args,{message, severity}) =>{
            return  alertResolvers.addAlert(message,severity);
         },
         removeAlert: async (parent,args,{ _id }) =>{
             return  alertResolvers.removeAlert( _id );
-         },
+        },
          updateAlert: async (parent,{_id,message,severity}) =>{
             return  alertResolvers.updateAlert({_id,message,severity});
-         },
-       
-
-
+        },
         addUser: async (parent, { firstName, lastName, username, email, password }) => {
             return userResolvers.createUser({ firstName, lastName, username, email, password });
         },

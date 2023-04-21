@@ -23,8 +23,12 @@ const typeDefs = gql`
         message: String
         severity: String       
 }
-
-
+    type Question{
+        _id: ID
+        title: String
+        options: [String]
+        answer:String
+    }
 
     type Assignments {
         _id: ID
@@ -61,6 +65,8 @@ const typeDefs = gql`
         getTodoList(_id: ID!): TodoList
         courses: [Course]
         course(_id: ID!): Course
+        question(_id: ID!): Question
+        questions:[Question]
     }
 
     type Mutation {
@@ -79,6 +85,9 @@ const typeDefs = gql`
         addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
         updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
         deleteCourse(_id: ID!): Course
+        updateQuestion(_id: ID!, title: String!, options: String!, answer: String!): Question
+        removeQuestion(_id: ID!): Question
+        addQuestion(title:String!,options: String!, answer: String!): Question
     }
 `
 
