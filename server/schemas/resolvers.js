@@ -27,6 +27,9 @@ const resolvers = {
         assignment: async (parent, { _id }) => {
             return assignmentResolvers.getSingleAssignment({ _id });
         },
+        alert: async ()=>{
+            return alertResolvers.getAlerts();
+        },
         getTodoLists: async (parent, args) => {
             return todoResolvers.getTodoLists();
         },
@@ -47,7 +50,23 @@ const resolvers = {
         },
     },
 
+    //queries fetch data
+    //mutations change data
+        
     Mutation: {
+
+        addAlert: async (parent,args,{message, severity}) =>{
+           return  alertResolvers.addAlert(message,severity);
+        },
+        removeAlert: async (parent,args,{ _id }) =>{
+            return  alertResolvers.removeAlert( _id );
+         },
+         updateAlert: async (parent,{_id,message,severity}) =>{
+            return  alertResolvers.updateAlert({_id,message,severity});
+         },
+       
+
+
         addUser: async (parent, { firstName, lastName, username, email, password }) => {
             return userResolvers.createUser({ firstName, lastName, username, email, password });
         },
