@@ -25,50 +25,44 @@ const assignmentSchema = new Schema({
             studentID: {
                 type: Schema.Types.ObjectId,
                 ref: 'User',
-            }
+            },
+            rawScore: {
+                type: Number
+            },
+            grade: {
+                type: String
+            },
         },
-    ]
+    ],
+
 });
 const Assignments = model('assigment', assignmentSchema);
 
 
 const assignmentResolvers = {
-    getAssignments: async (contentID) => {
-        const assignments = await Assignments.find({ contentID });
+    getAssignments: async () => {
+        const assignments = await Assignments.find({});
         return assignments;
     },
 
-    getSingleAssignment: async (contentID, assignmentID) => {
-        const assignment = await Assignments.findOne({
-            _id: assignmentID,
-            contentID,
-        });
+    getSingleAssignment: async (args) => {
+        const assignment = await Assignments.findById(args);
         return assignment;
     },
 
-    createAssignment: async (contentID, assignmentBody,) => {
-        const assignment = await Assignments.create({
-            ...assignmentBody,
-            contentID,
-        });
+    createAssignment: async (title, question, due_date) => {
+        const assignment = await Assignments.create({ title, question, due_date });
         return assignment;
     },
 
-    deleteAssignment: async (contentID, assignmentID) => {
-        const assignment = await Assignments.findOneAndDelete({
-            _id: assignmentID,
-            contentID,
-        });
-        return assignment;
+    updateAssignment: async (args) => {
+        const assignments = await Assignments.findByIdAndUpdate(args._id, args);
+        return assignments;
     },
 
-    updateAssignment: async (contentID, assignmentID, assignmentBody) => {
-        const assignment = await Assignments.findOneAndUpdate(
-            { _id: assignmentID, contentID },
-            { $set: { ...assignmentBody } },
-            { new: true }
-        );
-        return assignment;
+    deleteAssignment: async (args) => {
+        const assignments = await Assignments.findByIdAndDelete(args);
+        return assignments;
     }
 
 };
