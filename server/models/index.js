@@ -1,4 +1,4 @@
-// const {Alerts, alertResolvers} = require('./Alerts');
+const {Alert, alertResolvers} = require('./Alerts');
 const {Assignments, assignmentResolvers} = require('./Assignments');
 // const {Content, contentResolvers} = require('./Content');
 // const {Course, courseResolvers} = require('./Course');
@@ -11,4 +11,4 @@ const {Assignments, assignmentResolvers} = require('./Assignments');
 const {User, userResolvers} = require('./User');
 
 
-module.exports = { Assignments, assignmentResolvers, User, userResolvers, };
+module.exports = { Assignments, assignmentResolvers, User, userResolvers, Alert, alertResolvers };

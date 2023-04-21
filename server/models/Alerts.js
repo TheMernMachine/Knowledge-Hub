@@ -4,7 +4,6 @@ const alertSchema = new Schema({
     message: {
         type: String,
         required: true,
-        alerts: [Alert],
     },
     severity: {
         type: String,
@@ -13,32 +12,29 @@ const alertSchema = new Schema({
     
 });
 
-const Alert = model('alert',alertSchema)
+const Alert = model('alert', alertSchema)
 
 
 //this resolver function gets all alert messages, returns them to client
 const alertResolvers = {
-    Query:{
         getAlerts: async () => {
             const alerts = await Alert.find();
             return alerts;
         },
-    },
-    //MUTATIONS??? CRUD
-    Mutation:{
-        addAlert: async (parent,{message,severity}) => {
-            return Alert.create({message,severity});
+    
+        addAlert: async (message,severity) => {
+            return Alert.create({message: message ,severity: severity});
         },
-        removeAlert: async (parent, {_id}) => {
-            return Alert.findOneAndDelete({ _id});
-          }, 
 
-          //this function uses await to ensure that the alert find method finishes. id value is specified in the args param
-          updateAlert: async(parent,args) => {
-            const alert = await Alert.findOneAndUpdate({_id: args._id},{...args},{new:true});
-            return alert;
-          }
+        removeAlert: async (_id) => {
+            return Alert.findOneAndDelete( _id);
+        }, 
+
+        updateAlert: async (args) => {
+            const alerts = await Alert.findOneAndUpdate(args._id, args);
+            return alerts
+        },
     }
-  };
+  
 
 module.exports = {Alert, alertResolvers};
