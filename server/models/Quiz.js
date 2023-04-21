@@ -16,6 +16,20 @@ const quizSchema = new Schema({
         required: true,
         default: Date.now,
     },
+    studentGrades: [
+        {
+            studentID: {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            },
+            rawScore: {
+                type: Number
+            },
+            grade: {
+                type: String
+            },
+        },
+    ],
 });
 
 const quizResolvers = {};

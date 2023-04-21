@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, userResolvers, Assignments, assignmentResolvers } = require("../models");
+const { User, userResolvers, Assignments, assignmentResolvers, Course, courseResolvers } = require("../models");
 const { signToken } = require("../utils/auth");
 
 
@@ -21,7 +21,12 @@ const resolvers = {
         assignment: async (parent, { _id }) => {
             return assignmentResolvers.getSingleAssignment({ _id });
         },
-
+        courses: async () => {
+            return courseResolvers.getCourses();
+        },
+        course: async (parent, { _id }) => {
+            return courseResolvers.getSingleCourse(_id);
+        },
     },
 
     Mutation: {
@@ -35,15 +40,23 @@ const resolvers = {
             return userResolvers.updateUser(args, context);
         },
         addAssignment: async (parent, { title, question, due_date, alert, assignmentResponse }) => {
-            return assignmentResolvers.createAssignment({ title, question, due_date, alert, assignmentResponse });
+            return assignmentResolvers.createAssignment({title, question, due_date, alert, assignmentResponse});
         },
         updateAssignment: async (parent, { _id, title, question, due_date, alert, assignmentResponse }) => {
             return assignmentResolvers.updateAssignment({ _id, title, question, due_date, alert, assignmentResponse });
         },
         deleteAssignment: async (parent, { _id }) => {
             return assignmentResolvers.deleteAssignment({ _id });
+        },
+        addCourse: async (parent, { title, description, content, startDate, endDate}) => {
+            return courseResolvers.createCourse(title, description, content, startDate, endDate);
+        },
+        updateCourse: async (parent, { _id, title, description, content, startDate, endDate }) => {
+            return courseResolvers.updateCourse({ _id, title, description, content, startDate, endDate });
+        },
+        deleteCourse: async (parent, { _id }) => {
+            return courseResolvers.deleteCourse({ _id });
         }
-
     },
 };
 

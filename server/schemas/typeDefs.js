@@ -19,6 +19,16 @@ const typeDefs = gql`
         assignmentResponse: String
     }
 
+    type Course {
+        _id: ID
+        title: String
+        description: String
+        price: Float
+        content: [String]
+        startDate: String
+        endDate: String
+    }
+
      type Auth {
         token: ID!
         user: User
@@ -30,6 +40,8 @@ const typeDefs = gql`
         me: User
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
+        courses: [Course]
+        course(_id: ID!): Course
     }
 
     type Mutation {
@@ -39,6 +51,9 @@ const typeDefs = gql`
         addAssignment(title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         deleteAssignment(_id: ID!): Assignments
+        addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
+        updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
+        deleteCourse(_id: ID!): Course
     }
 `
 
