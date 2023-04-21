@@ -3,7 +3,8 @@ const { User, userResolvers,
   Assignments, assignmentResolvers, 
   Course, courseResolvers,
   todoListSchema, todoResolvers,
-  Alert, alertResolvers,
+  Alerts, alertResolvers,
+  Role, roleResolvers,
 } = require("../models");
 const { signToken } = require("../utils/auth");
 
@@ -40,6 +41,12 @@ const resolvers = {
         },
         course: async (parent, { _id }) => {
             return courseResolvers.getSingleCourse(_id);
+        },
+        roles: async () => {
+            return roleResolvers.getRoles();
+        },
+        role: async (parent, { _id }) => {
+            return roleResolvers.getSingleRole(_id);
         },
     },
 
@@ -95,6 +102,15 @@ const resolvers = {
         },
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });
+        },
+        addRole: async (parent, { title, description }) => {
+            return roleResolvers.createRole(title, description);
+        },
+        updateRole: async (parent, { _id, title, description }) => {
+            return roleResolvers.updateRole({ _id, title, description });
+        },
+        deleteRole: async (parent, { _id }) => {
+            return roleResolvers.deleteRole({ _id });
         },
     },
 };

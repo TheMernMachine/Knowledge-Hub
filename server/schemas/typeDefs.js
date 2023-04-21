@@ -7,6 +7,12 @@ const typeDefs = gql`
       todo: [String]
     }
 
+    type Role {
+        _id: ID
+        name: String
+        permissions: [String]
+    }
+
     type User {
         _id: ID
         firstName: String
@@ -14,6 +20,7 @@ const typeDefs = gql`
         username: String
         email: String
         password: String
+        role: Role
         todolists: [TodoList]
     }
 
@@ -61,6 +68,8 @@ const typeDefs = gql`
         getTodoList(_id: ID!): TodoList
         courses: [Course]
         course(_id: ID!): Course
+        roles: [Role]
+        role(_id: ID!): Role
     }
 
     type Mutation {
@@ -79,6 +88,9 @@ const typeDefs = gql`
         addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
         updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
         deleteCourse(_id: ID!): Course
+        addRole(name: String!, permissions: [String]): Role
+        updateRole(_id: ID!, name: String!, permissions: [String]): Role
+        deleteRole(_id: ID!): Role
     }
 `
 
