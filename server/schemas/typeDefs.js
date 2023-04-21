@@ -17,11 +17,11 @@ const typeDefs = gql`
         _id: ID
         firstName: String
         lastName: String
-        username: String
         email: String
         password: String
+        dateJoined: String
         role: Role
-        todolists: [TodoList]
+        todoLists: [TodoList]
     }
 
 
@@ -52,6 +52,14 @@ const typeDefs = gql`
         endDate: String
     }
 
+    type LessonNotes {
+        _id: ID
+        title: String
+        content: String
+        createdAt: String
+        updatedAt: String
+    }
+
      type Auth {
         token: ID!
         user: User
@@ -59,7 +67,7 @@ const typeDefs = gql`
 
     type Query {
         users: [User]
-        user(username: String!): User
+        user(email: String!): User
         me: User
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
@@ -70,12 +78,15 @@ const typeDefs = gql`
         course(_id: ID!): Course
         roles: [Role]
         role(_id: ID!): Role
+        findRoleByName(name: String!): Role
+        lessonNotes: [LessonNotes]
+        lessonNote(_id: ID!): LessonNotes
     }
 
     type Mutation {
-        addUser(firstName: String!, lastName: String!, username: String!, email: String!, password: String!): Auth
+        addUser(firstName: String!, lastName: String!, role: String!, email: String!, password: String!): Auth
         login(email: String!, password: String!): Auth
-        updateUser(username: String, email: String, password: String): User
+        updateUser(_id: ID, firstName: String, lastName: String, email: String, password: String): User
         addAssignment(title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         deleteAssignment(_id: ID!): Assignments
@@ -91,6 +102,9 @@ const typeDefs = gql`
         addRole(name: String!, permissions: [String]): Role
         updateRole(_id: ID!, name: String!, permissions: [String]): Role
         deleteRole(_id: ID!): Role
+        addLessonNotes(title: String!, content: String!): LessonNotes
+        updateLessonNotes(_id: ID!, title: String!, content: String!): LessonNotes
+        deleteLessonNotes(_id: ID!): LessonNotes
     }
 `
 
