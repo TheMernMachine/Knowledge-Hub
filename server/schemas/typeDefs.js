@@ -26,6 +26,16 @@ const typeDefs = gql`
         assignmentResponse: String
     }
 
+    type Course {
+        _id: ID
+        title: String
+        description: String
+        price: Float
+        content: [String]
+        startDate: String
+        endDate: String
+    }
+
      type Auth {
         token: ID!
         user: User
@@ -39,6 +49,8 @@ const typeDefs = gql`
         assignment(_id: ID!): Assignments
         getTodoLists: [TodoList]
         getTodoList(_id: ID!): TodoList
+        courses: [Course]
+        course(_id: ID!): Course
     }
 
     type Mutation {
@@ -51,6 +63,9 @@ const typeDefs = gql`
         addTodoList(title: String!, todos: [String]): TodoList
         updateTodoList(_id: ID!, title: String!, todos: [String]): TodoList
         deleteTodoList(_id: ID!): TodoList
+        addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
+        updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
+        deleteCourse(_id: ID!): Course
     }
 `
 
