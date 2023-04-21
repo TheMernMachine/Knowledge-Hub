@@ -4,7 +4,7 @@ const {Assignments, assignmentResolvers} = require('./Assignments');
 // const {Content, contentResolvers} = require('./Content');
 const { Course, courseResolvers } = require('./Course');
 // const {Forum, forumResolvers} = require('./Forum');
-// const {LessonNotes, lessonNotesResolvers} = require('./LessonNotes');
+const { LessonNotes, lessonNotesResolvers } = require('./LessonNotes');
 // const {Questions, questionResolvers} = require('./Questions');
 // const {Quizzes, quizResolvers} = require('./Quizzes');
 const {Role, roleResolvers} = require('./Role');
@@ -17,4 +17,5 @@ module.exports = { Assignments, assignmentResolvers,
   todoListSchema, todoResolvers,
   Alert, alertResolvers,
   Role, roleResolvers,
+  LessonNotes, lessonNotesResolvers
 };

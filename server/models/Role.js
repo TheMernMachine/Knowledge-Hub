@@ -17,7 +17,7 @@ const Role = model('role', roleSchema);
 
 
 const roleResolvers = {
-    roles : async () => {
+    getRoles: async () => {
         let roles = await Role.find({});
         return roles;
     },
@@ -25,7 +25,11 @@ const roleResolvers = {
         let role = await Role.findOne({_id: _id});
         return role;
     },
-    addRole : async (name, permissions) => {
+    findRoleByName: async (name) => {
+        let role = await Role.findOne({ name: name });
+        return role;
+    },
+    createRole: async (name, permissions) => {
         let role = await Role.create({name, permissions});
         return role;
     },

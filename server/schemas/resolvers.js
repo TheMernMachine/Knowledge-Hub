@@ -4,7 +4,8 @@ const { User, userResolvers,
   Course, courseResolvers,
   todoListSchema, todoResolvers,
   Alerts, alertResolvers,
-  Role, roleResolvers,
+    Role, roleResolvers,
+    LessonNotes, lessonNotesResolvers,
 } = require("../models");
 const { signToken } = require("../utils/auth");
 
@@ -15,11 +16,14 @@ const resolvers = {
         users: async () => {
             return userResolvers.getAllUsers();
         },
-        user: async (parent, { username }) => {
-            return userResolvers.getSingleUser({ username });
+        user: async (parent, { email }) => {
+            return userResolvers.getSingleUser({ email });
         },
         me: async (parent, args, context) => {
-            return userResolvers.getMe( args, context);
+            if (context.user) {
+                return userResolvers.getMe(context.user._id);
+            }
+            throw new AuthenticationError('You need to be logged in!');
         },
         assignments: async () => {
             return assignmentResolvers.getAssignments();
@@ -48,6 +52,15 @@ const resolvers = {
         role: async (parent, { _id }) => {
             return roleResolvers.getSingleRole(_id);
         },
+        findRoleByName: async (parent, { name }) => {
+            return roleResolvers.findRoleByName(name);
+        },
+        lessonNotes: async () => {
+            return lessonNotesResolvers.getLessonNotes();
+        },
+        lessonNote: async (parent, { _id }) => {
+            return lessonNotesResolvers.getSingleLessonNote({ _id });
+        },
     },
 
     //queries fetch data
@@ -67,14 +80,18 @@ const resolvers = {
        
 
 
-        addUser: async (parent, { firstName, lastName, username, email, password }) => {
-            return userResolvers.createUser({ firstName, lastName, username, email, password });
+        addUser: async (parent, { firstName, lastName, email, password, role }) => {
+            return userResolvers.createUser({ firstName, lastName, email, password, role });
         },
         login: async (parent, { email, password }) => {
             return userResolvers.login({ email, password });
         },
-        updateUser: async (parent, args, context) => {
-            return userResolvers.updateUser(args, context);
+        updateUser: async (parent, { _id, firstName, lastName, email, password }) => {
+            return userResolvers.updateUser({ _id, firstName, lastName, email, password });
+            // if (context.user) {
+            //     return userResolvers.updateUser(context.user._id, args);
+            // }
+            // throw new AuthenticationError('Not logged in');
         },
         addAssignment: async (parent, { title, question, due_date, alert, assignmentResponse }) => {
             return assignmentResolvers.createAssignment({title, question, due_date, alert, assignmentResponse});
@@ -103,15 +120,24 @@ const resolvers = {
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });
         },
-        addRole: async (parent, { title, description }) => {
-            return roleResolvers.createRole(title, description);
+        addRole: async (parent, { name, permissions }) => {
+            return roleResolvers.createRole(name, permissions);
         },
-        updateRole: async (parent, { _id, title, description }) => {
-            return roleResolvers.updateRole({ _id, title, description });
+        updateRole: async (parent, { _id, name, permissions }) => {
+            return roleResolvers.updateRole({ _id, name, permissions });
         },
         deleteRole: async (parent, { _id }) => {
             return roleResolvers.deleteRole({ _id });
         },
+        addLessonNotes: async (parent, { title, content }) => {
+            return lessonNotesResolvers.createLessonNotes(title, content);
+        },
+        updateLessonNotes: async (parent, { _id, title, content }) => {
+            return lessonNotesResolvers.updateLessonNotes(_id, title, content);
+        },
+        deleteLessonNotes: async (parent, { _id }) => {
+            return lessonNotesResolvers.deleteLessonNotes(_id);
+        }
     },
 };
 

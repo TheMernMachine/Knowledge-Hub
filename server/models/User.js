@@ -1,6 +1,7 @@
 // Require schema and model from mongoose
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+const dateFormat = require('../utils/dateFormat');
 
 const userSchema = new Schema({
   firstName: {
@@ -12,13 +13,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true
-  },
-  username: {
-    type: String,
-    max: 20,
-    min: 8,
-    required: true,
-    unique: true,
   },
   email: {
     type: String,
@@ -35,9 +29,14 @@ const userSchema = new Schema({
     type: String,
     default: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
   },
+  dateJoined: {
+    type: Date,
+    default: Date.now,
+    get: (timestamp) => dateFormat(timestamp),
+  },
   role: {
     type: Schema.Types.ObjectId,
-    ref: 'Role',
+    ref: 'role',
   },
   todoLists: [
     {
@@ -64,33 +63,28 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-const User = model('User', userSchema);
-
 const userResolvers = {
 
   getAllUsers: async () => {
-    const users = await User.find();
+    const users = await User.find().populate('role');
     return users;
   },
 
-  getMe: async (parent, args, context) => {
-    if (context.user) {
-      return User.findOne({ _id: context.user._id }).populate("thoughts");
-    }
-    throw new AuthenticationError("You need to be logged in!");
+  getMe: async (lessonId) => {
+    return User.findOne({ _id: lessonId });
   },
 
-  createUser: async ({ firstName, lastName, username, email, password  }) => {
-    const user = await User.create({ firstName, lastName, username, email, password });
+  createUser: async ({ firstName, lastName, email, password, role }) => {
+    const user = await User.create({ firstName, lastName, email, password, role });
     const token = signToken(user);
     return { token, user };
   },
 
-  updateUser: async (parent, args, context) => {
-    if (context.user) {
-      return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+  updateUser: async ({ _id, firstName, lastName, email, password }) => {
+    if (password) {
+      password = await bcrypt.hash(password, 10);
     }
-    throw new AuthenticationError('Not logged in');
+    return await User.findByIdAndUpdate(_id, { firstName, lastName, email, password }, { new: true });
   },
 
   login: async (parent, { email, password }) => {
@@ -109,4 +103,6 @@ const userResolvers = {
 
 
 };
+
+const User = model('User', userSchema);
 module.exports = { User, userResolvers };
