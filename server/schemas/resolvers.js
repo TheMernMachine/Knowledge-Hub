@@ -1,11 +1,15 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, userResolvers, Assignments, assignmentResolvers, Course, courseResolvers } = require("../models");
+const { User, userResolvers, 
+  Assignments, assignmentResolvers, 
+  Course, courseResolvers,
+  todoListSchema, todoResolvers, 
+} = require("../models");
 const { signToken } = require("../utils/auth");
 
 
 const resolvers = {
     
-    Query: {
+  Query: {
         users: async () => {
             return userResolvers.getAllUsers();
         },
@@ -20,6 +24,12 @@ const resolvers = {
         },
         assignment: async (parent, { _id }) => {
             return assignmentResolvers.getSingleAssignment({ _id });
+        },
+        getTodoLists: async (parent, args) => {
+            return todoResolvers.getTodoLists();
+        },
+        getTodoList: async (parent, {_id}, context) => {
+            return todoResolvers.getTodoList(_id, context);
         },
         courses: async () => {
             return courseResolvers.getCourses();
@@ -48,6 +58,15 @@ const resolvers = {
         deleteAssignment: async (parent, { _id }) => {
             return assignmentResolvers.deleteAssignment({ _id });
         },
+        addTodoList: async (parent, {title, todos}, context) => {
+            return todoResolvers.addTodoList(title, todos, context);
+        },
+        updateTodoList: async (parent, {id, title, todos}, context) => {
+            return todoResolvers.updateTodoList(id, title, todos, context);
+        },
+        deleteTodoList: async (parent, {id}, context) => {
+            return todoResolvers.deleteTodoList(id, title, todos, context);
+        },
         addCourse: async (parent, { title, description, content, startDate, endDate}) => {
             return courseResolvers.createCourse(title, description, content, startDate, endDate);
         },
@@ -56,7 +75,7 @@ const resolvers = {
         },
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });
-        }
+        },
     },
 };
 

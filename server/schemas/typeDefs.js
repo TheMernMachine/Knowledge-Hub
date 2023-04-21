@@ -1,6 +1,12 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+    type TodoList {
+      _id: ID
+      title: String
+      todo: [String]
+    }
+
     type User {
         _id: ID
         firstName: String
@@ -8,6 +14,7 @@ const typeDefs = gql`
         username: String
         email: String
         password: String
+        todolists: [TodoList]
     }
 
     type Assignments {
@@ -40,6 +47,8 @@ const typeDefs = gql`
         me: User
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
+        getTodoLists: [TodoList]
+        getTodoList(_id: ID!): TodoList
         courses: [Course]
         course(_id: ID!): Course
     }
@@ -51,6 +60,9 @@ const typeDefs = gql`
         addAssignment(title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         deleteAssignment(_id: ID!): Assignments
+        addTodoList(title: String!, todos: [String]): TodoList
+        updateTodoList(_id: ID!, title: String!, todos: [String]): TodoList
+        deleteTodoList(_id: ID!): TodoList
         addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
         updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
         deleteCourse(_id: ID!): Course
