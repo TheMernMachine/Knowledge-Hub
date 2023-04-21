@@ -1,5 +1,5 @@
-// Require schema and model from mongoose
 const { Schema, model } = require('mongoose');
+
 const courseSchema = new Schema({
     title: {
         type: String,
@@ -11,10 +11,8 @@ const courseSchema = new Schema({
     },
     price: {
         type: Number,
-        required: true,
-        default: 'USD',
-    },
 
+    },
     content: [
         {
             type: String,
@@ -27,21 +25,51 @@ const courseSchema = new Schema({
         required: true,
         default: Date.now,
     },
+    endDate: {
+        type: Date,
+        required: true,
+    },
     teacher: [
         {
-            type: String,
-            required: true,
+            type: Schema.Types.ObjectId,
+            ref: 'User',
         },
     ],
     students: [
         {
-            type: String,
-            required: true,
+            type: Schema.Types.ObjectId,
+            ref: 'User',
         },
     ],
 });
 
-const courseResolvers = {};
+const courseResolvers = {
+    getCourses: async () => {
+        const course = await Course.find({});
+        return course;
+    },
+
+    getSingleCourse: async (args) => {
+        const course = await Course.findById(args);
+        return course;
+    },
+
+    createCourse: async (title, description, content, startDate, endDate) => {
+        const course = await Course.create({  title, description, content, startDate, endDate });
+        return course;
+    },
+
+    updateCourse: async (args) => {
+        const course = await Course.findByIdAndUpdate(args._id, args);
+        return course;
+    },
+
+    deleteCourse: async (args) => {
+        const course = await Course.findByIdAndDelete(args._id);
+        return course;
+    },
+};
 
 const Course = model('Course', courseSchema);
-module.exports = {Course, courseResolvers};
+
+module.exports = { Course, courseResolvers };

@@ -1,6 +1,12 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+    type TodoList {
+      _id: ID
+      title: String
+      todo: [String]
+    }
+
     type User {
         _id: ID
         firstName: String
@@ -8,6 +14,7 @@ const typeDefs = gql`
         username: String
         email: String
         password: String
+        todolists: [TodoList]
     }
 
 
@@ -28,6 +35,16 @@ const typeDefs = gql`
         assignmentResponse: String
     }
 
+    type Course {
+        _id: ID
+        title: String
+        description: String
+        price: Float
+        content: [String]
+        startDate: String
+        endDate: String
+    }
+
      type Auth {
         token: ID!
         user: User
@@ -40,6 +57,10 @@ const typeDefs = gql`
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
         alert: [Alert]
+        getTodoLists: [TodoList]
+        getTodoList(_id: ID!): TodoList
+        courses: [Course]
+        course(_id: ID!): Course
     }
 
     type Mutation {
@@ -52,7 +73,12 @@ const typeDefs = gql`
         addAlert(message:String! ,severity:String!): Alert
         removeAlert(_id: ID!): Alert
         updateAlert(_id: ID!, message: String!, severity: String!): Alert
-        
+        addTodoList(title: String!, todos: [String]): TodoList
+        updateTodoList(_id: ID!, title: String!, todos: [String]): TodoList
+        deleteTodoList(_id: ID!): TodoList
+        addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
+        updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
+        deleteCourse(_id: ID!): Course
     }
 `
 
