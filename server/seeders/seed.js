@@ -15,11 +15,11 @@ db.once('open', async () => {
     for (let i = 0; i < userSeeds.length; i++) {
       let role;
       if (i === 0) {
-        role = await Role.findOne({ name: 'Admin' });
+        role = await Role.findOne({ name: 'admin' });
       } else if (i < 3) {
-        role = await Role.findOne({ name: 'Teacher' });
+        role = await Role.findOne({ name: 'teacher' });
       } else {
-        role = await Role.findOne({ name: 'Student' });
+        role = await Role.findOne({ name: 'student' });
       }
 
       await User.create({
