@@ -1,0 +1,17 @@
+[
+    {
+        "title": "How do I fix things?",
+        "postQuestion": "I have broken things I need to fix please help me fix them.",
+        "email": "bkernighan@techfriends.dev"
+    },
+    {
+        "title": "How to break things?",
+        "postQuestion": "I have not broken things I need to break please help me break them.",
+        "email": "kbeck@techfriends.dev"
+    },
+    {
+        "title": "The 5th Wave",
+        "postQuestion": "What is the name of the movie?",
+        "email": "evbeard@techfriends.dev"
+    }
+]

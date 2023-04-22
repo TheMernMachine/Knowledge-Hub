@@ -6,6 +6,7 @@ const { User, userResolvers,
   Alerts, alertResolvers,
     Role, roleResolvers,
     LessonNotes, lessonNotesResolvers,
+    Forum, forumResolvers,
 } = require("../models");
 const { signToken } = require("../utils/auth");
 
@@ -70,7 +71,21 @@ const resolvers = {
         },
         getSingleLessonComment: async (parent, { _id, commentId }) => {
             return lessonNotesResolvers.getSingleLessonComment(_id, commentId);
+        },
+
+        getForum: async () => {
+            return forumResolvers.getAllForums();
+        },
+        getSingleForum: async (parent, { _id }) => {
+            return forumResolvers.getSingeForum(_id);
+        },
+        getForumComments: async (parent, { _id }) => {
+            return forumResolvers.getForumComments(_id);
+        },
+        getSingleForumComment: async (parent, { _id, commentId }) => {
+            return forumResolvers.getSingleForumComment(_id, commentId);
         }
+
     },
 
     //queries fetch data
@@ -158,7 +173,30 @@ const resolvers = {
         },
         deleteLessonComment: async (parent, { _id, commentId }) => {
             return lessonNotesResolvers.deleteLessonComment(_id, commentId);
+        },
+
+        addForum: async (parent, { title, postQuestion, postAuthor }) => {
+            return forumResolvers.createForum(title, postQuestion, postAuthor);
+        },
+        updateForum: async (parent, { _id, title, postQuestion, postAuthor }) => {
+            return forumResolvers.updateForum(_id, title, postQuestion, postAuthor);
+        },
+        deleteForum: async (parent, { _id }) => {
+            return forumResolvers.deleteForum(_id);
+        },
+
+        addForumComment: async (parent, { _id, commentText, commentAuthor }) => {
+            return forumResolvers.addForumComment(_id, commentText, commentAuthor);
+        },
+        updateForumComment: async (parent, { _id, commentId, commentText, commentAuthor }) => {
+            return forumResolvers.updateForumComment(_id, commentId, commentText, commentAuthor);
+        },
+        deleteForumComment: async (parent, { _id, commentId }) => {
+            return forumResolvers.deleteForumComment(_id, commentId);
         }
+
+
+
     },
 };
 
