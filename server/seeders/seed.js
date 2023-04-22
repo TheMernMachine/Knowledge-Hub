@@ -1,5 +1,5 @@
 const db = require('../config/connection');
-const { Role, User, Forum } = require('../models');
+const { Role, User, Forum, userResolvers } = require('../models');
 const userSeeds = require('./userSeeds.json');
 const roleSeeds = require('./roleSeeds.json');
 const forumSeeds = require('./forumSeeds.json');
@@ -38,6 +38,18 @@ db.once('open', async () => {
         postQuestion: forumSeeds[i].postQuestion,
         postAuthor: user._id,
       });
+    }
+
+    const allUsers = await User.find({});
+    // console.log(allUsers);
+    const admin = await User.findOne({
+      email: "bkernighan@techfriends.dev"
+    });
+
+    // activate all users
+    for (let i = 0; i < allUsers.length; i++) {
+      let user = allUsers[i];
+      const updatedUser = await userResolvers.setUserStatus(admin._id, user._id, "active");
     }
 
   } catch (err) {

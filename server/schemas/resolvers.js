@@ -113,7 +113,7 @@ const resolvers = {
         },
         // Update to use context.user for front-end
         updateUser: async (parent, { _id, firstName, lastName, email, password }) => {
-            return userResolvers.updateUser({ _id, firstName, lastName, email, password });
+            return userResolvers.updateUser({ _id, firstName, lastName, email, password, profilePic });
             // if (context.user) {
             //     return userResolvers.updateUser(context.user._id, args);
             // }
