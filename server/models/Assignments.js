@@ -6,7 +6,8 @@ const assignmentSchema = new Schema({
         required: true,
     },
     question: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'question',
         required: true
     },
     due_date: {

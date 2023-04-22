@@ -55,7 +55,7 @@ const forumResolvers = {
         const comments = Forum.comments.filter((comment) => comment._id.equals(commentId));
         return comments[0];
     },
-    
+
     addForumComment: async (forumId, commentText, commentAuthor) => {
         return await Forum.findOneAndUpdate(
             { _id: forumId },

@@ -16,7 +16,7 @@ const courseSchema = new Schema({
     content: [
         {
             type: String,
-            enum: ['test', 'quizzes', 'assigments', 'notes'],
+            enum: ['Quiz', 'Assignments', 'TodoList', 'LessonNotes'],
             required: true
         },
     ],
@@ -55,7 +55,7 @@ const courseResolvers = {
     },
 
     createCourse: async (title, description, content, startDate, endDate) => {
-        const course = await Course.create({  title, description, content, startDate, endDate });
+        const course = await Course.create({ title, description, content, startDate, endDate });
         return course;
     },
 
