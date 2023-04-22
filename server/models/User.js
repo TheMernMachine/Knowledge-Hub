@@ -101,8 +101,6 @@ const userResolvers = {
   },
 
   getSingleUser: async (email) => {
-    const user = await User.findOne({ email: email }).populate('role');
-    console.log(user);
     return await User.findOne({ email: email }).populate('role');
   },
 
@@ -112,17 +110,18 @@ const userResolvers = {
     return { token, user };
   },
 
-  updateUser: async ({ _id, firstName, lastName, email, password }) => {
+  updateUser: async ({ _id, firstName, lastName, email, password, profilePic }) => {
     if (password) {
       password = await bcrypt.hash(password, saltRounds);
     }
-    return await User.findByIdAndUpdate(_id, { firstName, lastName, email, password }, { new: true });
+    return await User.findByIdAndUpdate(_id, { firstName, lastName, email, password, profilePic }, { new: true });
   },
 
   // This is a protected route, only admins can change the status of users
   setUserStatus: async (adminId, userId, status) => {
-    const adminUser = await User.findOne({ _id: adminId }).populate('role');
-    if (adminUser.role.name !== 'admin') {
+    const user = await User.findOne({ _id: adminId }).populate('role');
+
+    if (user.role.name !== 'admin') {
       throw new AuthenticationError('You are not authorized to perform this action');
     }
 
