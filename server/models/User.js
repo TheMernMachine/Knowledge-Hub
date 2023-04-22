@@ -35,6 +35,12 @@ const userSchema = new Schema({
     default: Date.now,
     get: (timestamp) => dateFormat(timestamp),
   },
+  status: {
+    type: String,
+    enum: ['active', 'inactive'],
+    required: true,
+    default: 'inactive',
+  },
   role: {
     type: Schema.Types.ObjectId,
     ref: 'role',
@@ -47,6 +53,19 @@ const userSchema = new Schema({
   ],
 });
 
+// Create a virtual property `fullName` that gets and sets the user's full name
+userSchema
+  .virtual('fullName')
+  // Getter
+  .get(function () {
+    return `${this.firstName} ${this.lastName}`;
+  })
+  // Setter to set the first and last name
+  .set(function (v) {
+    const first = v.split(' ')[0];
+    const last = v.split(' ')[1];
+    this.set({ first, last });
+  });
 
 // set up pre-save middleware to create password
 userSchema.pre('save', async function (next) {
@@ -93,6 +112,17 @@ const userResolvers = {
       password = await bcrypt.hash(password, saltRounds);
     }
     return await User.findByIdAndUpdate(_id, { firstName, lastName, email, password }, { new: true });
+  },
+
+  // This is a protected route, only admins can change the status of users
+  setUserStatus: async ({ adminId, userId, status }) => {
+    const adminUser = User.findOne({ _id: adminId }).populate('role');
+    console.log(adminUser);
+    if (adminUser.role.name !== 'admin') {
+      throw new AuthenticationError('You are not authorized to perform this action');
+    }
+
+    return await User.findByIdAndUpdate(userId, { status }, { new: true });
   },
 
   login: async (parent, { email, password }) => {

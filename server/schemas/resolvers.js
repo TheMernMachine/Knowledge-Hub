@@ -119,6 +119,9 @@ const resolvers = {
             // }
             // throw new AuthenticationError('Not logged in');
         },
+        setUserStatus: async (parent, { _id, userId, status }) => {
+            return userResolvers.setUserStatus(_id, userId, status);
+        },
         addAssignment: async (parent, { title, question, due_date, alert, assignmentResponse }) => {
             return assignmentResolvers.createAssignment({ title, question, due_date, alert, assignmentResponse });
         },
