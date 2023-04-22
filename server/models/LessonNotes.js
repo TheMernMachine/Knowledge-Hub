@@ -58,7 +58,6 @@ const lessonNotesResolvers = {
     // return await LessonNotes.findOne({ comments: { $elemMatch: { _id: { $eq: commentId } } } }, { "comments.$": 1 });
     // return await LessonNotes.findOne({ "comments._id": { $eq: commentId } }, { comments: 1 });
     const lesson = await LessonNotes.findOne({ _id: lessonId });
-    console.log(lesson);
     const comments = lesson.comments.filter((comment) => comment._id.equals(commentId));
     return comments[0];
   },

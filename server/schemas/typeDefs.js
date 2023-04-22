@@ -21,6 +21,7 @@ const typeDefs = gql`
         email: String
         password: String
         dateJoined: String
+        status: String
         role: Role
         todoLists: [TodoList]
     }

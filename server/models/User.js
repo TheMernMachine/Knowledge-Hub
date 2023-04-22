@@ -1,4 +1,5 @@
 // Require schema and model from mongoose
+const { AuthenticationError } = require("apollo-server-express");
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 const dateFormat = require('../utils/dateFormat');
@@ -93,11 +94,15 @@ const userResolvers = {
   },
 
   // Once we get todoList fully functional, we can add a populate here to get the todoLists
-  getUser: async (userId) => {
+  getUser: async (userId, email) => {
+    const user = await User.findOne({ _id: userId }).populate('role');
+    console.log(user);
     return await User.findOne({ _id: userId }).populate('role');
   },
 
   getSingleUser: async (email) => {
+    const user = await User.findOne({ email: email }).populate('role');
+    console.log(user);
     return await User.findOne({ email: email }).populate('role');
   },
 
@@ -115,9 +120,8 @@ const userResolvers = {
   },
 
   // This is a protected route, only admins can change the status of users
-  setUserStatus: async ({ adminId, userId, status }) => {
-    const adminUser = User.findOne({ _id: adminId }).populate('role');
-    console.log(adminUser);
+  setUserStatus: async (adminId, userId, status) => {
+    const adminUser = await User.findOne({ _id: adminId }).populate('role');
     if (adminUser.role.name !== 'admin') {
       throw new AuthenticationError('You are not authorized to perform this action');
     }

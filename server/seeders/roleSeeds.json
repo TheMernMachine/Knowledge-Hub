@@ -1,18 +1,18 @@
 [
   {
-    "name": "Teacher",
+    "name": "teacher",
     "permissions": [
       "All"
     ]
   },
   {
-    "name": "Student",
+    "name": "student",
     "permissions": [
       "Normal"
     ]
   },
   {
-    "name": "Admin",
+    "name": "admin",
     "permissions": [
       "Super"
     ]
