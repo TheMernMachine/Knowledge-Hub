@@ -29,27 +29,34 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
+
         assignments: async () => {
             return assignmentResolvers.getAssignments();
         },
         assignment: async (parent, { _id }) => {
             return assignmentResolvers.getSingleAssignment({ _id });
         },
+        getAssignmentQuestions: async (parent, { _id }) => {
+            return assignmentResolvers.getAssignmentQuestions(_id);
+        },
         alert: async () => {
             return alertResolvers.getAlerts();
         },
+
         getTodoLists: async (parent, args) => {
             return todoResolvers.getTodoLists();
         },
         getTodoList: async (parent, { _id }, context) => {
             return todoResolvers.getTodoList(_id, context);
         },
+
         courses: async () => {
             return courseResolvers.getCourses();
         },
         course: async (parent, { _id }) => {
             return courseResolvers.getSingleCourse(_id);
         },
+
         roles: async () => {
             return roleResolvers.getRoles();
         },
@@ -59,6 +66,7 @@ const resolvers = {
         findRoleByName: async (parent, { name }) => {
             return roleResolvers.findRoleByName(name);
         },
+
         lessonNotes: async () => {
             return lessonNotesResolvers.getLessonNotes();
         },
@@ -85,6 +93,8 @@ const resolvers = {
         getSingleForumComment: async (parent, { _id, commentId }) => {
             return forumResolvers.getSingleForumComment(_id, commentId);
         }
+
+        
 
     },
 
@@ -122,8 +132,9 @@ const resolvers = {
         setUserStatus: async (parent, { _id, userId, status }) => {
             return userResolvers.setUserStatus(_id, userId, status);
         },
-        addAssignment: async (parent, { title, question, due_date, alert, assignmentResponse }) => {
-            return assignmentResolvers.createAssignment({ title, question, due_date, alert, assignmentResponse });
+
+        addAssignment: async (parent, { title, due_date, alert, assignmentResponse }) => {
+            return assignmentResolvers.createAssignment( title, due_date, alert, assignmentResponse );
         },
         updateAssignment: async (parent, { _id, title, question, due_date, alert, assignmentResponse }) => {
             return assignmentResolvers.updateAssignment({ _id, title, question, due_date, alert, assignmentResponse });
@@ -131,6 +142,17 @@ const resolvers = {
         deleteAssignment: async (parent, { _id }) => {
             return assignmentResolvers.deleteAssignment({ _id });
         },
+
+        addAssignmentQuestion: async (parent, { _id, title, options, answer }) => {
+            return assignmentResolvers.addAssignmentQuestion(_id, title, options, answer);
+        },
+        updateAssignmentQuestion: async (parent, { _id, questionId, title, options, answer }) => {
+            return assignmentResolvers.updateAssignmentQuestion(_id, questionId, title, options, answer);
+        },
+        deleteAssignmentQuestion: async (parent, { _id, questionId }) => {
+            return assignmentResolvers.deleteAssignmentQuestion(_id, questionId);
+        },
+
         addTodoList: async (parent, { title, todos }, context) => {
             return todoResolvers.addTodoList(title, todos, context);
         },
@@ -140,15 +162,17 @@ const resolvers = {
         deleteTodoList: async (parent, { id }, context) => {
             return todoResolvers.deleteTodoList(id, title, todos, context);
         },
-        addCourse: async (parent, { title, description, content, startDate, endDate }) => {
-            return courseResolvers.createCourse(title, description, content, startDate, endDate);
+
+        addCourse: async (parent, { title, description, startDate, endDate }) => {
+            return courseResolvers.createCourse(title, description, startDate, endDate);
         },
-        updateCourse: async (parent, { _id, title, description, content, startDate, endDate }) => {
-            return courseResolvers.updateCourse({ _id, title, description, content, startDate, endDate });
+        updateCourse: async (parent, { _id, title, description, startDate, endDate }) => {
+            return courseResolvers.updateCourse({ _id, title, description, startDate, endDate });
         },
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });
         },
+
         addRole: async (parent, { name, permissions }) => {
             return roleResolvers.createRole(name, permissions);
         },
@@ -158,6 +182,7 @@ const resolvers = {
         deleteRole: async (parent, { _id }) => {
             return roleResolvers.deleteRole({ _id });
         },
+
         addLessonNotes: async (parent, { title, content }) => {
             return lessonNotesResolvers.createLessonNotes(title, content);
         },
@@ -197,8 +222,6 @@ const resolvers = {
         deleteForumComment: async (parent, { _id, commentId }) => {
             return forumResolvers.deleteForumComment(_id, commentId);
         }
-
-
 
     },
 };

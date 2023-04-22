@@ -13,11 +13,22 @@ const courseSchema = new Schema({
         type: Number,
 
     },
-    content: [
+    quiz: [
         {
-            type: String,
-            enum: ['Quiz', 'Assignments', 'TodoList', 'LessonNotes'],
-            required: true
+            type: Schema.Types.ObjectId,
+            ref: 'quiz',
+        },
+    ],
+    assignment: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'assignment',
+        },
+    ],
+    lessonNotes: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'lessonNotes',
         },
     ],
     startDate: {
@@ -54,8 +65,8 @@ const courseResolvers = {
         return course;
     },
 
-    createCourse: async (title, description, content, startDate, endDate) => {
-        const course = await Course.create({ title, description, content, startDate, endDate });
+    createCourse: async (title, description, startDate, endDate) => {
+        const course = await Course.create({ title, description, startDate, endDate });
         return course;
     },
 
