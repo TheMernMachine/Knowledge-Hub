@@ -33,7 +33,16 @@ const typeDefs = gql`
         createdAt: String
     }
 
-    type Alert{
+    type Response {
+        _id: ID
+        responseText: String
+        student: ID
+        rawScore: Int
+        grade: String
+    }
+
+
+    type Alert {
         _id: ID
         message: String
         severity: String
@@ -42,10 +51,10 @@ const typeDefs = gql`
     type Assignments {
         _id: ID
         title: String
-        question: String
+        question: [Questions]
         due_date: String
-        alert: String
-        assignmentResponse: String
+        alert: Alert
+        assignmentResponse: [Response]
     }
 
     type Course {
@@ -53,7 +62,9 @@ const typeDefs = gql`
         title: String
         description: String
         price: Float
-        content: [String]
+        quiz: [Quiz]
+        assignment: [Assignments]
+        lessonNotes: [LessonNotes]
         startDate: String
         endDate: String
     }
@@ -74,6 +85,22 @@ const typeDefs = gql`
         postAuthor: ID
         comments: [Comment]
     }
+
+    type Quiz {
+        _id: ID
+        title: String
+        question: String
+        due_date: String
+        quizResponse: String
+    }
+
+    type Questions {
+        _id: ID
+        title: String
+        options: [String]
+        answer: String
+    }
+
 
     type Auth {
         token: ID!
@@ -112,6 +139,8 @@ const typeDefs = gql`
         getForumComments(_id: ID!): [Comment]
         getSingleForumComment(_id: ID!, commentId: ID): Comment
 
+        getAssignmentQuestions(_id: ID!): [Questions]
+
     }
 
     type Mutation {
@@ -120,8 +149,8 @@ const typeDefs = gql`
         updateUser(_id: ID!, firstName: String, lastName: String, email: String, password: String, profilePic: String): User
         setUserStatus(_id: ID!, userId: ID!, status: String!): User
 
-        addAssignment(title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
-        updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
+        addAssignment(title: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
+        updateAssignment(_id: ID!, title: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         deleteAssignment(_id: ID!): Assignments
 
         addAlert(message:String! ,severity:String!): Alert
@@ -132,18 +161,20 @@ const typeDefs = gql`
         updateTodoList(_id: ID!, title: String, todos: String): TodoList
         deleteTodoList(_id: ID!): TodoList
         
-        addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
-        updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String, endDate: String!): Course
+        addCourse(title: String!, description: String!, startDate: String!, endDate: String!): Course
+        updateCourse(_id: ID!, title: String!, description: String!, startDate: String, endDate: String!): Course
         deleteCourse(_id: ID!): Course
+
         addRole(name: String!, permissions: [String]!): Role
         updateRole(_id: ID!, name: String, permissions: [String]): Role
         deleteRole(_id: ID!): Role
+
         addLessonNotes(title: String!, content: String!): LessonNotes
         updateLessonNotes(_id: ID!, title: String, content: String): LessonNotes
         deleteLessonNotes(_id: ID!): LessonNotes
 
         addLessonComment(_id: ID!, commentText: String!, commentAuthor: ID!): LessonNotes
-        updateLessonComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): Comment
+        updateLessonComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): LessonNotes
         deleteLessonComment(_id: ID!, commentId: ID!): LessonNotes
 
         addForum(title: String!, postQuestion: String!, postAuthor: ID!): Forum
@@ -151,8 +182,12 @@ const typeDefs = gql`
         deleteForum(_id: ID!): Forum
 
         addForumComment(_id: ID!, commentText: String!, commentAuthor: ID!): Forum
-        updateForumComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): Comment
+        updateForumComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): Forum
         deleteForumComment(_id: ID!, commentId: ID!): Forum
+
+        addAssignmentQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Assignments
+        updateAssignmentQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Assignments
+        deleteAssignmentQuestion(_id: ID!, questionId: ID!): Assignments
     }
 `
 

@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { questionSchema } = require('./Questions');
 
 const quizSchema = new Schema({
     title: {
@@ -16,11 +17,14 @@ const quizSchema = new Schema({
         required: true,
         default: Date.now,
     },
-    studentGrades: [
+    quizResponse: [
         {
+            type: String,
+            required: true,
+            
             studentID: {
                 type: Schema.Types.ObjectId,
-                ref: 'User',
+                ref: 'user',
             },
             rawScore: {
                 type: Number
@@ -32,7 +36,9 @@ const quizSchema = new Schema({
     ],
 });
 
-const quizResolvers = {};
+const quizResolvers = {
+    
+};
 
 const Quiz = model('quiz', quizSchema);
 module.exports = { Quiz, quizResolvers };

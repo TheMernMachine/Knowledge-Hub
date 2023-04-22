@@ -27,7 +27,7 @@ const alertResolvers = {
     },
 
     removeAlert: async (_id) => {
-        return Alert.findOneAndDelete(_id);
+        return Alert.findByIdAndDelete(_id);
     },
 
     updateAlert: async (args) => {

@@ -17,7 +17,6 @@ const questionSchema = new Schema({
     }
 });
 
-const questionResolvers = {};
 
-const Question = model('question', questionSchema);
-module.exports = { Question, questionResolvers };
+
+module.exports = { questionSchema };

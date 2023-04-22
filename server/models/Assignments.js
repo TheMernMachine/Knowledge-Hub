@@ -1,15 +1,12 @@
 const { Schema, model } = require('mongoose');
+const { questionSchema } = require('./Questions');
 
 const assignmentSchema = new Schema({
     title: {
         type: String,
         required: true,
     },
-    question: {
-        type: Schema.Types.ObjectId,
-        ref: 'question',
-        required: true
-    },
+    question: [questionSchema],
     due_date: {
         type: Date,
         required: true,
@@ -21,11 +18,12 @@ const assignmentSchema = new Schema({
     },
     assignmentResponse: [
         {
-            type: String,
-            required: true,
+            responseText: {
+                type: String,
+            },
             studentID: {
                 type: Schema.Types.ObjectId,
-                ref: 'User',
+                ref: 'user',
             },
             rawScore: {
                 type: Number
@@ -37,6 +35,7 @@ const assignmentSchema = new Schema({
     ],
 
 });
+
 const Assignments = model('assigment', assignmentSchema);
 
 
@@ -51,8 +50,8 @@ const assignmentResolvers = {
         return assignment;
     },
 
-    createAssignment: async (title, question, due_date) => {
-        const assignment = await Assignments.create({ title, question, due_date });
+    createAssignment: async (title, due_date, alert, assignmentResponse) => {
+        const assignment = await Assignments.create({ title, due_date, alert, assignmentResponse });
         return assignment;
     },
 
@@ -64,7 +63,72 @@ const assignmentResolvers = {
     deleteAssignment: async (args) => {
         const assignments = await Assignments.findByIdAndDelete(args);
         return assignments;
-    }
+    },
+
+    getAssignmentQuestions: async (assigmentId) => {
+        const assignment = await Assignments.findById(assigmentId);
+        return assignment.question;
+    },
+
+    getSingleAssignmentQuestion: async (assignmentId, questionId) => {
+        const assigment = await Assignments.findOne({ _id: forumId });
+        const questions = Assignments.question.filter((question) => question._id.equals(questionId));
+        return questions[0];
+    },
+
+    addAssignmentQuestion: async (assignmentId, title, options, answer) => {
+        return await Assignments.findOneAndUpdate(
+            { _id: assignmentId },
+            {
+                $addToSet: {
+                    question: {
+                        title,
+                        options,
+                        answer,
+                    },
+                },
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+    },
+
+    updateAssignmentQuestion: async (assignmentId, questionId, title, options, answer) => {
+        return await Assignments.findOneAndUpdate(
+            { _id: assignmentId },
+            {
+                $set: {
+                    question: {
+                        _id: questionId,
+                        title,
+                        options,
+                        answer,
+                    },
+                },
+            },
+            {
+                new: true,
+            }
+        )
+    },
+
+    deleteAssignmentQuestion: async (assignmentId, questionId) => {
+        return await Assignments.findOneAndUpdate(
+            { _id: assignmentId },
+            {
+                $pull: {
+                    question: {
+                        _id: questionId,
+                    },
+                },
+            },
+            {
+                new: true,
+            }
+        );
+    },
 
 };
 
