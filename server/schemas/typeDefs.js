@@ -65,6 +65,14 @@ const typeDefs = gql`
         comments: [Comment]
     }
 
+    type Forum {
+        _id: ID
+        title: String
+        postQuestion: String
+        postAuthor: ID
+        comments: [Comment]
+    }
+
     type Auth {
         token: ID!
         user: User
@@ -90,6 +98,12 @@ const typeDefs = gql`
 
         getLessonComments(_id: ID!): [Comment]
         getSingleLessonComment(_id: ID!, commentId: ID): Comment
+
+        getForum: [Forum]
+        getSingleForum(_id: ID!): Forum
+        getForumComments(_id: ID!): [Comment]
+        getSingleForumComment(_id: ID!, commentId: ID): Comment
+
     }
 
     type Mutation {
@@ -118,6 +132,14 @@ const typeDefs = gql`
         addLessonComment(_id: ID!, commentText: String!, commentAuthor: ID!): LessonNotes
         updateLessonComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): Comment
         deleteLessonComment(_id: ID!, commentId: ID!): LessonNotes
+
+        addForum(title: String!, postQuestion: String!, postAuthor: ID!): Forum
+        updateForum(_id: ID!, title: String, postQuestion: String, postAuthor: ID!): Forum
+        deleteForum(_id: ID!): Forum
+
+        addForumComment(_id: ID!, commentText: String!, commentAuthor: ID!): Forum
+        updateForumComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): Comment
+        deleteForumComment(_id: ID!, commentId: ID!): Forum
     }
 `
 
