@@ -12,7 +12,9 @@ db.once('open', async () => {
 
     for (let i = 0; i < userSeeds.length; i++) {
       let role;
-      if (i % 2 === 0) {
+      if (i === 0) {
+        role = await Role.findOne({ name: 'Admin' });
+      } else if (i < 3) {
         role = await Role.findOne({ name: 'Teacher' });
       } else {
         role = await Role.findOne({ name: 'Student' });

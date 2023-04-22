@@ -17,11 +17,14 @@ const resolvers = {
             return userResolvers.getAllUsers();
         },
         user: async (parent, { email }) => {
-            return userResolvers.getSingleUser({ email });
+            return userResolvers.getSingleUser(email);
+        },
+        getUser: async (parent, { _id }) => {
+            return userResolvers.getUser(_id);
         },
         me: async (parent, args, context) => {
             if (context.user) {
-                return userResolvers.getMe(context.user._id);
+                return userResolvers.getUser(context.user._id);
             }
             throw new AuthenticationError('You need to be logged in!');
         },
@@ -61,6 +64,13 @@ const resolvers = {
         lessonNote: async (parent, { _id }) => {
             return lessonNotesResolvers.getSingleLessonNote({ _id });
         },
+
+        getLessonComments: async (parent, { _id }) => {
+            return lessonNotesResolvers.getLessonComments(_id);
+        },
+        getSingleLessonComment: async (parent, { _id, commentId }) => {
+            return lessonNotesResolvers.getSingleLessonComment(_id, commentId);
+        }
     },
 
     //queries fetch data
@@ -86,6 +96,7 @@ const resolvers = {
         login: async (parent, { email, password }) => {
             return userResolvers.login({ email, password });
         },
+        // Update to use context.user for front-end
         updateUser: async (parent, { _id, firstName, lastName, email, password }) => {
             return userResolvers.updateUser({ _id, firstName, lastName, email, password });
             // if (context.user) {
@@ -137,6 +148,16 @@ const resolvers = {
         },
         deleteLessonNotes: async (parent, { _id }) => {
             return lessonNotesResolvers.deleteLessonNotes(_id);
+        },
+
+        addLessonComment: async (parent, { _id, commentText, commentAuthor }) => {
+            return lessonNotesResolvers.addLessonComment(_id, commentText, commentAuthor);
+        },
+        updateLessonComment: async (parent, { _id, commentId, commentText, commentAuthor }) => {
+            return lessonNotesResolvers.updateLessonComment(_id, commentId, commentText, commentAuthor);
+        },
+        deleteLessonComment: async (parent, { _id, commentId }) => {
+            return lessonNotesResolvers.deleteLessonComment(_id, commentId);
         }
     },
 };
