@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const Comments = require('./Comments');
+const { commentSchema } = require('./Comments');
 const dateFormat = require('../utils/dateFormat');
 
 const lessonNotes = new Schema({
@@ -22,6 +22,7 @@ const lessonNotes = new Schema({
     default: Date.now,
     get: (timestamp) => dateFormat(timestamp),
   },
+  comments: [commentSchema]
 });
 
 const lessonNotesResolvers = {
@@ -48,6 +49,65 @@ const lessonNotesResolvers = {
       { new: true }
     );
     return lesson;
+  },
+  getLessonComments: async (lessonId) => {
+    const lesson = await LessonNotes.findOne({ _id: lessonId });
+    return lesson.comments;
+  },
+  getSingleLessonComment: async (lessonId, commentId) => {
+    // return await LessonNotes.findOne({ comments: { $elemMatch: { _id: { $eq: commentId } } } }, { "comments.$": 1 });
+    // return await LessonNotes.findOne({ "comments._id": { $eq: commentId } }, { comments: 1 });
+    const lesson = await LessonNotes.findOne({ _id: lessonId });
+    console.log(lesson);
+    const comments = lesson.comments.filter((comment) => comment._id.equals(commentId));
+    return comments[0];
+  },
+  addLessonComment: async (lessonId, commentText, commentAuthor) => {
+    return await LessonNotes.findOneAndUpdate(
+      { _id: lessonId },
+      {
+        $addToSet: {
+          comments: { commentText, commentAuthor },
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+  },
+  updateLessonComment: async (lessonId, commentId, commentText, commentAuthor) => {
+    return await LessonNotes.findOneAndUpdate(
+      { _id: lessonId },
+      {
+        $set: {
+          comments: {
+            _id: commentId,
+            commentText: commentText,
+            commentAuthor: commentAuthor,
+          },
+        },
+      },
+      {
+        new: true
+      }
+    );
+  },
+  deleteLessonComment: async (lessonId, commentId) => {
+    return await LessonNotes.findOneAndUpdate(
+      { _id: lessonId },
+      {
+        $pull: {
+          comments: {
+            _id: commentId,
+          },
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
   }
 };
 

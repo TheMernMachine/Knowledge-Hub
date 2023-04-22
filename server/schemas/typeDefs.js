@@ -24,14 +24,18 @@ const typeDefs = gql`
         todoLists: [TodoList]
     }
 
+    type Comment {
+        _id: ID
+        commentText: String
+        commentAuthor: ID
+        createdAt: String
+    }
 
     type Alert{
         _id: ID
         message: String
-        severity: String       
-}
-
-
+        severity: String
+    }
 
     type Assignments {
         _id: ID
@@ -58,9 +62,10 @@ const typeDefs = gql`
         content: String
         createdAt: String
         updatedAt: String
+        comments: [Comment]
     }
 
-     type Auth {
+    type Auth {
         token: ID!
         user: User
     }
@@ -69,6 +74,7 @@ const typeDefs = gql`
         users: [User]
         user(email: String!): User
         me: User
+        getUser(_id: ID!): User
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
         alert: [Alert]
@@ -81,30 +87,37 @@ const typeDefs = gql`
         findRoleByName(name: String!): Role
         lessonNotes: [LessonNotes]
         lessonNote(_id: ID!): LessonNotes
+
+        getLessonComments(_id: ID!): [Comment]
+        getSingleLessonComment(_id: ID!, commentId: ID): Comment
     }
 
     type Mutation {
         addUser(firstName: String!, lastName: String!, role: String!, email: String!, password: String!): Auth
         login(email: String!, password: String!): Auth
-        updateUser(_id: ID, firstName: String, lastName: String, email: String, password: String): User
+        updateUser(_id: ID!, firstName: String, lastName: String, email: String, password: String): User
         addAssignment(title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         deleteAssignment(_id: ID!): Assignments
         addAlert(message:String! ,severity:String!): Alert
         removeAlert(_id: ID!): Alert
-        updateAlert(_id: ID!, message: String!, severity: String!): Alert
-        addTodoList(title: String!, todos: [String]): TodoList
-        updateTodoList(_id: ID!, title: String!, todos: [String]): TodoList
+        updateAlert(_id: ID!, message: String, severity: String): Alert
+        addTodoList(title: String!, todos: String): TodoList
+        updateTodoList(_id: ID!, title: String, todos: String): TodoList
         deleteTodoList(_id: ID!): TodoList
         addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
-        updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
+        updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String, endDate: String!): Course
         deleteCourse(_id: ID!): Course
-        addRole(name: String!, permissions: [String]): Role
-        updateRole(_id: ID!, name: String!, permissions: [String]): Role
+        addRole(name: String!, permissions: [String]!): Role
+        updateRole(_id: ID!, name: String, permissions: [String]): Role
         deleteRole(_id: ID!): Role
         addLessonNotes(title: String!, content: String!): LessonNotes
-        updateLessonNotes(_id: ID!, title: String!, content: String!): LessonNotes
+        updateLessonNotes(_id: ID!, title: String, content: String): LessonNotes
         deleteLessonNotes(_id: ID!): LessonNotes
+
+        addLessonComment(_id: ID!, commentText: String!, commentAuthor: ID!): LessonNotes
+        updateLessonComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): Comment
+        deleteLessonComment(_id: ID!, commentId: ID!): LessonNotes
     }
 `
 

@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 const dateFormat = require('../utils/dateFormat');
 
+const saltRounds = 10;
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -50,7 +51,6 @@ const userSchema = new Schema({
 // set up pre-save middleware to create password
 userSchema.pre('save', async function (next) {
   if (this.isNew || this.isModified('password')) {
-    const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
 
@@ -63,15 +63,23 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
+const User = model('User', userSchema);
+
 const userResolvers = {
 
+  // Once we get todoList fully functional, we can add a populate here to get the todoLists
   getAllUsers: async () => {
     const users = await User.find().populate('role');
     return users;
   },
 
-  getMe: async (lessonId) => {
-    return User.findOne({ _id: lessonId });
+  // Once we get todoList fully functional, we can add a populate here to get the todoLists
+  getUser: async (userId) => {
+    return await User.findOne({ _id: userId }).populate('role');
+  },
+
+  getSingleUser: async (email) => {
+    return await User.findOne({ email: email }).populate('role');
   },
 
   createUser: async ({ firstName, lastName, email, password, role }) => {
@@ -82,7 +90,7 @@ const userResolvers = {
 
   updateUser: async ({ _id, firstName, lastName, email, password }) => {
     if (password) {
-      password = await bcrypt.hash(password, 10);
+      password = await bcrypt.hash(password, saltRounds);
     }
     return await User.findByIdAndUpdate(_id, { firstName, lastName, email, password }, { new: true });
   },
@@ -104,5 +112,4 @@ const userResolvers = {
 
 };
 
-const User = model('User', userSchema);
 module.exports = { User, userResolvers };

@@ -10,6 +10,7 @@ const { LessonNotes, lessonNotesResolvers } = require('./LessonNotes');
 const {Role, roleResolvers} = require('./Role');
 const {todoListSchema, todoResolvers} = require('./TodoList');
 const { User, userResolvers } = require('./User');
+const { Comment, commentResolvers } = require('./Comments');
 
 module.exports = { Assignments, assignmentResolvers, 
   User, userResolvers, 
@@ -17,5 +18,6 @@ module.exports = { Assignments, assignmentResolvers,
   todoListSchema, todoResolvers,
   Alert, alertResolvers,
   Role, roleResolvers,
-  LessonNotes, lessonNotesResolvers
+  LessonNotes, lessonNotesResolvers,
+  Comment, commentResolvers
 };
