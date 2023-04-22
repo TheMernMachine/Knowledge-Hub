@@ -9,7 +9,7 @@ const alertSchema = new Schema({
         type: String,
         enum: ['low', 'medium', 'high', 'info'],
     },
-    
+
 });
 
 const Alert = model('alert', alertSchema)
@@ -17,24 +17,24 @@ const Alert = model('alert', alertSchema)
 
 //this resolver function gets all alert messages, returns them to client
 const alertResolvers = {
-        getAlerts: async () => {
-            const alerts = await Alert.find();
-            return alerts;
-        },
-    
-        addAlert: async (message,severity) => {
-            return Alert.create({message: message ,severity: severity});
-        },
+    getAlerts: async () => {
+        const alerts = await Alert.find();
+        return alerts;
+    },
 
-        removeAlert: async (_id) => {
-            return Alert.findOneAndDelete( _id);
-        }, 
+    addAlert: async (message, severity) => {
+        return Alert.create({ message: message, severity: severity });
+    },
 
-        updateAlert: async (args) => {
-            const alerts = await Alert.findOneAndUpdate(args._id, args);
-            return alerts
-        },
-    }
-  
+    removeAlert: async (_id) => {
+        return Alert.findOneAndDelete(_id);
+    },
 
-module.exports = {Alert, alertResolvers};
+    updateAlert: async (args) => {
+        const alerts = await Alert.findOneAndUpdate(args._id, args);
+        return alerts
+    },
+}
+
+
+module.exports = { Alert, alertResolvers };

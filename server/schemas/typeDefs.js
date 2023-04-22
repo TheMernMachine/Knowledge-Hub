@@ -83,16 +83,22 @@ const typeDefs = gql`
         user(email: String!): User
         me: User
         getUser(_id: ID!): User
+
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
+
         alert: [Alert]
+
         getTodoLists: [TodoList]
         getTodoList(_id: ID!): TodoList
+
         courses: [Course]
         course(_id: ID!): Course
+
         roles: [Role]
         role(_id: ID!): Role
         findRoleByName(name: String!): Role
+
         lessonNotes: [LessonNotes]
         lessonNote(_id: ID!): LessonNotes
 
@@ -110,15 +116,19 @@ const typeDefs = gql`
         addUser(firstName: String!, lastName: String!, role: String!, email: String!, password: String!): Auth
         login(email: String!, password: String!): Auth
         updateUser(_id: ID!, firstName: String, lastName: String, email: String, password: String): User
+
         addAssignment(title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         deleteAssignment(_id: ID!): Assignments
+
         addAlert(message:String! ,severity:String!): Alert
         removeAlert(_id: ID!): Alert
         updateAlert(_id: ID!, message: String, severity: String): Alert
+
         addTodoList(title: String!, todos: String): TodoList
         updateTodoList(_id: ID!, title: String, todos: String): TodoList
         deleteTodoList(_id: ID!): TodoList
+        
         addCourse(title: String!, description: String!, content: [String], startDate: String!, endDate: String!): Course
         updateCourse(_id: ID!, title: String!, description: String!, content: [String], startDate: String, endDate: String!): Course
         deleteCourse(_id: ID!): Course

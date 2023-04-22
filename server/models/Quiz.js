@@ -35,4 +35,4 @@ const quizSchema = new Schema({
 const quizResolvers = {};
 
 const Quiz = model('quiz', quizSchema);
-module.exports = {Quiz, quizResolvers};
+module.exports = { Quiz, quizResolvers };
