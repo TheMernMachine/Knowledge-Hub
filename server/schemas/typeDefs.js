@@ -2,9 +2,10 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
     type TodoList {
-      _id: ID
-      title: String
-      todo: [String]
+        _id: ID
+        title: String
+        todo: String
+        priority: String
     }
 
     type Role {
@@ -118,8 +119,8 @@ const typeDefs = gql`
 
         alert: [Alert]
 
-        getTodoLists: [TodoList]
-        getTodoList(_id: ID!): TodoList
+        getTodoLists(_id: ID!): [TodoList]
+        getTodoList(_id: ID!, todoId: ID!): TodoList
 
         courses: [Course]
         course(_id: ID!): Course
@@ -159,9 +160,9 @@ const typeDefs = gql`
         removeAlert(_id: ID!): Alert
         updateAlert(_id: ID!, message: String, severity: String): Alert
 
-        addTodoList(title: String!, todos: String): TodoList
-        updateTodoList(_id: ID!, title: String, todos: String): TodoList
-        deleteTodoList(_id: ID!): TodoList
+        addTodoList(_id: ID!, title: String!, todo: String!, priority: String!): TodoList
+        
+        deleteTodoList(_id: ID!, todoId: ID!): User
         
         addCourse(title: String!, description: String!, startDate: String!, endDate: String!): Course
         updateCourse(_id: ID!, title: String!, description: String!, startDate: String, endDate: String!): Course
