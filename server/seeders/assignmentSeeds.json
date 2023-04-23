@@ -1,0 +1,20 @@
+[
+    {
+        "title": "This Assignment is on HTML",
+        "question": "What are the most popular tags used in HTML?",
+        "due_date": "2023-04-10",
+        "alert": "This is a big part of your grade"
+    },
+    {
+        "title": "This Assignment is on CSS",
+        "question": "What is CSS used for in web design?",
+        "due_date": "2025-05-10",
+        "alert": "This is a low priority"
+    },
+    {
+        "title": "This Assignment is on JavaScript",
+        "question": "How is JavaScript used within a HTML file?",
+        "due_date": "2022-07-10",
+        "alert": "Dont forget to look at the docs"
+    }
+]

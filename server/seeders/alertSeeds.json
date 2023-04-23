@@ -1,0 +1,22 @@
+[
+    {
+        "message": "Hello World",
+        "severity": "info"
+    },
+    {
+        "message": "This is a big part of your grade",
+        "severity": "high"
+    },
+    {
+        "message": "You should probably do this",
+        "severity": "medium"
+    },
+    {
+        "message": "This is a low priority",
+        "severity": "low"
+    },
+    {
+        "message": "Dont forget to look at the docs",
+        "severity": "info"
+    }
+]
