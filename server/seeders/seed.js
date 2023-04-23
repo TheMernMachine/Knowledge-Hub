@@ -1,16 +1,26 @@
 const db = require('../config/connection');
-const { Role, User, Forum, userResolvers } = require('../models');
+const { Role, User, Forum, userResolvers, Assignments, Quiz, Alert } = require('../models');
 const userSeeds = require('./userSeeds.json');
 const roleSeeds = require('./roleSeeds.json');
 const forumSeeds = require('./forumSeeds.json');
+const alertSeeds = require('./alertSeeds.json');
+const assignmentSeeds = require('./assignmentSeeds.json');
+const quizSeeds = require('./quizSeeds.json');
+const questionSeeds = require('./questionSeeds.json');
+
+
 
 db.once('open', async () => {
   try {
     await Role.deleteMany({});
     await User.deleteMany({});
     await Forum.deleteMany({});
+    await Assignments.deleteMany({});
+    await Alert.deleteMany({});
+    await Quiz.deleteMany({});
 
     await Role.create(roleSeeds);
+    await Alert.create(alertSeeds);
 
     for (let i = 0; i < userSeeds.length; i++) {
       let role;
@@ -39,6 +49,29 @@ db.once('open', async () => {
         postAuthor: user._id,
       });
     }
+
+    for (let i = 0; i < assignmentSeeds.length; i++) {
+      let alert = await Alert.findOne({ message: assignmentSeeds[i].alert });
+      await Assignments.create({
+        title: assignmentSeeds[i].title,
+        question: assignmentSeeds[i].question,
+        due_date: assignmentSeeds[i].due_date,
+        alert: alert._id,
+      });
+    };
+
+    for (let i = 0; i < quizSeeds.length; i++) {
+      let questions = [];
+      for (let j = 0; j < questionSeeds.length; j++) {
+        let question = questionSeeds[j];
+        questions.push(question);
+      }
+      await Quiz.create({
+        title: quizSeeds[i].title,
+        questions: questions,
+        due_date: quizSeeds[i].due_date,
+      });
+    };
 
     const allUsers = await User.find({});
     // console.log(allUsers);

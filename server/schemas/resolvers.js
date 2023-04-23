@@ -37,9 +37,6 @@ const resolvers = {
         assignment: async (parent, { _id }) => {
             return assignmentResolvers.getSingleAssignment({ _id });
         },
-        getAssignmentQuestions: async (parent, { _id }) => {
-            return assignmentResolvers.getAssignmentQuestions(_id);
-        },
         alert: async () => {
             return alertResolvers.getAlerts();
         },
@@ -140,24 +137,14 @@ const resolvers = {
             return userResolvers.setUserStatus(_id, userId, status);
         },
 
-        addAssignment: async (parent, { title, due_date, alert, assignmentResponse }) => {
-            return assignmentResolvers.createAssignment( title, due_date, alert, assignmentResponse );
+        addAssignment: async (parent, { title, question, due_date, alert, assignmentResponse }) => {
+            return assignmentResolvers.createAssignment( title, question, due_date, alert, assignmentResponse );
         },
         updateAssignment: async (parent, { _id, title, question, due_date, alert, assignmentResponse }) => {
             return assignmentResolvers.updateAssignment({ _id, title, question, due_date, alert, assignmentResponse });
         },
         deleteAssignment: async (parent, { _id }) => {
             return assignmentResolvers.deleteAssignment({ _id });
-        },
-
-        addAssignmentQuestion: async (parent, { _id, title, options, answer }) => {
-            return assignmentResolvers.addAssignmentQuestion(_id, title, options, answer);
-        },
-        updateAssignmentQuestion: async (parent, { _id, questionId, title, options, answer }) => {
-            return assignmentResolvers.updateAssignmentQuestion(_id, questionId, title, options, answer);
-        },
-        deleteAssignmentQuestion: async (parent, { _id, questionId }) => {
-            return assignmentResolvers.deleteAssignmentQuestion(_id, questionId);
         },
 
         addTodoList: async (parent, { title, todos }, context) => {

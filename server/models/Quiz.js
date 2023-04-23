@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const { questionSchema } = require('./Questions');
+const dateFormat = require('../utils/dateFormat');
 
 const quizSchema = new Schema({
     title: {
@@ -10,12 +11,12 @@ const quizSchema = new Schema({
     due_date: {
         type: Date,
         required: true,
-        default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
     },
     quizResponse: [
         {
             responseText: {
-                type: String,
+                type: [String]
             },
             studentID: {
                 type: Schema.Types.ObjectId,

@@ -51,7 +51,7 @@ const typeDefs = gql`
     type Assignments {
         _id: ID
         title: String
-        question: [Questions]
+        question: String
         due_date: String
         alert: Alert
         assignmentResponse: [Response]
@@ -115,7 +115,6 @@ const typeDefs = gql`
 
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
-        getAssignmentQuestions(_id: ID!): [Questions]
 
         alert: [Alert]
 
@@ -152,8 +151,8 @@ const typeDefs = gql`
         updateUser(_id: ID!, firstName: String, lastName: String, email: String, password: String, profilePic: String): User
         setUserStatus(_id: ID!, userId: ID!, status: String!): User
 
-        addAssignment(title: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
-        updateAssignment(_id: ID!, title: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
+        addAssignment(title: String!, question: String!, due_date: String!, alert: ID!, assignmentResponse: String): Assignments
+        updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
         deleteAssignment(_id: ID!): Assignments
 
         addAlert(message:String! ,severity:String!): Alert
@@ -187,10 +186,6 @@ const typeDefs = gql`
         addForumComment(_id: ID!, commentText: String!, commentAuthor: ID!): Forum
         updateForumComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): Forum
         deleteForumComment(_id: ID!, commentId: ID!): Forum
-
-        addAssignmentQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Assignments
-        updateAssignmentQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Assignments
-        deleteAssignmentQuestion(_id: ID!, questionId: ID!): Assignments
 
         addQuiz(title: String!, due_date: String!, quizResponse: String): Quiz
         updateQuiz(_id: ID!, title: String!, due_date: String!, quizResponse: String): Quiz
