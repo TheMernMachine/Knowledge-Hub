@@ -89,9 +89,9 @@ const typeDefs = gql`
     type Quiz {
         _id: ID
         title: String
-        question: String
+        questions: [Questions]
         due_date: String
-        quizResponse: String
+        quizResponse: [Response]
     }
 
     type Questions {
@@ -115,6 +115,7 @@ const typeDefs = gql`
 
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
+        getAssignmentQuestions(_id: ID!): [Questions]
 
         alert: [Alert]
 
@@ -139,7 +140,9 @@ const typeDefs = gql`
         getForumComments(_id: ID!): [Comment]
         getSingleForumComment(_id: ID!, commentId: ID): Comment
 
-        getAssignmentQuestions(_id: ID!): [Questions]
+        getQuiz: [Quiz]
+        getSingleQuiz(_id: ID!): Quiz
+        getQuizQuestions(_id: ID!): [Questions]
 
     }
 
@@ -188,6 +191,14 @@ const typeDefs = gql`
         addAssignmentQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Assignments
         updateAssignmentQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Assignments
         deleteAssignmentQuestion(_id: ID!, questionId: ID!): Assignments
+
+        addQuiz(title: String!, due_date: String!, quizResponse: String): Quiz
+        updateQuiz(_id: ID!, title: String!, due_date: String!, quizResponse: String): Quiz
+        deleteQuiz(_id: ID!): Quiz
+
+        addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz
+        updateQuizQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Quiz
+        deleteQuizQuestion(_id: ID!, questionId: ID!): Quiz
     }
 `
 

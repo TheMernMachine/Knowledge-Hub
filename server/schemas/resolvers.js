@@ -7,6 +7,7 @@ const { User, userResolvers,
     Role, roleResolvers,
     LessonNotes, lessonNotesResolvers,
     Forum, forumResolvers,
+    Quiz, quizResolvers,
 } = require("../models");
 const { signToken } = require("../utils/auth");
 
@@ -92,8 +93,14 @@ const resolvers = {
         },
         getSingleForumComment: async (parent, { _id, commentId }) => {
             return forumResolvers.getSingleForumComment(_id, commentId);
-        }
+        },
 
+        getQuiz: async () => {
+            return quizResolvers.getQuizzes();
+        },
+        getSingleQuiz: async (parent, { _id }) => {
+            return quizResolvers.getSingleQuiz(_id);
+        }
         
 
     },
@@ -221,8 +228,28 @@ const resolvers = {
         },
         deleteForumComment: async (parent, { _id, commentId }) => {
             return forumResolvers.deleteForumComment(_id, commentId);
-        }
+        },
 
+        addQuiz: async (parent, { title, questions }) => {
+            return quizResolvers.createQuiz(title, questions);
+        },
+        updateQuiz: async (parent, { _id, title, questions }) => {
+            return quizResolvers.updateQuiz({_id, title, questions});
+        },
+        deleteQuiz: async (parent, { _id }) => {
+            return quizResolvers.deleteQuiz(_id);
+        },
+
+        addQuizQuestion: async (parent, { _id, title, options, answer }) => {
+            return quizResolvers.addQuizQuestion(_id, title, options, answer);
+        },
+        updateQuizQuestion: async (parent, { _id, questionId, title, options, answer }) => {
+            return quizResolvers.updateQuizQuestion(_id, questionId, title, options, answer);
+        },
+        deleteQuizQuestion: async (parent, { _id, questionId }) => {
+            return quizResolvers.deleteQuizQuestion(_id, questionId);
+        },
+        
     },
 };
 

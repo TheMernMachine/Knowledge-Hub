@@ -6,12 +6,7 @@ const quizSchema = new Schema({
         type: String,
         required: true,
     },
-    questions: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'question',
-        },
-    ],
+    questions: [questionSchema],
     due_date: {
         type: Date,
         required: true,
@@ -19,9 +14,9 @@ const quizSchema = new Schema({
     },
     quizResponse: [
         {
-            type: String,
-            required: true,
-            
+            responseText: {
+                type: String,
+            },
             studentID: {
                 type: Schema.Types.ObjectId,
                 ref: 'user',
@@ -35,10 +30,89 @@ const quizSchema = new Schema({
         },
     ],
 });
+const Quiz = model('quiz', quizSchema);
+
 
 const quizResolvers = {
-    
+    getQuizzes: async () => {
+        const quiz = await Quiz.find({});
+        return quiz;
+    },
+
+    getSingleQuiz: async (quizId) => {
+        const quiz = await Quiz.findById(quizId);
+        return quiz;
+    },
+
+    createQuiz: async (title, due_date, quizResponse) => {
+        const quiz = await Quiz.create({ title, due_date, quizResponse });
+        return quiz;
+    },
+
+    updateQuiz: async (args) => {
+        const quiz = await Quiz.findByIdAndUpdate(args._id, args);
+        return quiz;
+    },
+
+    deleteQuiz: async (quizId) => {
+        const quiz = await Quiz.findByIdAndDelete(quizId);
+        return quiz;
+    },
+
+    addQuizQuestion: async (quizId, title, options, answer) => {
+        return await Quiz.findOneAndUpdate(
+            { _id: quizId },
+            {
+                $addToSet: {
+                    questions: {
+                        title,
+                        options,
+                        answer,
+                    },
+                },
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+    },
+
+    updateQuizQuestion: async (quizId, questionId, title, options, answer) => {
+        return await Quiz.findOneAndUpdate(
+            { _id: quizId },
+            {
+                $set: {
+                    questions: {
+                        _id: questionId,
+                        title,
+                        options,
+                        answer,
+                    },
+                },
+            },
+            {
+                new: true,
+            }
+        )
+    },
+
+    deleteQuizQuestion: async (quizId, questionId) => {
+        return await Quiz.findOneAndUpdate(
+            { _id: quizId },
+            {
+                $pull: {
+                    questions: {
+                        _id: questionId,
+                    },
+                },
+            },
+            {
+                new: true,
+            }
+        );
+    },
+
 };
 
-const Quiz = model('quiz', quizSchema);
 module.exports = { Quiz, quizResolvers };
