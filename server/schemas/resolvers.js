@@ -41,11 +41,12 @@ const resolvers = {
             return alertResolvers.getAlerts();
         },
 
-        getTodoLists: async (parent, args) => {
-            return todoResolvers.getTodoLists();
+        // Get all the todo lists for a specific user
+        getTodoLists: async (parent, { _id }) => {
+            return todoResolvers.getTodoLists(_id);
         },
-        getTodoList: async (parent, { _id }, context) => {
-            return todoResolvers.getTodoList(_id, context);
+        getTodoList: async (parent, { _id, todoId }) => {
+            return todoResolvers.getTodoList(_id, todoId);
         },
 
         courses: async () => {
@@ -147,14 +148,15 @@ const resolvers = {
             return assignmentResolvers.deleteAssignment({ _id });
         },
 
-        addTodoList: async (parent, { title, todos }, context) => {
-            return todoResolvers.addTodoList(title, todos, context);
+        addTodoList: async (parent, { _id, title, todo, priority }) => {
+            console.log("resolve", _id, title, todo, priority);
+            return todoResolvers.addTodoList(_id, title, todo, priority);
         },
-        updateTodoList: async (parent, { id, title, todos }, context) => {
-            return todoResolvers.updateTodoList(id, title, todos, context);
-        },
-        deleteTodoList: async (parent, { id }, context) => {
-            return todoResolvers.deleteTodoList(id, title, todos, context);
+        // updateTodoList: async (parent, args) => {
+        //     return todoResolvers.updateTodoList(args);
+        // }, 
+        deleteTodoList: async (parent, { _id, todoId }) => {
+            return todoResolvers.deleteTodoList(_id, todoId);
         },
 
         addCourse: async (parent, { title, description, startDate, endDate }) => {

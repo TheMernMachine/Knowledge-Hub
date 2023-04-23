@@ -89,7 +89,7 @@ const userResolvers = {
 
   // Once we get todoList fully functional, we can add a populate here to get the todoLists
   getAllUsers: async () => {
-    const users = await User.find().populate('role');
+    const users = await User.find().populate('role').populate('todoLists');
     return users;
   },
 
@@ -97,11 +97,11 @@ const userResolvers = {
   getUser: async (userId, email) => {
     const user = await User.findOne({ _id: userId }).populate('role');
     console.log(user);
-    return await User.findOne({ _id: userId }).populate('role');
+    return await User.findOne({ _id: userId }).populate('role').populate('todoLists');
   },
 
   getSingleUser: async (email) => {
-    return await User.findOne({ email: email }).populate('role');
+    return await User.findOne({ email: email }).populate('role').populate('todoLists');
   },
 
   createUser: async ({ firstName, lastName, email, password, role }) => {
