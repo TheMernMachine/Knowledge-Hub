@@ -4,41 +4,50 @@ import { gql } from '@apollo/client';
 // User queries
 export const GET_USERS = gql`
   query users {
-    users {
+     _id
+    firstName
+    lastName
+    fullName
+    email
+    password
+    dateJoined
+    status
+    role {
       _id
-      firstName
-      lastName
-      email
-      role {
-        _id
-        name
-        permissions
-      }
-      todolists {
-        _id
-        title
-        todo
-      }
+      name
+      permissions
+    }
+    todoLists {
+      priority
+      todo
+      title
+      _id
+    }
     }
   }
 `;
 
 export const GET_USER = gql`
   query user($userId: ID!) {
-    user(_id: $userId) {
+    user(_id: $Id) {
       _id
       firstName
       lastName
+      fullName
       email
+      password
+      dateJoined
+      status
       role {
         _id
         name
         permissions
       }
-      todolists {
+      todoLists {
         _id
         title
         todo
+        priority
       }
     }
   }
@@ -50,16 +59,21 @@ export const GET_ME = gql`
       _id
       firstName
       lastName
+      fullName
       email
+      password
+      dateJoined
+      status
       role {
         _id
         name
         permissions
       }
-      todolists {
-        _id
-        title
+      todoLists {
+        priority
         todo
+        title
+        _id
       }
     }
   }
@@ -78,7 +92,7 @@ export const GET_ROLES = gql`
 
 export const GET_ROLE = gql`
   query role($roleId: ID!) {
-    role(_id: $roleId) {
+    role(_id: $Id) {
       _id
       name
       permissions
@@ -93,16 +107,18 @@ export const GET_TODOLISTS = gql`
       _id
       title
       todo
+      priority
     }
   }
 `;
 
 export const GET_TODOLIST = gql`
   query getTodoList($todolistId: ID!) {
-    getTodoList(_id: $todolistId) {
+    getTodoList(_id: $Id) {
       _id
       title
       todo
+      priority
     }
   }
 `;
@@ -121,8 +137,8 @@ export const GET_ASSIGNMENTS = gql`
         severity
       }
       assignmentResponse {
-        _id
         responseText
+        _id
         student
         rawScore
         grade
@@ -144,8 +160,8 @@ export const GET_ASSIGNMENT = gql`
         severity
       }
       assignmentResponse {
-        _id
         responseText
+        _id
         student
         rawScore
         grade
@@ -159,25 +175,89 @@ export const GET_COURSES = gql`
   query courses {
     courses {
       _id
+    title
+    description
+    price
+    quiz {
+      _id
       title
-      description
-      content
-      startDate
-      endDate
-    }
+      questions {
+        answer
+        _id
+        title
+        options
+      }
+      due_date
+      quizResponse {
+        _id
+        responseText
+        student
+        rawScore
+        grade
+      }
   }
 `;
 
 export const GET_COURSE = gql`
   query course($courseId: ID!) {
-    course(_id: $courseId) {
+    course(_id: $Id) {
+      _id
+    title
+    description
+    price
+    quiz {
       _id
       title
-      description
-      content
-      startDate
-      endDate
+      questions {
+        _id
+        title
+        options
+        answer
+      }
+      due_date
+      quizResponse {
+        _id
+        responseText
+        student
+        rawScore
+        grade
+      }
     }
+    assignment {
+      _id
+      title
+      question
+      due_date
+      alert {
+        _id
+        message
+        severity
+      }
+      assignmentResponse {
+        _id
+        responseText
+        student
+        rawScore
+        grade
+      }
+    }
+    lessonNotes {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+      comments {
+        _id
+        commentText
+        commentAuthor
+        createdAt
+        updatedAt
+      }
+    }
+    startDate
+    endDate
+  }
   }
 `;
 
