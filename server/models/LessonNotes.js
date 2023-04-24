@@ -16,11 +16,13 @@ const lessonNotes = new Schema({
     type: Date,
     default: Date.now,
     get: (timestamp) => dateFormat(timestamp),
+    required: true,
   },
   updatedAt: {
     type: Date,
     default: Date.now,
     get: (timestamp) => dateFormat(timestamp),
+    required: true,
   },
   comments: [commentSchema]
 });
@@ -55,11 +57,8 @@ const lessonNotesResolvers = {
     return lesson.comments;
   },
   getSingleLessonComment: async (lessonId, commentId) => {
-    // return await LessonNotes.findOne({ comments: { $elemMatch: { _id: { $eq: commentId } } } }, { "comments.$": 1 });
-    // return await LessonNotes.findOne({ "comments._id": { $eq: commentId } }, { comments: 1 });
     const lesson = await LessonNotes.findOne({ _id: lessonId });
-    const comments = lesson.comments.filter((comment) => comment._id.equals(commentId));
-    return comments[0];
+    return lesson.comments.id(commentId);
   },
   addLessonComment: async (lessonId, commentText, commentAuthor) => {
     return await LessonNotes.findOneAndUpdate(
@@ -75,21 +74,20 @@ const lessonNotesResolvers = {
       }
     );
   },
-  updateLessonComment: async (lessonId, commentId, commentText, commentAuthor) => {
+  updateLessonComment: async (lessonId, commentId, commentText) => {
+    const lesson = await LessonNotes.findOne({ _id: lessonId });
+    const comment = lesson.comments.id(commentId);
+    const updatedComment = {
+      _id: commentId,
+      commentText: commentText,
+      commentAuthor: comment.commentAuthor,
+      createdAt: comment.getCreateTime()
+    }
+
     return await LessonNotes.findOneAndUpdate(
       { _id: lessonId },
-      {
-        $set: {
-          comments: {
-            _id: commentId,
-            commentText: commentText,
-            commentAuthor: commentAuthor,
-          },
-        },
-      },
-      {
-        new: true
-      }
+      { $set: { comments: { ...updatedComment } } },
+      { new: true }
     );
   },
   deleteLessonComment: async (lessonId, commentId) => {

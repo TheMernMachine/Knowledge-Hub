@@ -25,16 +25,19 @@ const todoResolvers = {
   // Queries for the todoList model
 
   // Get all todoLists
-  getTodoLists: async (id) => {
-    let user = await User.findOne({ _id: id }).populate('todoLists');
+  getAllTodoLists: async () => {
+    return await TodoList.find({});
+  },
+
+  // Get all todoLists for a specific user
+  getUserTodoLists: async (id) => {
+    let user = await User.findOne({ _id: id }).populate('todoLists').populate('role');
     return user.todoLists;
   },
 
   // Get a single todoList
-  getTodoList: async (id, toDoId) => {
-    let user = await User.findOne({ _id: id }).populate('todoLists');
-    const list = user.todoLists.filter((aList) => aList._id.equals(toDoId));
-    return list[0];
+  getSingleTodoList: async (id) => {
+    return await TodoList.findOne({ _id: id });
   },
 
   // Mutations for the todoList model to be imported into the resolvers index.js file at Path: server\schemas\resolvers.js
@@ -50,18 +53,19 @@ const todoResolvers = {
     return list;
   },
 
-  // Delete a todoList
-  deleteTodoList: async (id, todoId) => {
-    let user = await User.findOne({ _id: id });
-    const list = user.todoLists.filter((aList) => !aList._id.equals(todoId));
+  updateTodoList: async (id, args) => {
+    return await TodoList.findOneAndUpdate({ _id: id }, { ...args }, { new: true });
+  },
 
-    user = await User.findOneAndUpdate(
-      { _id: id },
-      { $set: { todoLists: list } },
-      { new: true }
+  // Delete a todoList
+  deleteTodoList: async (id) => {
+    const list = await TodoList.findOneAndDelete({ _id: id }, { new: true });
+    await User.findOneAndUpdate(
+      { todoLists: id },
+      { $pull: { todoLists: id } }
     );
 
-    return user;
+    return list;
   },
 };
 
