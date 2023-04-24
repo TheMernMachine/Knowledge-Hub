@@ -113,23 +113,43 @@ export const GET_ASSIGNMENTS = gql`
     assignments {
       _id
       title
-      description
-      dueDate
-      alert
-      assignmentResponse
+      question
+      due_date
+      alert {
+        _id
+        message
+        severity
+      }
+      assignmentResponse {
+        _id
+        responseText
+        student
+        rawScore
+        grade
+      }
     }
   }
 `;
 
 export const GET_ASSIGNMENT = gql`
   query assignment($assignmentId: ID!) {
-    assignment(_id: $assignmentId) {
+    assignment(_id: $id) {
       _id
       title
-      description
-      dueDate
-      alert
-      assignmentResponse
+      question
+      due_date
+      alert {
+        _id
+        message
+        severity
+      }
+      assignmentResponse {
+        _id
+        responseText
+        student
+        rawScore
+        grade
+      }
     }
   }
 `;
