@@ -94,9 +94,8 @@ const userResolvers = {
   },
 
   // Once we get todoList fully functional, we can add a populate here to get the todoLists
-  getUser: async (userId, email) => {
+  getUser: async (userId) => {
     const user = await User.findOne({ _id: userId }).populate('role');
-    console.log(user);
     return await User.findOne({ _id: userId }).populate('role').populate('todoLists');
   },
 

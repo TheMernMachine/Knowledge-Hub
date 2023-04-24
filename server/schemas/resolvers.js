@@ -41,12 +41,17 @@ const resolvers = {
             return alertResolvers.getAlerts();
         },
 
-        // Get all the todo lists for a specific user
-        getTodoLists: async (parent, { _id }) => {
-            return todoResolvers.getTodoLists(_id);
+        // All Todo Lists
+        getAllTodoLists: async () => {
+            return todoResolvers.getAllTodoLists();
         },
-        getTodoList: async (parent, { _id, todoId }) => {
-            return todoResolvers.getTodoList(_id, todoId);
+        // Get all the todo lists for a specific user with the users Id
+        getUserTodoLists: async (parent, { _id }) => {
+            return todoResolvers.getUserTodoLists(_id);
+        },
+        // provide todo Id
+        getSingleTodoList: async (parent, { _id }) => {
+            return todoResolvers.getSingleTodoList(_id);
         },
 
         courses: async () => {
@@ -99,7 +104,7 @@ const resolvers = {
         getSingleQuiz: async (parent, { _id }) => {
             return quizResolvers.getSingleQuiz(_id);
         }
-        
+
 
     },
 
@@ -139,7 +144,7 @@ const resolvers = {
         },
 
         addAssignment: async (parent, { title, question, due_date, alert, assignmentResponse }) => {
-            return assignmentResolvers.createAssignment( title, question, due_date, alert, assignmentResponse );
+            return assignmentResolvers.createAssignment(title, question, due_date, alert, assignmentResponse);
         },
         updateAssignment: async (parent, { _id, title, question, due_date, alert, assignmentResponse }) => {
             return assignmentResolvers.updateAssignment({ _id, title, question, due_date, alert, assignmentResponse });
@@ -149,14 +154,16 @@ const resolvers = {
         },
 
         addTodoList: async (parent, { _id, title, todo, priority }) => {
-            console.log("resolve", _id, title, todo, priority);
             return todoResolvers.addTodoList(_id, title, todo, priority);
         },
-        // updateTodoList: async (parent, args) => {
-        //     return todoResolvers.updateTodoList(args);
-        // }, 
-        deleteTodoList: async (parent, { _id, todoId }) => {
-            return todoResolvers.deleteTodoList(_id, todoId);
+        updateTodoList: async (parent, args, context) => {
+            // We can the user's information from the context
+            let todoId = args._id;
+            delete args._id;
+            return todoResolvers.updateTodoList(todoId, args);
+        },
+        deleteTodoList: async (parent, { _id }) => {
+            return todoResolvers.deleteTodoList(_id);
         },
 
         addCourse: async (parent, { title, description, startDate, endDate }) => {
@@ -192,8 +199,9 @@ const resolvers = {
         addLessonComment: async (parent, { _id, commentText, commentAuthor }) => {
             return lessonNotesResolvers.addLessonComment(_id, commentText, commentAuthor);
         },
-        updateLessonComment: async (parent, { _id, commentId, commentText, commentAuthor }) => {
-            return lessonNotesResolvers.updateLessonComment(_id, commentId, commentText, commentAuthor);
+        updateLessonComment: async (parent, args, context) => {
+            // We can get the user id from context when its available
+            return lessonNotesResolvers.updateLessonComment(args._id, args.commentId, args.commentText);
         },
         deleteLessonComment: async (parent, { _id, commentId }) => {
             return lessonNotesResolvers.deleteLessonComment(_id, commentId);
@@ -223,7 +231,7 @@ const resolvers = {
             return quizResolvers.createQuiz(title, questions);
         },
         updateQuiz: async (parent, { _id, title, questions }) => {
-            return quizResolvers.updateQuiz({_id, title, questions});
+            return quizResolvers.updateQuiz({ _id, title, questions });
         },
         deleteQuiz: async (parent, { _id }) => {
             return quizResolvers.deleteQuiz(_id);
@@ -238,7 +246,7 @@ const resolvers = {
         deleteQuizQuestion: async (parent, { _id, questionId }) => {
             return quizResolvers.deleteQuizQuestion(_id, questionId);
         },
-        
+
     },
 };
 

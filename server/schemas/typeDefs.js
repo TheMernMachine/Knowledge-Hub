@@ -119,8 +119,9 @@ const typeDefs = gql`
 
         alert: [Alert]
 
-        getTodoLists(_id: ID!): [TodoList]
-        getTodoList(_id: ID!, todoId: ID!): TodoList
+        getAllTodoLists: [TodoList]
+        getUserTodoLists(_id: ID!): [TodoList]
+        getSingleTodoList(_id: ID!): TodoList
 
         courses: [Course]
         course(_id: ID!): Course
@@ -133,7 +134,7 @@ const typeDefs = gql`
         lessonNote(_id: ID!): LessonNotes
 
         getLessonComments(_id: ID!): [Comment]
-        getSingleLessonComment(_id: ID!, commentId: ID): Comment
+        getSingleLessonComment(_id: ID!, commentId: ID!): Comment
 
         getForum: [Forum]
         getSingleForum(_id: ID!): Forum
@@ -161,8 +162,8 @@ const typeDefs = gql`
         updateAlert(_id: ID!, message: String, severity: String): Alert
 
         addTodoList(_id: ID!, title: String!, todo: String!, priority: String!): TodoList
-        
-        deleteTodoList(_id: ID!, todoId: ID!): User
+        updateTodoList(_id: ID!, title: String, todo: String, priority: String): TodoList
+        deleteTodoList(_id: ID!): TodoList
         
         addCourse(title: String!, description: String!, startDate: String!, endDate: String!): Course
         updateCourse(_id: ID!, title: String!, description: String!, startDate: String, endDate: String!): Course
@@ -177,7 +178,7 @@ const typeDefs = gql`
         deleteLessonNotes(_id: ID!): LessonNotes
 
         addLessonComment(_id: ID!, commentText: String!, commentAuthor: ID!): LessonNotes
-        updateLessonComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): LessonNotes
+        updateLessonComment(_id: ID!, commentId: ID!, commentText: String!): LessonNotes
         deleteLessonComment(_id: ID!, commentId: ID!): LessonNotes
 
         addForum(title: String!, postQuestion: String!, postAuthor: ID!): Forum
