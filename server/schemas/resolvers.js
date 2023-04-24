@@ -220,8 +220,8 @@ const resolvers = {
         addForumComment: async (parent, { _id, commentText, commentAuthor }) => {
             return forumResolvers.addForumComment(_id, commentText, commentAuthor);
         },
-        updateForumComment: async (parent, { _id, commentId, commentText, commentAuthor }) => {
-            return forumResolvers.updateForumComment(_id, commentId, commentText, commentAuthor);
+        updateForumComment: async (parent, args, context) => {
+            return forumResolvers.updateForumComment(args._id, args.commentId, args.commentText);
         },
         deleteForumComment: async (parent, { _id, commentId }) => {
             return forumResolvers.deleteForumComment(_id, commentId);

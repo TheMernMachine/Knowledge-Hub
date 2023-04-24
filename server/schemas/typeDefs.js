@@ -187,7 +187,7 @@ const typeDefs = gql`
         deleteForum(_id: ID!): Forum
 
         addForumComment(_id: ID!, commentText: String!, commentAuthor: ID!): Forum
-        updateForumComment(_id: ID!, commentId: ID!, commentText: String!, commentAuthor: ID!): Forum
+        updateForumComment(_id: ID!, commentId: ID!, commentText: String!): Forum
         deleteForumComment(_id: ID!, commentId: ID!): Forum
 
         addQuiz(title: String!, due_date: String!, quizResponse: String): Quiz

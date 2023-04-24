@@ -16,11 +16,13 @@ const lessonNotes = new Schema({
     type: Date,
     default: Date.now,
     get: (timestamp) => dateFormat(timestamp),
+    required: true,
   },
   updatedAt: {
     type: Date,
     default: Date.now,
     get: (timestamp) => dateFormat(timestamp),
+    required: true,
   },
   comments: [commentSchema]
 });
@@ -84,16 +86,8 @@ const lessonNotesResolvers = {
 
     return await LessonNotes.findOneAndUpdate(
       { _id: lessonId },
-      {
-        $set: {
-          comments: {
-            ...updatedComment
-          },
-        },
-      },
-      {
-        new: true
-      }
+      { $set: { comments: { ...updatedComment } } },
+      { new: true }
     );
   },
   deleteLessonComment: async (lessonId, commentId) => {

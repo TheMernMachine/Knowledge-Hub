@@ -52,8 +52,7 @@ const forumResolvers = {
 
     getSingleForumComment: async (forumId, commentId) => {
         const forum = await Forum.findOne({ _id: forumId });
-        const comments = Forum.comments.filter((comment) => comment._id.equals(commentId));
-        return comments[0];
+        return forum.comments.id(commentId);
     },
 
     addForumComment: async (forumId, commentText, commentAuthor) => {
@@ -70,21 +69,20 @@ const forumResolvers = {
             }
         );
     },
-    updateForumComment: async (forumId, commentId, commentText, commentAuthor) => {
+    updateForumComment: async (forumId, commentId, commentText) => {
+        const forum = await Forum.findOne({ _id: forumId });
+        const comment = forum.comments.id(commentId);
+        const updatedComment = {
+            _id: commentId,
+            commentText: commentText,
+            commentAuthor: comment.commentAuthor,
+            createdAt: comment.getCreateTime()
+        }
+
         return await Forum.findOneAndUpdate(
             { _id: forumId },
-            {
-                $set: {
-                    comments: {
-                        _id: commentId,
-                        commentText: commentText,
-                        commentAuthor: commentAuthor,
-                    },
-                },
-            },
-            {
-                new: true
-            }
+            { $set: { comments: { ...updatedComment } } },
+            { new: true }
         );
     },
     deleteForumComment: async (forumId, commentId) => {

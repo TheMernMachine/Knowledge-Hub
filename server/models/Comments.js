@@ -7,6 +7,7 @@ const commentSchema = new Schema({
         required: true,
         minlength: 1,
         maxlength: 280,
+        required: true,
     },
     commentAuthor: {
         type: Schema.Types.ObjectId,
@@ -17,18 +18,20 @@ const commentSchema = new Schema({
         type: Date,
         default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
+        required: true,
     },
     updatedAt: {
         type: Date,
         default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
+        required: true,
     }
 });
 
 // Instance method to return createdAt
 commentSchema.methods.getCreateTime = function () {
     let temp = this.createdAt.toString();
-    temp = temp.replace(/(st|nd|rd|at )/g, '');
+    temp = temp.replace(/(st|nd|rd|th|at )/g, '');
     return Date.parse(temp);
 };
 
