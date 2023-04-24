@@ -1,15 +1,16 @@
 import { gql } from '@apollo/client';
 
 
+
 // User queries
 export const GET_USERS = gql`
   query users {
+    users{
      _id
     firstName
     lastName
     fullName
     email
-    password
     dateJoined
     status
     role {
@@ -29,13 +30,12 @@ export const GET_USERS = gql`
 
 export const GET_USER = gql`
   query user($userId: ID!) {
-    user(_id: $Id) {
+    user(_id: $userId) {
       _id
       firstName
       lastName
       fullName
       email
-      password
       dateJoined
       status
       role {
@@ -53,6 +53,44 @@ export const GET_USER = gql`
   }
 `;
 
+
+// QUIZ QUERIES
+export const GET_QUIZ = gql`
+query quiz {
+  getQuiz {
+    _id
+    title
+    questions {
+      _id
+      title
+      options
+      answer
+    }
+    due_date
+    quizResponse {
+      _id
+      responseText
+      student
+      rawScore
+      grade
+    }
+  }
+}
+`;
+
+export const GET_QUIZZIES = gql`
+query Query($Quizzesid: ID!) {
+  getQuizQuestions(_id: $Quizzesid) {
+    _id
+    title
+    options
+    answer
+  }
+}
+`;
+
+
+// ME AS A USER
 export const GET_ME = gql`
   query me {
     me {
@@ -79,6 +117,8 @@ export const GET_ME = gql`
   }
 `;
 
+
+
 // Roles queries
 export const GET_ROLES = gql`
   query roles {
@@ -92,13 +132,15 @@ export const GET_ROLES = gql`
 
 export const GET_ROLE = gql`
   query role($roleId: ID!) {
-    role(_id: $Id) {
+    role(_id: $roleId) {
       _id
       name
       permissions
     }
   }
 `;
+
+
 
 // TodoList queries
 export const GET_TODOLISTS = gql`
@@ -114,7 +156,7 @@ export const GET_TODOLISTS = gql`
 
 export const GET_TODOLIST = gql`
   query getTodoList($todolistId: ID!) {
-    getTodoList(_id: $Id) {
+    getTodoList(_id: $todolistId) {
       _id
       title
       todo
@@ -122,6 +164,8 @@ export const GET_TODOLIST = gql`
     }
   }
 `;
+
+
 
 // Assignment queries
 export const GET_ASSIGNMENTS = gql`
@@ -149,7 +193,7 @@ export const GET_ASSIGNMENTS = gql`
 
 export const GET_ASSIGNMENT = gql`
   query assignment($assignmentId: ID!) {
-    assignment(_id: $id) {
+    assignment(_id: $assignmentId) {
       _id
       title
       question
@@ -169,6 +213,8 @@ export const GET_ASSIGNMENT = gql`
     }
   }
 `;
+
+
 
 // Course queries
 export const GET_COURSES = gql`
@@ -200,7 +246,7 @@ export const GET_COURSES = gql`
 
 export const GET_COURSE = gql`
   query course($courseId: ID!) {
-    course(_id: $Id) {
+    course(_id: $courseId) {
       _id
     title
     description
@@ -261,5 +307,88 @@ export const GET_COURSE = gql`
   }
 `;
 
+// lessonNotes queries
+
+export const GET_LESSON = gql`
+query lessonNote($lessonNoteId: ID!)
+lessonNote(_id: $lessonNoteId) {
+  _id
+  title
+  content
+  createdAt
+  updatedAt
+  comments {
+    _id
+    commentText
+    commentAuthor
+    createdAt
+    updatedAt
+  }
+}
+}
+`;
+
+export const GET_LESSONS = gql`
+lessonNotes {
+  _id
+  title
+  content
+  createdAt
+  updatedAt
+  comments {
+    _id
+    commentText
+    commentAuthor
+    createdAt
+    updatedAt
+  }
+}
+}
+`;
 
 
+// forum queries
+export const GET_FORUM = gql`
+query Forum($forumid: ID!)
+getForum(_id: $forumid) {
+  _id
+  title
+  postQuestion
+  postAuthor
+  comments {
+    _id
+    commentText
+    commentAuthor
+    createdAt
+    updatedAt
+  }
+}
+}
+`;
+
+export const GET_FORUMS = gql`
+getForum {
+  _id
+  title
+  postQuestion
+  postAuthor
+  comments {
+    _id
+    commentText
+    commentAuthor
+    createdAt
+    updatedAt
+  }
+}
+}
+`;
+
+// alert queries
+export const GET_ALERT = gql`
+alert {
+  _id
+  message
+  severity
+}
+}
+`;

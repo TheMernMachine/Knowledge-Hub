@@ -99,8 +99,8 @@ const typeDefs = gql`
     type Questions {
         _id: ID
         title: String
-        options: [String]
-        answer: String
+        options: [String!]!
+        answer: String!
     }
 
 

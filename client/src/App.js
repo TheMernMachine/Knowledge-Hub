@@ -1,5 +1,8 @@
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+// import { ApolloClient } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
+
 // routes
 import Router from './routes';
 // theme
