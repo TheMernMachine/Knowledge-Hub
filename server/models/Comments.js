@@ -18,8 +18,19 @@ const commentSchema = new Schema({
         default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
     },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
+    }
 });
 
+// Instance method to return createdAt
+commentSchema.methods.getCreateTime = function () {
+    let temp = this.createdAt.toString();
+    temp = temp.replace(/(st|nd|rd|at )/g, '');
+    return Date.parse(temp);
+};
 
 
 const commentResolvers = {

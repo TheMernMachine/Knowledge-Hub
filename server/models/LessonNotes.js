@@ -78,7 +78,8 @@ const lessonNotesResolvers = {
     const updatedComment = {
       _id: commentId,
       commentText: commentText,
-      commentAuthor: comment.commentAuthor
+      commentAuthor: comment.commentAuthor,
+      createdAt: comment.getCreateTime()
     }
 
     return await LessonNotes.findOneAndUpdate(

@@ -32,6 +32,7 @@ const typeDefs = gql`
         commentText: String
         commentAuthor: ID
         createdAt: String
+        updatedAt: String
     }
 
     type Response {
