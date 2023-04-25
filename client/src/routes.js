@@ -5,6 +5,7 @@ import SimpleLayout from './layouts/simple';
 //
 import BlogPage from './pages/BlogPage';
 import AssignmentPage from './pages/AssignmentsPage';
+import SingleAssignmentPage from './pages/SingleAssignmentPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -12,9 +13,11 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  
   const routes = useRoutes([
     {
       path: '/dashboard',
@@ -26,6 +29,7 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'assignments', element: <AssignmentPage /> },
+        { path: 'assignment/:_id', element: <SingleAssignmentPage /> },
       ],
     },
     {

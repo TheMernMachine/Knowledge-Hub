@@ -1,18 +1,20 @@
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@apollo/client';
+import { Link } from 'react-router-dom';
+
 // @mui
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import { GET_ASSIGNMENTS } from '../utils/queries';
 import Iconify from '../components/iconify';
-import  AssignmentPostCard  from '../sections/@dashboard/blog/AssignmentPostCard';
+import AssignmentPostCard from '../sections/@dashboard/blog/AssignmentPostCard';
+import AssignmentPage from './SingleAssignmentPage';
 
 // ----------------------------------------------------------------------
 
 export default function AssignmentsPage() {
   const { loading, data } = useQuery(GET_ASSIGNMENTS);
   const assignments = data?.assignments || [];
-  console.log(assignments);
   return (
     <>
       <Helmet>
@@ -29,9 +31,11 @@ export default function AssignmentsPage() {
           </Button>
         </Stack>
         <Grid container spacing={3}>
+          
           {assignments.map((assignment, index) => (
-            <AssignmentPostCard key={assignment._id} assignment={assignment} index={index} />
+              <AssignmentPostCard key={assignment._id} assignment={assignment} index={index} />
           ))}
+         
         </Grid>
       </Container>
     </>
