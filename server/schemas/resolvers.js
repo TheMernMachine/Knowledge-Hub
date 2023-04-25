@@ -143,11 +143,11 @@ const resolvers = {
             return userResolvers.setUserStatus(_id, userId, status);
         },
 
-        addAssignment: async (parent, { title, question, due_date, alert, assignmentResponse }) => {
-            return assignmentResolvers.createAssignment(title, question, due_date, alert, assignmentResponse);
+        addAssignment: async (parent, { title, question, due_date }) => {
+            return assignmentResolvers.createAssignment(title, question, due_date);
         },
-        updateAssignment: async (parent, { _id, title, question, due_date, alert, assignmentResponse }) => {
-            return assignmentResolvers.updateAssignment({ _id, title, question, due_date, alert, assignmentResponse });
+        updateAssignment: async (parent, args) => {
+            return assignmentResolvers.updateAssignment(args);
         },
         deleteAssignment: async (parent, { _id }) => {
             return assignmentResolvers.deleteAssignment({ _id });

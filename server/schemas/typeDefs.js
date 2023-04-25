@@ -18,7 +18,7 @@ const typeDefs = gql`
         _id: ID
         firstName: String
         lastName: String
-        fullName: String
+        username: String
         email: String
         password: String
         dateJoined: String
@@ -154,8 +154,8 @@ const typeDefs = gql`
         updateUser(_id: ID!, firstName: String, lastName: String, email: String, password: String, profilePic: String): User
         setUserStatus(_id: ID!, userId: ID!, status: String!): User
 
-        addAssignment(title: String!, question: String!, due_date: String!, alert: ID!, assignmentResponse: String): Assignments
-        updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
+        addAssignment(title: String!, question: String!, due_date: String!): Assignments
+        updateAssignment(_id: ID!, title: String, question: String, due_date: String, alert: String, assignmentResponse: String): Assignments
         deleteAssignment(_id: ID!): Assignments
 
         addAlert(message:String! ,severity:String!): Alert

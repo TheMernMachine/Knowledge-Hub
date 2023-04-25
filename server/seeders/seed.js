@@ -1,5 +1,5 @@
 const db = require('../config/connection');
-const { Role, User, Forum, userResolvers, Assignments, Quiz, Alert } = require('../models');
+const { Role, User, Forum, userResolvers, Assignments, assignmentResolvers, Quiz, Alert } = require('../models');
 const userSeeds = require('./userSeeds.json');
 const roleSeeds = require('./roleSeeds.json');
 const forumSeeds = require('./forumSeeds.json');
@@ -20,7 +20,7 @@ db.once('open', async () => {
     await Quiz.deleteMany({});
 
     await Role.create(roleSeeds);
-    await Alert.create(alertSeeds);
+    console.log('Roles seeded');
 
     for (let i = 0; i < userSeeds.length; i++) {
       let role;
@@ -51,13 +51,11 @@ db.once('open', async () => {
     }
 
     for (let i = 0; i < assignmentSeeds.length; i++) {
-      let alert = await Alert.findOne({ message: assignmentSeeds[i].alert });
-      await Assignments.create({
-        title: assignmentSeeds[i].title,
-        question: assignmentSeeds[i].question,
-        due_date: assignmentSeeds[i].due_date,
-        alert: alert._id,
-      });
+      await assignmentResolvers.createAssignment(
+        assignmentSeeds[i].title,
+        assignmentSeeds[i].question,
+        assignmentSeeds[i].due_date,
+      );
     };
 
     for (let i = 0; i < quizSeeds.length; i++) {

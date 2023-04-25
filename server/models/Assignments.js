@@ -1,7 +1,13 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
+const { alertResolvers } = require('./Alerts');
 
 const assignmentSchema = new Schema({
+    // Update to required field once we have the context working
+    examiner: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+    },
     title: {
         type: String,
         required: true,
@@ -39,7 +45,7 @@ const assignmentSchema = new Schema({
 
 });
 
-const Assignments = model('assigment', assignmentSchema);
+const Assignments = model('assignment', assignmentSchema);
 
 
 const assignmentResolvers = {
@@ -53,9 +59,12 @@ const assignmentResolvers = {
         return assignment;
     },
 
-    createAssignment: async (title, question, due_date, alert, assignmentResponse) => {
-        const assignment = await Assignments.create({ title, question, due_date, alert, assignmentResponse });
-        return assignment;
+    createAssignment: async (title, question, due_date) => {
+        // Updated this to create an alert when a new assignment is created
+        const message = `Assignment Notice: ${title} is due on ${due_date}`;
+        const newAlert = await alertResolvers.addAlert(message, 'high');
+        const alert = newAlert._id;
+        return await Assignments.create({ title, question, due_date, alert });
     },
 
     updateAssignment: async (args) => {

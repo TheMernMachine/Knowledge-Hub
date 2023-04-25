@@ -11,11 +11,11 @@ const { User, userResolvers } = require('./User');
 const { Comment, commentResolvers } = require('./Comments');
 
 module.exports = {
+  Alert, alertResolvers,
   Assignments, assignmentResolvers,
   User, userResolvers,
   Course, courseResolvers,
   todoListSchema, todoResolvers,
-  Alert, alertResolvers,
   Role, roleResolvers,
   LessonNotes, lessonNotesResolvers,
   Comment, commentResolvers,
