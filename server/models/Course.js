@@ -66,8 +66,8 @@ const courseResolvers = {
         return course;
     },
 
-    createCourse: async (title, description, startDate, endDate) => {
-        const course = await Course.create({ title, description, startDate, endDate });
+    createCourse: async (title, description, startDate, endDate, price) => {
+        const course = await Course.create({ title, description, startDate, endDate, price });
         return course;
     },
 

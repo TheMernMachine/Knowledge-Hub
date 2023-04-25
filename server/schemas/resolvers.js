@@ -166,11 +166,11 @@ const resolvers = {
             return todoResolvers.deleteTodoList(_id);
         },
 
-        addCourse: async (parent, { title, description, startDate, endDate }) => {
-            return courseResolvers.createCourse(title, description, startDate, endDate);
+        addCourse: async (parent, { title, description, startDate, endDate, price }) => {
+            return courseResolvers.createCourse(title, description, startDate, endDate, price);
         },
-        updateCourse: async (parent, { _id, title, description, startDate, endDate }) => {
-            return courseResolvers.updateCourse({ _id, title, description, startDate, endDate });
+        updateCourse: async (parent, { _id, title, description, price, quiz, assignment, lessonNotes, startDate, endDate }) => {
+            return courseResolvers.updateCourse({ _id, title, description, price, quiz, assignment, lessonNotes, startDate, endDate });
         },
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });

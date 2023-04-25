@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 // User mutations
 export const ADD_USER = gql`
-  mutation addUser(firstName: $firstName, lastName: $lastName, $email: String!, $password: String!) {
+  mutation addUser($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
     addUser(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
       token
       user {
@@ -43,20 +43,19 @@ export const UPDATE_USER = gql`
 
 // Assignment mutations
 export const ADD_ASSIGNMENT = gql`
-  mutation addAssignment($title: String!, $description: String!, $dueDate: String!, $course: String!) {
-    addAssignment(title: $title, description: $description, dueDate: $dueDate, course: $course) {
+  mutation addAssignment($title: String!, $question: String!, $due_date: String!) {
+    addAssignment(title: $title, question: $question, due_date: $due_date, course: $course) {
       _id
       title
-      description
-      dueDate
-      course
+      question
+      alert
     }
   }
 `;
 
 export const UPDATE_ASSIGNMENT = gql`
-  mutation updateAssignment($assignmentId: ID!, $title: String!, $description: String!, $dueDate: String!, $alert: String, $assignmentResponse: String) {
-    updateAssignment(assignmentId: $assignmentId, title: $title, description: $description, dueDate: $dueDate, alert: $alert, assignmentResponse: $assignmentResponse) {
+  mutation updateAssignment($_id: ID!, $title: String, $question: String, $due_date: String, $alert: String, $assignmentResponse: String) {
+    updateAssignment(_id: $_id, title: $title, question: $question, due_date: $due_date, alert: $alert, assignmentResponse: $assignmentResponse) {
       _id
       title
       description
@@ -71,40 +70,44 @@ export const DELETE_ASSIGNMENT = gql`
     deleteAssignment(assignmentId: $assignmentId) {
       _id
       title
-      description
-      dueDate
-      course
+      question
+      due_date
+      alert
+      assignmentResponse
     }
   }
 `;
 
 // Todo mutations
 export const ADD_TODO_LIST = gql`
-  mutation addTodoList($title: String!, $todos: [TodoInput]!) {
-    addTodoList(title: $title, todos: $todos) {
+  mutation addTodoList($title: String!, $todo: String!, priority: String!) {
+    addTodoList(title: $title, todo: $todo, priority: $priority) {
       _id
       title
       todo
+      priority
     }
   }
 `;
 
 export const UPDATE_TODO_LIST = gql`
-  mutation updateTodoList($todoListId: ID!, $title: String!, $todos: [TodoInput]!) {
-    updateTodoList(todoListId: $todoListId, title: $title, todos: $todos) {
+  mutation updateTodoList($_id: ID!, $title: String, $todo: String, $priority: String) {
+    updateTodoList(_id: $_id, title: $title, todo: $todo, priority: $priority) {
       _id
       title
       todo
+      priority
     }
   }
 `;
 
 export const DELETE_TODO_LIST = gql`
   mutation deleteTodoList($todoListId: ID!) {
-    deleteTodoList(todoListId: $todoListId) {
+    deleteTodoList(_id: $todoListId) {
       _id
       title
       todo
+      priority
     }
   }
 `;
@@ -121,8 +124,8 @@ export const ADD_ALERT = gql`
 `;
 
 export const REMOVE_ALERT = gql`
-  mutation removeAlert($alertId: ID!) {
-    removeAlert(alertId: $alertId) {
+  mutation removeAlert($_id: ID!) {
+    removeAlert(_id: $_id) {
       _id
       message
       severity
@@ -131,8 +134,8 @@ export const REMOVE_ALERT = gql`
 `;
 
 export const UPDATE_ALERT = gql`
-  mutation updateAlert($alertId: ID!, $message: String!, $severity: String!) {
-    updateAlert(alertId: $alertId, message: $message, severity: $severity) {
+  mutation updateAlert($alertId: ID!, $message: String, $severity: String) {
+    updateAlert(_id: $alertId, message: $message, severity: $severity) {
       _id
       message
       severity
@@ -142,12 +145,15 @@ export const UPDATE_ALERT = gql`
 
 // Course mutations
 export const ADD_COURSE = gql`
-  mutation addCourse($title: String!, $description: String!, $content: [String]!, $startDate: String!, $endDate: String!) {
-    addCourse(title: $title, description: $description, content: $content, startDate: $startDate, endDate: $endDate) {
+  mutation addCourse($title: String!, $description: String!, $startDate: String!, $endDate: String!) {
+    addCourse(title: $title, description: $description, startDate: $startDate, endDate: $endDate) {
       _id
       title
       description
-      content
+      quiz
+      assignment
+      lessonNotes
+      price
       startDate
       endDate
     }
@@ -155,12 +161,15 @@ export const ADD_COURSE = gql`
 `;
 
 export const UPDATE_COURSE = gql`
-  mutation updateCourse($courseId: ID!, $title: String!, $description: String!, $content: [String]!, $startDate: String!, $endDate: String!) {
-    updateCourse(courseId: $courseId, title: $title, description: $description, content: $content, startDate: $startDate, endDate: $endDate) {
+  mutation updateCourse($courseId: ID!, $title: String, $description: String, $startDate: String, $endDate: String!, $quiz: ID, $assignment: ID, $lessonNotes: ID, $price: Float) {
+    updateCourse(_id: $courseId, title: $title, description: $description, startDate: $startDate, endDate: $endDate, quiz: $quiz, assignment: $assignment, lessonNotes: $lessonNotes, price: $price) {
       _id
       title
       description
-      content
+      quiz
+      assignment
+      lessonNotes
+      price
       startDate
       endDate
     }
@@ -169,11 +178,14 @@ export const UPDATE_COURSE = gql`
 
 export const DELETE_COURSE = gql`
   mutation deleteCourse($courseId: ID!) {
-    deleteCourse(courseId: $courseId) {
+    deleteCourse(_id: $courseId) {
       _id
       title
       description
-      content
+      quiz
+      assignment
+      lessonNotes
+      price
       startDate
       endDate
     }
