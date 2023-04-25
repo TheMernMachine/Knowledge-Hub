@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-// @mui
+import { useNavigate } from 'react-router-dom';
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
 // utils
-import SvgColor from '../../../components/svg-color';
 import images from '../../../assets/covers/index'
+
+
 
 // ----------------------------------------------------------------------
 
@@ -40,33 +40,33 @@ const StyledCover = styled('img')({
 
 // ----------------------------------------------------------------------
 
-AssignmentPostCard.propTypes = {
-  assignment: PropTypes.object.isRequired,
-  index: PropTypes.number,
-};
 
 export default function AssignmentPostCard({ assignment, index }) {
+  const navigate = useNavigate();
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
   const img = images[Math.floor(Math.random() * images.length)];
+
+  const handleClick = (id) => {
+    navigate(`/dashboard/assignment/${id}`);
+  };
 
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
         <StyledCardMedia
           sx={{
-            ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-              },
-            }),
+            pt: 'calc(100% * 4 / 3)',
+            '&:after': {
+              top: 0,
+              content: "''",
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
+
+            },
             ...(latestPostLarge && {
               pt: {
                 xs: 'calc(100% * 4 / 3)',
@@ -75,55 +75,36 @@ export default function AssignmentPostCard({ assignment, index }) {
             }),
           }}
         >
-          <SvgColor
-            color="paper"
-            src="/assets/icons/shape-avatar.svg"
-            sx={{
-              width: 80,
-              height: 36,
-              zIndex: 9,
-              bottom: -15,
-              position: 'absolute',
-              color: 'background.paper',
-              ...((latestPostLarge || latestPost) && { display: 'none' }),
-            }}
-          />
+          <StyledCover alt={assignment.title} src={img} />
         </StyledCardMedia>
-        <StyledCover alt={assignment.title} src={img} />
-        <StyledTitle color="inherit" variant="subtitle2" underline="hover" sx={{ typography: 'h5' }}>
-          {assignment.title}
-        </StyledTitle>
-
         <CardContent
           sx={{
             pt: 4,
-            ...((latestPostLarge || latestPost) && {
-              bottom: 0,
-              width: '100%',
-              position: 'absolute',
-            }),
+            bottom: 0,
+            width: '100%',
+            position: 'absolute',
           }}
         >
-          <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
+          <Typography gutterBottom variant="caption" sx={{ color: 'secondary.light', display: 'block', typography: 'subtitle1' }}>
             {assignment.due_date}
           </Typography>
 
-          <StyledTitle
+          <Typography
             color="inherit"
             variant="subtitle2"
-            underline="hover"
             sx={{
-              ...(latestPostLarge && { typography: 'h5', height: 60 }),
-              ...((latestPostLarge || latestPost) && {
-                color: 'common.white',
-              }),
+              color: 'common.white', display: 'block', typography: 'h5',
+              height: 100, textDecoration: 'underline', cursor: 'pointer'
+            }}
+            onClick={() => {
+            handleClick(assignment._id);
+             console.log(`/dashboard/assignments/${assignment._id}`)
             }}
           >
             {assignment.title}
-          </StyledTitle>
-
-
+          </Typography>
         </CardContent>
+
       </Card>
     </Grid>
   );

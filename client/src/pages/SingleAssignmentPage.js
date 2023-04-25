@@ -1,38 +1,54 @@
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@apollo/client';
-// @mui
-import { Grid, Button, Container, Stack, Typography } from '@mui/material';
-// components
-import { GET_ASSIGNMENTS, GET_ASSIGNMENT } from '../utils/queries';
-import Iconify from '../components/iconify';
-import  AssignmentPostCard  from '../sections/@dashboard/blog/AssignmentPostCard';
+import { useParams } from 'react-router-dom';
+import {  Container, Typography } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { GET_ASSIGNMENT } from '../utils/queries';
+import AssignmentPostCard from '../sections/@dashboard/blog/AssignmentPostCard';
+import SubmitForm from '../components/forms/SubmitForm';
 
-// ----------------------------------------------------------------------
+const theme = createTheme();
 
-export default function AssignmentPage() {
-//   const { loading, data } = useQuery(GET_ASSIGNMENTS);
-//   const assignments = data?.assignments || [];
-//   return (
-//     <>
-//       <Helmet>
-//         <title>Assignment Page </title>
-//       </Helmet>
+export default function SingleAssignmentPage() {
+    const { _id: assignmentId } = useParams();
+    console.log(assignmentId);
+    const { loading, data } = useQuery(GET_ASSIGNMENT,
+        { variables: { assignmentId:`${assignmentId}` } });
+    const assignment = data?.assignment || [];
+    console.log(assignment);
 
-//       <Container>
-//         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-//           <Typography variant="h4" gutterBottom>
-//             Blog
-//           </Typography>
-//           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-//             New Post
-//           </Button>
-//         </Stack>
-//         <Grid container spacing={3}>
-//           {assignments.map((assignment, index) => (
-//             <AssignmentPostCard key={assignment._id} assignment={assignment} index={index} />
-//           ))}
-//         </Grid>
-//       </Container>
-//     </>
-//   );
+    return (
+        <>
+            <Helmet>
+                <title>Assignment Page </title>
+            </Helmet>
+
+                <ThemeProvider theme={theme}>
+                    <Container maxWidth="lg">
+                        
+                        <AssignmentPostCard key={assignment._id} assignment={assignment} index={0} />
+
+                        <Typography variant="h3" align='center' pt={10} color='primary.darker' >
+                            {assignment.title}
+                        </Typography>
+                        <Typography variant="h6" align='center' fontStyle={'italic'} color='primary.main' >
+                           This Assignment will be due on: 
+                        </Typography>
+                        <Typography variant="h6" align='center' underline='always'>
+                           {assignment.due_date}
+                        </Typography>
+                        <Typography  variant="h5" align='center' pt={3} fontStyle={'italic'} color='primary.main' >
+                            This Assignment's Instructions:
+                        </Typography>
+                        <Typography variant="h6" align='center' >
+                            {assignment.question}
+                        </Typography>
+                        <SubmitForm type={'Assignment'} />
+                    </Container>
+
+                </ThemeProvider>
+
+
+        </>
+    );
 }
