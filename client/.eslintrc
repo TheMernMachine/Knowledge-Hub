@@ -25,6 +25,7 @@
     }
   },
   "rules": {
+    "class-methods-use-this": 0,
     "no-new": 0,
     "no-alert": 0,
     "no-shadow": 0,
