@@ -36,10 +36,8 @@ commentSchema.methods.getCreateTime = function () {
 };
 
 
-const commentResolvers = {
+const Comment = model('Comment', commentSchema);
 
-}
-
-module.exports = { commentSchema, commentResolvers };
+module.exports = { Comment };
 
 

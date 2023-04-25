@@ -169,8 +169,8 @@ const resolvers = {
         addCourse: async (parent, { title, description, startDate, endDate, price }) => {
             return courseResolvers.createCourse(title, description, startDate, endDate, price);
         },
-        updateCourse: async (parent, { _id, title, description, price, quiz, assignment, lessonNotes, startDate, endDate }) => {
-            return courseResolvers.updateCourse({ _id, title, description, price, quiz, assignment, lessonNotes, startDate, endDate });
+        updateCourse: async (parent, args) => {
+            return courseResolvers.updateCourse(args);
         },
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });

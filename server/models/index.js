@@ -8,7 +8,8 @@ const { Quiz, quizResolvers } = require('./Quiz');
 const { Role, roleResolvers } = require('./Role');
 const { todoListSchema, todoResolvers } = require('./TodoList');
 const { User, userResolvers } = require('./User');
-const { Comment, commentResolvers } = require('./Comments');
+const { Comment } = require('./Comments');
+const { Response } = require('./Response');
 
 module.exports = {
   Alert, alertResolvers,
@@ -21,4 +22,5 @@ module.exports = {
   Comment, commentResolvers,
   Forum, forumResolvers,
   Quiz, quizResolvers,
+  Response,
 };

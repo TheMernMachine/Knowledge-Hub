@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 const { alertResolvers } = require('./Alerts');
 const { Course } = require('./Course');
+const { Response } = require('./Response');
 
 const assignmentSchema = new Schema({
     // Update to required field once we have the context working
@@ -26,23 +27,7 @@ const assignmentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'alert',
     },
-    assignmentResponse: [
-        {
-            responseText: {
-                type: String,
-            },
-            studentID: {
-                type: Schema.Types.ObjectId,
-                ref: 'user',
-            },
-            rawScore: {
-                type: Number
-            },
-            grade: {
-                type: String
-            },
-        },
-    ],
+    assignmentResponse: [Response.schema]
 
 });
 
