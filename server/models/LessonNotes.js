@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 const { commentSchema } = require('./Comments');
 const dateFormat = require('../utils/dateFormat');
+const { Course } = require('./Course');
 
 const lessonNotes = new Schema({
   title: {
@@ -35,13 +36,22 @@ const lessonNotesResolvers = {
   getSingleLessonNote: async (lessonId) => {
     return await LessonNotes.findOne({ _id: lessonId });
   },
-  createLessonNotes: async (title, content) => {
-    return LessonNotes.create({ title, content });
+  createLessonNotes: async (title, content, courseId) => {
+    let lesson = await LessonNotes.create({ title, content, courseId });
+    await Course.findOneAndUpdate(
+      { _id: courseId },
+      { $push: { lessonNotes: lesson._id } },
+      { new: true }
+    );
+
+    return lesson;
   },
-  deleteLessonNotes: async (lessonId) => {
-    const lesson = await LessonNotes.findOneAndDelete({
-      _id: lessonId,
-    });
+  deleteLessonNotes: async (lessonId, courseId) => {
+    const lesson = await LessonNotes.findOneAndDelete({ _id: lessonId });
+    await Course.findOneAndUpdate(
+      { _id: courseId },
+      { $pull: { lessonNotes: lessonId } }
+    );
     return lesson;
   },
   updateLessonNotes: async (lessonId, title, content) => {

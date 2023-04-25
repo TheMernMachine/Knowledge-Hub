@@ -54,7 +54,7 @@ const typeDefs = gql`
         _id: ID
         title: String
         question: String
-        due_date: String
+        dueDate: String
         alert: Alert
         assignmentResponse: [Response]
     }
@@ -92,7 +92,7 @@ const typeDefs = gql`
         _id: ID
         title: String
         questions: [Questions]
-        due_date: String
+        dueDate: String
         quizResponse: [Response]
     }
 
@@ -154,9 +154,9 @@ const typeDefs = gql`
         updateUser(_id: ID!, firstName: String, lastName: String, email: String, password: String, profilePic: String): User
         setUserStatus(_id: ID!, userId: ID!, status: String!): User
 
-        addAssignment(title: String!, question: String!, due_date: String!): Assignments
-        updateAssignment(_id: ID!, title: String, question: String, due_date: String, alert: String, assignmentResponse: String): Assignments
-        deleteAssignment(_id: ID!): Assignments
+        addAssignment(title: String!, question: String!, dueDate: String!, courseId: ID!): Assignments
+        updateAssignment(_id: ID!, title: String, question: String, dueDate: String, alert: String, assignmentResponse: String): Assignments
+        deleteAssignment(_id: ID!, courseId: ID!): Assignments
 
         addAlert(message:String! ,severity:String!): Alert
         removeAlert(_id: ID!): Alert
@@ -190,9 +190,9 @@ const typeDefs = gql`
         updateForumComment(_id: ID!, commentId: ID!, commentText: String!): Forum
         deleteForumComment(_id: ID!, commentId: ID!): Forum
 
-        addQuiz(title: String!, due_date: String!, quizResponse: String): Quiz
-        updateQuiz(_id: ID!, title: String!, due_date: String!, quizResponse: String): Quiz
-        deleteQuiz(_id: ID!): Quiz
+        addQuiz(title: String!, dueDate: String!, courseId: ID!): Quiz
+        updateQuiz(_id: ID!, title: String!, dueDate: String, quizResponse: String): Quiz
+        deleteQuiz(_id: ID!, courseId: ID!): Quiz
 
         addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz
         updateQuizQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Quiz

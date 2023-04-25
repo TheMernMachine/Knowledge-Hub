@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 const { questionSchema } = require('./Questions');
 const dateFormat = require('../utils/dateFormat');
+const { Course } = require('./Course');
 
 const quizSchema = new Schema({
     title: {
@@ -8,7 +9,7 @@ const quizSchema = new Schema({
         required: true,
     },
     questions: [questionSchema],
-    due_date: {
+    dueDate: {
         type: Date,
         required: true,
         get: (timestamp) => dateFormat(timestamp),
@@ -45,8 +46,13 @@ const quizResolvers = {
         return quiz;
     },
 
-    createQuiz: async (title, due_date, quizResponse) => {
-        const quiz = await Quiz.create({ title, due_date, quizResponse });
+    createQuiz: async (title, dueDate, courseId) => {
+        const quiz = await Quiz.create({ title, dueDate });
+        await Course.findOneAndUpdate(
+            { _id: courseId },
+            { $push: { quiz: quiz._id } },
+            { new: true }
+        );
         return quiz;
     },
 
@@ -55,8 +61,12 @@ const quizResolvers = {
         return quiz;
     },
 
-    deleteQuiz: async (quizId) => {
+    deleteQuiz: async (quizId, courseId) => {
         const quiz = await Quiz.findByIdAndDelete(quizId);
+        await Course.findOneAndUpdate(
+            { quiz: courseId },
+            { $pull: { quiz: quizId } }
+        );
         return quiz;
     },
 

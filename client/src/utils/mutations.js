@@ -43,35 +43,37 @@ export const UPDATE_USER = gql`
 
 // Assignment mutations
 export const ADD_ASSIGNMENT = gql`
-  mutation addAssignment($title: String!, $question: String!, $due_date: String!) {
-    addAssignment(title: $title, question: $question, due_date: $due_date, course: $course) {
+  mutation addAssignment($title: String!, $question: String!, $dueDate: String!, courseId: ID!) {
+    addAssignment(title: $title, question: $question, dueDate: $dueDate, course: $courseId) {
       _id
       title
       question
       alert
+      dueDate
     }
   }
 `;
 
 export const UPDATE_ASSIGNMENT = gql`
-  mutation updateAssignment($_id: ID!, $title: String, $question: String, $due_date: String, $alert: String, $assignmentResponse: String) {
-    updateAssignment(_id: $_id, title: $title, question: $question, due_date: $due_date, alert: $alert, assignmentResponse: $assignmentResponse) {
+  mutation updateAssignment($_id: ID!, $title: String, $question: String, $dueDate: String, $alert: String, $assignmentResponse: String) {
+    updateAssignment(_id: $_id, title: $title, question: $question, dueDate: $dueDate, alert: $alert, assignmentResponse: $assignmentResponse) {
       _id
       title
-      description
+      question
       dueDate
-      course
+      alert
+      assignmentResponse
     }
   }
 `;
 
 export const DELETE_ASSIGNMENT = gql`
-  mutation deleteAssignment($assignmentId: ID!) {
-    deleteAssignment(assignmentId: $assignmentId) {
+  mutation deleteAssignment($assignmentId: ID!, $courseId: ID!) {
+    deleteAssignment(assignmentId: $assignmentId, courseId: $courseId) {
       _id
       title
       question
-      due_date
+      dueDate
       alert
       assignmentResponse
     }

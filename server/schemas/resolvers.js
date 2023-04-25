@@ -143,14 +143,14 @@ const resolvers = {
             return userResolvers.setUserStatus(_id, userId, status);
         },
 
-        addAssignment: async (parent, { title, question, due_date }) => {
-            return assignmentResolvers.createAssignment(title, question, due_date);
+        addAssignment: async (parent, { title, question, dueDate, courseId }) => {
+            return assignmentResolvers.createAssignment(title, question, dueDate, courseId);
         },
         updateAssignment: async (parent, args) => {
             return assignmentResolvers.updateAssignment(args);
         },
-        deleteAssignment: async (parent, { _id }) => {
-            return assignmentResolvers.deleteAssignment({ _id });
+        deleteAssignment: async (parent, { _id, courseId }) => {
+            return assignmentResolvers.deleteAssignment({ _id, courseId });
         },
 
         addTodoList: async (parent, { _id, title, todo, priority }) => {
@@ -227,8 +227,8 @@ const resolvers = {
             return forumResolvers.deleteForumComment(_id, commentId);
         },
 
-        addQuiz: async (parent, { title, questions }) => {
-            return quizResolvers.createQuiz(title, questions);
+        addQuiz: async (parent, { title, dueDate, courseId }) => {
+            return quizResolvers.createQuiz(title, dueDate, courseId);
         },
         updateQuiz: async (parent, { _id, title, questions }) => {
             return quizResolvers.updateQuiz({ _id, title, questions });
