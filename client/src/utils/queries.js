@@ -4,25 +4,25 @@ import { gql } from '@apollo/client';
 // User queries
 export const GET_USERS = gql`
   query users {
-     _id
-    firstName
-    lastName
-    fullName
-    email
-    password
-    dateJoined
-    status
-    role {
+    users {
       _id
-      name
-      permissions
-    }
-    todoLists {
-      priority
-      todo
-      title
-      _id
-    }
+      firstName
+      lastName
+      fullName
+      email
+      dateJoined
+      status
+      role {
+        _id
+        name
+        permissions
+      }
+      todoLists {
+        _id
+        title
+        todo
+        priority
+      }
     }
   }
 `;
@@ -35,7 +35,6 @@ export const GET_USER = gql`
       lastName
       fullName
       email
-      password
       dateJoined
       status
       role {
@@ -61,7 +60,6 @@ export const GET_ME = gql`
       lastName
       fullName
       email
-      password
       dateJoined
       status
       role {
@@ -149,7 +147,7 @@ export const GET_ASSIGNMENTS = gql`
 
 export const GET_ASSIGNMENT = gql`
   query assignment($assignmentId: ID!) {
-    assignment(_id: $id) {
+    assignment(_id: $assignmentId) {
       _id
       title
       question
@@ -175,89 +173,125 @@ export const GET_COURSES = gql`
   query courses {
     courses {
       _id
-    title
-    description
-    price
-    quiz {
-      _id
       title
-      questions {
-        answer
+      description
+      price
+      quiz {
         _id
         title
-        options
+        questions {
+          _id
+          title
+          options
+          answer
+        }
+        due_date
+        quizResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
-      due_date
-      quizResponse {
+      assignment {
         _id
-        responseText
-        student
-        rawScore
-        grade
+        title
+        question
+        due_date
+        alert {
+          _id
+          message
+          severity
+        }
+        assignmentResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
+      lessonNotes {
+        _id
+        title
+        content
+        createdAt
+        updatedAt
+        comments {
+          _id
+          commentText
+          commentAuthor
+          createdAt
+          updatedAt
+        }
+      }
+      startDate
+      endDate
+    }
   }
 `;
 
 export const GET_COURSE = gql`
   query course($courseId: ID!) {
-    course(_id: $Id) {
-      _id
-    title
-    description
-    price
-    quiz {
+    course(_id: $id) {
       _id
       title
-      questions {
+      description
+      price
+      quiz {
         _id
         title
-        options
-        answer
+        questions {
+          _id
+          title
+          options
+          answer
+        }
+        due_date
+        quizResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
-      due_date
-      quizResponse {
+      assignment {
         _id
-        responseText
-        student
-        rawScore
-        grade
+        title
+        question
+        due_date
+        alert {
+          _id
+          message
+          severity
+        }
+        assignmentResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
-    }
-    assignment {
-      _id
-      title
-      question
-      due_date
-      alert {
+      lessonNotes {
         _id
-        message
-        severity
-      }
-      assignmentResponse {
-        _id
-        responseText
-        student
-        rawScore
-        grade
-      }
-    }
-    lessonNotes {
-      _id
-      title
-      content
-      createdAt
-      updatedAt
-      comments {
-        _id
-        commentText
-        commentAuthor
+        title
+        content
         createdAt
         updatedAt
+        comments {
+          _id
+          commentText
+          commentAuthor
+          createdAt
+          updatedAt
+        }
       }
+      startDate
+      endDate
     }
-    startDate
-    endDate
-  }
   }
 `;
 
