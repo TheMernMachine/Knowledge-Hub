@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { HelmetProvider } from 'react-helmet-async';
 // routes
 import Router from './routes';
@@ -8,18 +9,26 @@ import ThemeProvider from './theme';
 import { StyledChart } from './components/chart';
 import ScrollToTop from './components/scroll-to-top';
 
+const client = new ApolloClient({
+  uri: '/graphql',
+  cache: new InMemoryCache(),
+});
+
+
 // ----------------------------------------------------------------------
 
 export default function App() {
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <ThemeProvider>
-          <ScrollToTop />
-          <StyledChart />
-          <Router />
-        </ThemeProvider>
-      </BrowserRouter>
-    </HelmetProvider>
+    <ApolloProvider client={client}>
+      <HelmetProvider>
+        <BrowserRouter>
+          <ThemeProvider>
+            <ScrollToTop />
+            <StyledChart />
+            <Router />
+          </ThemeProvider>
+        </BrowserRouter>
+      </HelmetProvider>
+    </ApolloProvider>
   );
 }
