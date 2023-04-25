@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -35,8 +36,8 @@ const client = new ApolloClient({
 // ----------------------------------------------------------------------
 export default function App() {
   return (
-    <HelmetProvider>
-      <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+      <HelmetProvider>
         <BrowserRouter>
           <ThemeProvider>
             <ScrollToTop />
@@ -44,7 +45,7 @@ export default function App() {
             <Router />
           </ThemeProvider>
         </BrowserRouter>
-      </ApolloProvider>
-    </HelmetProvider>
+      </HelmetProvider>
+    </ApolloProvider>
   );
 }
