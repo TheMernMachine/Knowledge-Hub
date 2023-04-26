@@ -3,6 +3,7 @@ const { questionSchema } = require('./Questions');
 const dateFormat = require('../utils/dateFormat');
 const { Course } = require('./Course');
 const { QuizResponse } = require('./QuizResponse');
+const { getGrade } = require('../utils/dateFormat');
 
 const quizSchema = new Schema({
     title: {
@@ -110,13 +111,33 @@ const quizResolvers = {
         );
     },
 
-    addQuizResponse: async ({ quizId, responses, student }) => {
-        const response = new QuizResponse({ responses, student });
+    addQuizResponse: async ({ quizId, responses, student, rawScore }) => {
+        const grade = getGrade(rawScore);
+        const response = new QuizResponse({ responses, student, rawScore, grade });
 
         const updateQuiz = await Quiz.findByIdAndUpdate(quizId, { $push: { assignmentResponse: response } }, { new: true });
 
         return updateQuiz;
     },
+
+    // gradeQuizResponse(quizId: ID!, responseId: ID!, rawScore: Int!): Assignments
+    // gradeQuizResponse: async ({ quizId, responseId, rawScore }) => {
+    //     const quiz = await Quiz.findOne({ _id: quizId });
+    //     const response = quiz.quizResponse.id(responseId);
+    //     const updatedResponse = {
+    //         _id: responseId,
+    //         responses: response.responses,
+    //         student: response.student,
+    //         rawScore: rawScore,
+    //         grade: getGrade(rawScore)
+    //     };
+
+    //     return await Quiz.findOneAndUpdate(
+    //         { _id: quizId },
+    //         { $set: { quizResponse: { ...updatedResponse } } },
+    //         { new: true }
+    //     );
+    // },
 
     getSingleQuizResponse: async (_id, quizId) => {
         const quiz = await Quiz.findOne({ _id: quizId });
@@ -126,6 +147,11 @@ const quizResolvers = {
     getAllQuizResponse: async (quizId) => {
         const quiz = await Quiz.findOne({ _id: quizId });
         return quiz.quizResponse;
+    },
+
+    getQuizQuestions: async (quizId) => {
+        const quiz = await Quiz.findOne({ _id: quizId });
+        return quiz.questions;
     }
 
 };

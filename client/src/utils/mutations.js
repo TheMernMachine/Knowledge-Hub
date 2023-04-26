@@ -105,6 +105,18 @@ export const ADD_ASSIGNMENT_RESPONSE = gql`
   }
 `;
 
+export const GRADE_ASSIGNMENT_RESPONSE = gql`
+  mutation gradeAssignmentResponse($assignmentId: ID!, $responseId: ID!, $rawScore: Int!) {
+    gradeAssignmentResponse(assignmentId: $assignmentId, responseId: $responseId, rawScore: $rawScore) {
+      _id
+      title
+      question
+      dueDate
+      assignmentResponse
+    }
+  }
+`;
+
 // Alert mutations
 export const ADD_ALERT = gql`
   mutation addAlert($message: String!, $severity: String!) {
@@ -343,7 +355,7 @@ export const ADD_FORUM = gql`
 `;
 
 export const UPDATE_FORUM = gql`
-  mutation updateForum($forumId: ID!, $title: String, $postQuestion: String, $authorId: ID) {
+  mutation updateForum($forumId: ID!, $title: String, $postQuestion: String, $authorId: ID!) {
     updateForum(_id: $forumId, title: $title, postQuestion: $postQuestion, postAuthor: $authorId) {
       _id
       title
@@ -381,7 +393,7 @@ export const ADD_FORUM_COMMENT = gql`
 `;
 
 export const UPDATE_FORUM_COMMENT = gql`
-  mutation updateForumComment($forumId: ID!, $commentId: ID, $commentText: String) {
+  mutation updateForumComment($forumId: ID!, $commentId: ID!, $commentText: String) {
     updateForumComment(_id: $forumId, commentId: $commentId, commentText: $commentText) {
       _id
       title
@@ -407,7 +419,7 @@ export const DELETE_FORUM_COMMENT = gql`
 
 // Quiz mutations
 export const ADD_QUIZ = gql`
-  mutation addQuiz($courseId: ID!, $title: String!, $dueDate: String!!) {
+  mutation addQuiz($courseId: ID!, $title: String!, $dueDate: String!) {
     addQuiz(courseId: $courseId, title: $title, dueDate: $dueDate) {
       _id
       title
@@ -416,34 +428,75 @@ export const ADD_QUIZ = gql`
   }
 `;
 
-// updateQuiz(_id: ID!, title: String!, dueDate: String, quizResponse: String): Quiz;
 export const UPDATE_QUIZ = gql`
-  mutation updateQuiz($quizId: ID!, $commentId: ID, $commentText: String) {
-    updateQuiz(_id: $forumId, commentId: $commentId, commentText: $commentText) {
+  mutation updateQuiz($quizId: ID!, $title: String, $dueDate: String) {
+    updateQuiz(_id: $quizId, title: $title, dueDate: $dueDate) {
       _id
       title
-      postQuestion
-      postAuthor
-      comments
+      questions
+      dueDate
+      quizResponse
     }
   }
 `;
 
-// deleteQuiz(_id: ID!, courseId: ID!): Quiz;
 export const DELETE_QUIZ = gql`
-  mutation deleteQuiz(forumId: ID!, $commentId: ID) {
-    deleteQuiz(_id: $forumId, commentId: $commentId) {
+  mutation deleteQuiz(quizId: ID!, $courseId: ID) {
+    deleteQuiz(_id: $quizId, courseId: $courseId) {
       _id
       title
-      postQuestion
-      postAuthor
-      comments
+      questions
+      dueDate
+      quizResponse
+    }
+  }
+`;
+
+export const ADD_QUIZ_RESPONSE = gql`
+  mutation addQuizResponse($quizId: ID!, $responses: [String]!, $student: ID!, rawScore: Int!) {
+    addQuizResponse(quizId: $quizId, responses: $responses, student: $student, rawScore: $rawScore) {
+      _id
+      title
+      question
+      dueDate
+      assignmentResponse
     }
   }
 `;
 
 
 // Quiz Question mutations
-// addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz;
-// updateQuizQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Quiz;
-// deleteQuizQuestion(_id: ID!, questionId: ID!): Quiz;
+export const ADD_QUIZ_QUESTION = gql`
+  mutation addQuizQuestion($quizId: ID!, $title: String!, $options: [String]!, answer: String!) {
+    addQuizQuestion(_id: $quizId, title: $title, options: $options, answer: $answer) {
+      _id
+      title
+      questions
+      dueDate
+      quizResponse
+    }
+  }
+`;
+
+export const UPDATE_QUIZ_QUESTION = gql`
+  mutation updateQuizQuestion($quizId: ID!, $questionId: ID!, $title: String, , $options: [String], $answer: String) {
+    updateQuizQuestion(_id: $quizId, questionId: $questionId, title: $title, options: $options, answer: $answer) {
+      _id
+      title
+      questions
+      dueDate
+    }
+  }
+`;
+
+export const DELETE_QUIZ_QUESTION = gql`
+  mutation deleteQuizQuestion(quizId: ID!, $questionId: ID) {
+    deleteQuizQuestion(_id: $quizId, questionId: $questionId) {
+      _id
+      title
+      questions
+      dueDate
+      quizResponse
+    }
+  }
+`;

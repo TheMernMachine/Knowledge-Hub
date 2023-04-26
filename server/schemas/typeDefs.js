@@ -43,6 +43,13 @@ const typeDefs = gql`
         grade: String
     }
 
+    type QuizResponse {
+        _id: ID
+        responses: [String]
+        student: ID
+        rawScore: Int
+        grade: String
+    }
 
     type Alert {
         _id: ID
@@ -93,7 +100,7 @@ const typeDefs = gql`
         title: String
         questions: [Questions]
         dueDate: String
-        quizResponse: [Response]
+        quizResponse: [QuizResponse]
     }
 
     type Questions {
@@ -147,7 +154,8 @@ const typeDefs = gql`
         getQuiz: [Quiz]
         getSingleQuiz(_id: ID!): Quiz
         getQuizQuestions(_id: ID!): [Questions]
-
+        getSingleQuizResponse(_id: ID!, quizId: ID!): QuizResponse
+        getAllQuizResponse(quizId: ID!): [QuizResponse]
     }
 
     type Mutation {
@@ -160,6 +168,7 @@ const typeDefs = gql`
         updateAssignment(_id: ID!, title: String, question: String, dueDate: String): Assignments
         deleteAssignment(_id: ID!, courseId: ID!): Assignments
         addAssignmentResponse(assignmentId: ID!, responseText: String!, student: ID!): Assignments
+        gradeAssignmentResponse(assignmentId: ID!, responseId: ID!, rawScore: Int!): Assignments
 
         addAlert(message:String! ,severity:String!): Alert
         removeAlert(_id: ID!): Alert
@@ -194,12 +203,12 @@ const typeDefs = gql`
         deleteForumComment(_id: ID!, commentId: ID!): Forum
 
         addQuiz(title: String!, dueDate: String!, courseId: ID!): Quiz
-        updateQuiz(_id: ID!, title: String!, dueDate: String): Quiz
+        updateQuiz(_id: ID!, title: String, dueDate: String): Quiz
         deleteQuiz(_id: ID!, courseId: ID!): Quiz
-        addQuizResponse(quizId: ID!, responseText: String!, student: ID!): Assignments
+        addQuizResponse(quizId: ID!, responses: [String]!, student: ID!, rawScore: Int!): Assignments
 
         addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz
-        updateQuizQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Quiz
+        updateQuizQuestion(_id: ID!, questionId: ID!, title: String, options: [String], answer: String): Quiz
         deleteQuizQuestion(_id: ID!, questionId: ID!): Quiz
     }
 `

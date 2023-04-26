@@ -109,9 +109,19 @@ const resolvers = {
         },
         getSingleQuiz: async (parent, { _id }) => {
             return quizResolvers.getSingleQuiz(_id);
+        },
+
+        getQuizQuestions: async (parent, { _id }) => {
+            return quizResolvers.getQuizQuestions(_id);
+        },
+
+        getSingleQuizResponse: async (parent, { _id, quizId }) => {
+            return quizResolvers.getSingleQuizResponse(_id, quizId);
+        },
+
+        getAllQuizResponses: async (parent, { quizId }) => {
+            return quizResolvers.getAllQuizResponses(quizId);
         }
-
-
     },
 
     //queries fetch data
@@ -159,6 +169,10 @@ const resolvers = {
         },
         addAssignmentResponse: async (parent, { assignmentId, responseText, student }) => {
             return assignmentResolvers.addAssignmentResponse({ assignmentId, responseText, student });
+        },
+
+        gradeAssignmentResponse: async (parent, { assignmentId, responseId, rawScore }) => {
+            return assignmentResolvers.gradeAssignmentResponse({ assignmentId, responseId, rawScore });
         },
 
         addTodoList: async (parent, { _id, title, todo, priority }) => {
@@ -244,6 +258,14 @@ const resolvers = {
         deleteQuiz: async (parent, { _id }) => {
             return quizResolvers.deleteQuiz(_id);
         },
+
+        addQuizResponse: async (parent, { quizId, responses, student, rawScore }) => {
+            return quizResolvers.addQuizResponse({ quizId, responses, student, rawScore });
+        },
+
+        // gradeQuizResponse: async (parent, { quizId, responseId, rawScore }) => {
+        //     return quizResolvers.gradeQuizResponse({ quizId, responseId, rawScore });
+        // },
 
         addQuizQuestion: async (parent, { _id, title, options, answer }) => {
             return quizResolvers.addQuizQuestion(_id, title, options, answer);

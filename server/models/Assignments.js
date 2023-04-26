@@ -3,6 +3,7 @@ const dateFormat = require('../utils/dateFormat');
 const { alertResolvers } = require('./Alerts');
 const { Course } = require('./Course');
 const { Response } = require('./Response');
+const { getGrade } = require('../utils/dateFormat');
 
 const assignmentSchema = new Schema({
     // Update to required field once we have the context working
@@ -32,7 +33,6 @@ const assignmentSchema = new Schema({
 });
 
 const Assignments = model('assignment', assignmentSchema);
-
 
 const assignmentResolvers = {
     getAssignments: async () => {
@@ -81,6 +81,24 @@ const assignmentResolvers = {
         const updateAssignment = await Assignments.findByIdAndUpdate(assignmentId, { $push: { assignmentResponse: response } }, { new: true }).populate('alert');
 
         return updateAssignment;
+    },
+
+    gradeAssignmentResponse: async ({ assignmentId, responseId, rawScore }) => {
+        const assignment = await Assignments.findOne({ _id: assignmentId });
+        const response = assignment.assignmentResponse.id(responseId);
+        const updatedResponse = {
+            _id: responseId,
+            responseText: response.responseText,
+            student: response.student,
+            rawScore: rawScore,
+            grade: getGrade(rawScore)
+        };
+
+        return await Assignments.findOneAndUpdate(
+            { _id: assignmentId },
+            { $set: { assignmentResponse: { ...updatedResponse } } },
+            { new: true }
+        );
     },
 
     getSingleAssignmentResponse: async (_id, assignmentId) => {
