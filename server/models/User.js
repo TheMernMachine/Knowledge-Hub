@@ -3,6 +3,7 @@ const { AuthenticationError } = require("apollo-server-express");
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 const dateFormat = require('../utils/dateFormat');
+const { signToken } = require('../utils/auth');
 
 const saltRounds = 10;
 const userSchema = new Schema({
@@ -127,8 +128,8 @@ const userResolvers = {
     return await User.findByIdAndUpdate(userId, { status }, { new: true });
   },
 
-  login: async (parent, { email, password }) => {
-    const user = await User.findOne({ email });
+  login: async ({ email, password }) => {
+    const user = await User.findOne({ email: email });
     if (!user) {
       throw new AuthenticationError('Incorrect credentials');
     }

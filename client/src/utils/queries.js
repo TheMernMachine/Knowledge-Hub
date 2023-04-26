@@ -1,28 +1,27 @@
 import { gql } from '@apollo/client';
 
-
 // User queries
 export const GET_USERS = gql`
   query users {
-     _id
-    firstName
-    lastName
-    fullName
-    email
-    password
-    dateJoined
-    status
-    role {
+    users {
       _id
-      name
-      permissions
-    }
-    todoLists {
-      priority
-      todo
-      title
-      _id
-    }
+      firstName
+      lastName
+      fullName
+      email
+      dateJoined
+      status
+      role {
+        _id
+        name
+        permissions
+      }
+      todoLists {
+        _id
+        title
+        todo
+        priority
+      }
     }
   }
 `;
@@ -35,7 +34,6 @@ export const GET_USER = gql`
       lastName
       fullName
       email
-      password
       dateJoined
       status
       role {
@@ -59,9 +57,7 @@ export const GET_ME = gql`
       _id
       firstName
       lastName
-      fullName
       email
-      password
       dateJoined
       status
       role {
@@ -149,7 +145,7 @@ export const GET_ASSIGNMENTS = gql`
 
 export const GET_ASSIGNMENT = gql`
   query assignment($assignmentId: ID!) {
-    assignment(_id: $id) {
+    assignment(_id: $assignmentId) {
       _id
       title
       question
@@ -169,43 +165,136 @@ export const GET_ASSIGNMENT = gql`
     }
   }
 `;
-
 // Course queries
 export const GET_COURSES = gql`
   query courses {
     courses {
       _id
-    title
-    description
-    price
-    quiz {
-      _id
       title
-      questions {
-        answer
+      description
+      price
+      quiz {
         _id
         title
-        options
+        questions {
+          _id
+          title
+          options
+          answer
+        }
+        due_date
+        quizResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
-      due_date
-      quizResponse {
+      assignment {
         _id
-        responseText
-        student
-        rawScore
-        grade
+        title
+        question
+        due_date
+        alert {
+          _id
+          message
+          severity
+        }
+        assignmentResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
+      lessonNotes {
+        _id
+        title
+        content
+        createdAt
+        updatedAt
+        comments {
+          _id
+          commentText
+          commentAuthor
+          createdAt
+          updatedAt
+        }
+      }
+      startDate
+      endDate
+    }
   }
 `;
 
 export const GET_COURSE = gql`
   query course($courseId: ID!) {
-    course(_id: $Id) {
+    course(_id: $id) {
       _id
-    title
-    description
-    price
-    quiz {
+      title
+      description
+      price
+      quiz {
+        _id
+        title
+        questions {
+          _id
+          title
+          options
+          answer
+        }
+        due_date
+        quizResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
+      }
+      assignment {
+        _id
+        title
+        question
+        due_date
+        alert {
+          _id
+          message
+          severity
+        }
+        assignmentResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
+      }
+      lessonNotes {
+        _id
+        title
+        content
+        createdAt
+        updatedAt
+        comments {
+          _id
+          commentText
+          commentAuthor
+          createdAt
+          updatedAt
+        }
+      }
+      startDate
+      endDate
+    }
+  }
+`;
+
+export const GET_QUIZZES = gql`
+  query quizzes {
+    getQuiz {
       _id
       title
       questions {
@@ -223,17 +312,22 @@ export const GET_COURSE = gql`
         grade
       }
     }
-    assignment {
+  }
+`;
+
+export const GET_QUIZ = gql`
+  query quiz($id: ID!) {
+    getSingleQuiz(_id: $id) {
       _id
       title
-      question
-      due_date
-      alert {
+      questions {
         _id
-        message
-        severity
+        title
+        options
+        answer
       }
-      assignmentResponse {
+      due_date
+      quizResponse {
         _id
         responseText
         student
@@ -241,23 +335,6 @@ export const GET_COURSE = gql`
         grade
       }
     }
-    lessonNotes {
-      _id
-      title
-      content
-      createdAt
-      updatedAt
-      comments {
-        _id
-        commentText
-        commentAuthor
-        createdAt
-        updatedAt
-      }
-    }
-    startDate
-    endDate
-  }
   }
 `;
 
