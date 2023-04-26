@@ -3,7 +3,7 @@ const { questionSchema } = require('./Questions');
 const dateFormat = require('../utils/dateFormat');
 const { Course } = require('./Course');
 const { QuizResponse } = require('./QuizResponse');
-const { getGrade } = require('../utils/dateFormat');
+const { getGrade } = require('../utils/helpers');
 
 const quizSchema = new Schema({
     title: {
@@ -14,6 +14,7 @@ const quizSchema = new Schema({
     dueDate: {
         type: Date,
         required: true,
+        default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
     },
     quizResponse: [QuizResponse.schema]
@@ -113,38 +114,22 @@ const quizResolvers = {
 
     addQuizResponse: async ({ quizId, responses, student, rawScore }) => {
         const grade = getGrade(rawScore);
+        console.log("grade: ", grade)
         const response = new QuizResponse({ responses, student, rawScore, grade });
+        console.log("response: ", response);
 
-        const updateQuiz = await Quiz.findByIdAndUpdate(quizId, { $push: { assignmentResponse: response } }, { new: true });
+        const updateQuiz = await Quiz.findByIdAndUpdate(quizId, { $push: { quizResponse: response } }, { new: true });
+        console.log("updateQuiz: ", updateQuiz);
 
         return updateQuiz;
     },
-
-    // gradeQuizResponse(quizId: ID!, responseId: ID!, rawScore: Int!): Assignments
-    // gradeQuizResponse: async ({ quizId, responseId, rawScore }) => {
-    //     const quiz = await Quiz.findOne({ _id: quizId });
-    //     const response = quiz.quizResponse.id(responseId);
-    //     const updatedResponse = {
-    //         _id: responseId,
-    //         responses: response.responses,
-    //         student: response.student,
-    //         rawScore: rawScore,
-    //         grade: getGrade(rawScore)
-    //     };
-
-    //     return await Quiz.findOneAndUpdate(
-    //         { _id: quizId },
-    //         { $set: { quizResponse: { ...updatedResponse } } },
-    //         { new: true }
-    //     );
-    // },
 
     getSingleQuizResponse: async (_id, quizId) => {
         const quiz = await Quiz.findOne({ _id: quizId });
         return quiz.quizResponse.id(_id);
     },
 
-    getAllQuizResponse: async (quizId) => {
+    getAllQuizResponses: async (quizId) => {
         const quiz = await Quiz.findOne({ _id: quizId });
         return quiz.quizResponse;
     },

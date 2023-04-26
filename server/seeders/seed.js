@@ -58,6 +58,7 @@ db.once('open', async () => {
       );
     };
 
+    // Need to update this logic
     for (let i = 0; i < quizSeeds.length; i++) {
       let questions = [];
       for (let j = 0; j < questionSeeds.length; j++) {

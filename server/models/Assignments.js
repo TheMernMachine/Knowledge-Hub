@@ -3,7 +3,7 @@ const dateFormat = require('../utils/dateFormat');
 const { alertResolvers } = require('./Alerts');
 const { Course } = require('./Course');
 const { Response } = require('./Response');
-const { getGrade } = require('../utils/dateFormat');
+const { getGrade } = require('../utils/helpers');
 
 const assignmentSchema = new Schema({
     // Update to required field once we have the context working
@@ -22,6 +22,7 @@ const assignmentSchema = new Schema({
     dueDate: {
         type: Date,
         required: true,
+        default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
     },
     alert: {
@@ -62,7 +63,7 @@ const assignmentResolvers = {
     },
 
     updateAssignment: async (args) => {
-        const assignments = await Assignments.findByIdAndUpdate(args._id, args);
+        const assignments = await Assignments.findByIdAndUpdate(args._id, args, { new: true });
         return assignments;
     },
 
@@ -94,11 +95,8 @@ const assignmentResolvers = {
             grade: getGrade(rawScore)
         };
 
-        return await Assignments.findOneAndUpdate(
-            { _id: assignmentId },
-            { $set: { assignmentResponse: { ...updatedResponse } } },
-            { new: true }
-        );
+        response.set(updatedResponse);
+        return await assignment.save();
     },
 
     getSingleAssignmentResponse: async (_id, assignmentId) => {

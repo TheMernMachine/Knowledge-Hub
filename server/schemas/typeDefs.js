@@ -155,7 +155,7 @@ const typeDefs = gql`
         getSingleQuiz(_id: ID!): Quiz
         getQuizQuestions(_id: ID!): [Questions]
         getSingleQuizResponse(_id: ID!, quizId: ID!): QuizResponse
-        getAllQuizResponse(quizId: ID!): [QuizResponse]
+        getAllQuizResponses(quizId: ID!): [QuizResponse]
     }
 
     type Mutation {
@@ -179,7 +179,7 @@ const typeDefs = gql`
         deleteTodoList(_id: ID!): TodoList
         
         addCourse(title: String!, description: String!, startDate: String!, endDate: String!, price: Float!): Course
-        updateCourse(_id: ID!, title: String, description: String, price: Float, quiz: ID, assignment: ID, lessonNotes: ID, startDate: String, endDate: String): Course
+        updateCourse(_id: ID!, title: String, description: String, price: Float, quiz: [ID], assignment: [ID], lessonNotes: [ID], startDate: String, endDate: String): Course
         deleteCourse(_id: ID!): Course
 
         addRole(name: String!, permissions: [String]!): Role
@@ -205,7 +205,7 @@ const typeDefs = gql`
         addQuiz(title: String!, dueDate: String!, courseId: ID!): Quiz
         updateQuiz(_id: ID!, title: String, dueDate: String): Quiz
         deleteQuiz(_id: ID!, courseId: ID!): Quiz
-        addQuizResponse(quizId: ID!, responses: [String]!, student: ID!, rawScore: Int!): Assignments
+        addQuizResponse(quizId: ID!, responses: [String]!, student: ID!, rawScore: Int!): Quiz
 
         addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz
         updateQuizQuestion(_id: ID!, questionId: ID!, title: String, options: [String], answer: String): Quiz

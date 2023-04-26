@@ -58,7 +58,7 @@ const courseSchema = new Schema({
 
 const courseResolvers = {
     getCourses: async () => {
-        const course = await Course.find({});
+        const course = await Course.find({}).populate('quiz').populate('assignment').populate('lessonNotes');
         return course;
     },
 
