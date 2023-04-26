@@ -58,7 +58,6 @@ export const GET_ME = gql`
       _id
       firstName
       lastName
-      fullName
       email
       dateJoined
       status

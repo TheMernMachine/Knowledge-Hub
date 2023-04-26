@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 // @mui
-import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
+import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Select, MenuItem, InputLabel, FormControl} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/iconify';
@@ -16,7 +16,7 @@ export default function SignUpForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const [userFormData, setUserFormData] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [userFormData, setUserFormData] = useState({ firstName: '', lastName: '', email: '', password: '', role: '' });
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
@@ -47,7 +47,10 @@ export default function SignUpForm() {
       lastName: '',
       email: '',
       password: '',
+      role: '',
     });
+
+    handleClick();
   };
 
   // If the user is already logged in, redirect them to the dashboard
@@ -61,6 +64,7 @@ export default function SignUpForm() {
     navigate('/dashboard', { replace: true });
   };
 
+  isLoggedIn();
   return (
     <>
       <Stack spacing={5}>
@@ -106,9 +110,27 @@ export default function SignUpForm() {
           }}
           required
         />
+        <FormControl fullWidth>
+          <InputLabel id="role-label">Role</InputLabel>
+          <Select 
+            name="role" 
+            labelId='role-label'
+            id="role" 
+            label="role" 
+            onChange={handleInputChange} 
+            value={userFormData.role}
+            sx={{ 
+              color: 'text.secondary',
+            }}
+            required
+          >
+            <MenuItem value="student">Student</MenuItem>
+            <MenuItem value="teacher">Teacher</MenuItem>
+          </Select>
+        </FormControl>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" sx={{ my: 2 }} onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" sx={{ my: 2 }} onClick={handleFormSubmit}>
         Sign Up
       </LoadingButton>
     </>

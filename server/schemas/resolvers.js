@@ -126,6 +126,8 @@ const resolvers = {
 
 
         addUser: async (parent, { firstName, lastName, email, password, role }) => {
+            const roleObj = roleResolvers.findRoleByName(role);
+            role = roleObj._id;
             return userResolvers.createUser({ firstName, lastName, email, password, role });
         },
         login: async (parent, { email, password }) => {

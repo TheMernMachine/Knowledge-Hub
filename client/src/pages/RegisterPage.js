@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
@@ -16,6 +17,7 @@ const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
+  backgroundColor: theme.palette.grey[400],
 }));
 
 const StyledSection = styled('div')(({ theme }) => ({
@@ -43,10 +45,15 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function RegisterPage() {
   const mdUp = useResponsive('up', 'md');
 
+  const navigate = useNavigate();
+
+  const handleLoginRedirect = () => {
+    navigate('/login', { replace: true });
+  }
   return (
     <>
       <Helmet>
-        <title> Register | Minimal UI </title>
+        <title> Register | Knowledge-Hub </title>
       </Helmet>
 
       <StyledRoot>
@@ -61,9 +68,9 @@ export default function RegisterPage() {
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome To KnowledgeZone
+              Hi, Welcome To Knowledge-Hub
             </Typography>
-            <img src="/static/illustrations/illustration_login.png" alt="register" />
+            <img src="/assets/illustrations/illustration_login.png" alt="register" />
           </StyledSection>
         )}
 
@@ -75,7 +82,7 @@ export default function RegisterPage() {
 
             <Typography variant='body2' sx={{ mb: 5 }}>
               Have an account already? {''}
-              <Link variant='subtitle2'>Get Back To Learning</Link>
+              <Link variant='subtitle2' onClick={handleLoginRedirect}>Get Back To Learning</Link>
             </Typography>
 
             <Divider sx={{ my: 3 }}>
