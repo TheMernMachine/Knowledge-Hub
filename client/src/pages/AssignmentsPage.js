@@ -1,10 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
-
-// @mui
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
-// components
 import { GET_ASSIGNMENTS } from '../utils/queries';
 import Iconify from '../components/iconify';
 import AssignmentPostCard from '../sections/@dashboard/blog/AssignmentPostCard';
@@ -35,7 +32,7 @@ export default function AssignmentsPage() {
           {assignments.map((assignment, index) => (
               <AssignmentPostCard key={assignment._id} assignment={assignment} index={index} />
           ))}
-         
+
         </Grid>
       </Container>
     </>
