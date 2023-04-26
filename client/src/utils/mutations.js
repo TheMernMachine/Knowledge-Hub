@@ -58,7 +58,7 @@ export const CHANGE_USER_STATUS = gql`
 
 // Assignment mutations
 export const ADD_ASSIGNMENT = gql`
-  mutation addAssignment($title: String!, $question: String!, $dueDate: String!, courseId: ID!) {
+  mutation addAssignment($title: String!, $question: String!, $dueDate: String!, $courseId: ID!) {
     addAssignment(title: $title, question: $question, dueDate: $dueDate, course: $courseId) {
       _id
       title
@@ -151,7 +151,7 @@ export const UPDATE_ALERT = gql`
 
 // Todo mutations
 export const ADD_TODO_LIST = gql`
-  mutation addTodoList($userId: ID!,$title: String!, $todo: String!, priority: String!) {
+  mutation addTodoList($userId: ID!,$title: String!, $todo: String!, $priority: String!) {
     addTodoList(_id: $userId, title: $title, todo: $todo, priority: $priority) {
       _id
       title
@@ -304,7 +304,7 @@ export const DELETE_LESSON_NOTES = gql`
 
 // Lesson Comment mutations
 export const ADD_LESSON_COMMENT = gql`
-  mutation addLessonComment(lessonId: ID!, commentText: String!, authorId: ID!) {
+  mutation addLessonComment($lessonId: ID!, $commentText: String!, $authorId: ID!) {
     addLessonComment(_id: $lessonId, commentText: $commentText, commentAuthor: $authorId) {
       _id
       title
@@ -330,7 +330,7 @@ export const UPDATE_LESSON_COMMENT = gql`
 `;
 
 export const DELETE_LESSON_COMMENT = gql`
-  mutation deleteLessonComment($lessonId: ID!, commentId: ID!) {
+  mutation deleteLessonComment($lessonId: ID!, $commentId: ID!) {
     deleteLessonComment(_id: $lessonId, commentId: $commentId) {
       _id
       title
@@ -367,7 +367,7 @@ export const UPDATE_FORUM = gql`
 `;
 
 export const DELETE_FORUM = gql`
-  mutation deleteForum(forumId: ID!) {
+  mutation deleteForum($forumId: ID!) {
     deleteForum(_id: $forumId) {
       _id
       title
@@ -405,7 +405,7 @@ export const UPDATE_FORUM_COMMENT = gql`
 `;
 
 export const DELETE_FORUM_COMMENT = gql`
-  mutation deleteForumComment(forumId: ID!, $commentId: ID) {
+  mutation deleteForumComment($forumId: ID!, $commentId: ID) {
     deleteForumComment(_id: $forumId, commentId: $commentId) {
       _id
       title
@@ -441,7 +441,7 @@ export const UPDATE_QUIZ = gql`
 `;
 
 export const DELETE_QUIZ = gql`
-  mutation deleteQuiz(quizId: ID!, $courseId: ID) {
+  mutation deleteQuiz($quizId: ID!, $courseId: ID) {
     deleteQuiz(_id: $quizId, courseId: $courseId) {
       _id
       title
@@ -453,7 +453,7 @@ export const DELETE_QUIZ = gql`
 `;
 
 export const ADD_QUIZ_RESPONSE = gql`
-  mutation addQuizResponse($quizId: ID!, $responses: [String]!, $student: ID!, rawScore: Int!) {
+  mutation addQuizResponse($quizId: ID!, $responses: [String]!, $student: ID!, $rawScore: Int!) {
     addQuizResponse(quizId: $quizId, responses: $responses, student: $student, rawScore: $rawScore) {
       _id
       title
@@ -467,7 +467,7 @@ export const ADD_QUIZ_RESPONSE = gql`
 
 // Quiz Question mutations
 export const ADD_QUIZ_QUESTION = gql`
-  mutation addQuizQuestion($quizId: ID!, $title: String!, $options: [String]!, answer: String!) {
+  mutation addQuizQuestion($quizId: ID!, $title: String!, $options: [String]!, $answer: String!) {
     addQuizQuestion(_id: $quizId, title: $title, options: $options, answer: $answer) {
       _id
       title
@@ -490,7 +490,7 @@ export const UPDATE_QUIZ_QUESTION = gql`
 `;
 
 export const DELETE_QUIZ_QUESTION = gql`
-  mutation deleteQuizQuestion(quizId: ID!, $questionId: ID) {
+  mutation deleteQuizQuestion($quizId: ID!, $questionId: ID) {
     deleteQuizQuestion(_id: $quizId, questionId: $questionId) {
       _id
       title
