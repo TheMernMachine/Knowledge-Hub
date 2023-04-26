@@ -5,25 +5,26 @@ import { gql } from '@apollo/client';
 // User queries
 export const GET_USERS = gql`
   query users {
-    users{
-     _id
-    firstName
-    lastName
-    fullName
-    email
-    dateJoined
-    status
-    role {
+    users {
       _id
-      name
-      permissions
-    }
-    todoLists {
-      priority
-      todo
-      title
-      _id
-    }
+      firstName
+      lastName
+      fullName
+      email
+      password
+      dateJoined
+      status
+      role {
+        _id
+        name
+        permissions
+      }
+      todoLists {
+        _id
+        title
+        todo
+        priority
+      }
     }
   }
 `;
