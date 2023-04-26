@@ -19,7 +19,7 @@ module.exports = {
   todoListSchema, todoResolvers,
   Role, roleResolvers,
   LessonNotes, lessonNotesResolvers,
-  Comment, commentResolvers,
+  Comment,
   Forum, forumResolvers,
   Quiz, quizResolvers,
   Response,

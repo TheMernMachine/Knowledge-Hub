@@ -117,6 +117,8 @@ const typeDefs = gql`
 
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
+        getAllAssignmentResponse(assignmentId: ID!): [Response]
+        getSingleAssignmentResponse(_id: ID!, assignmentId: ID!): Response
 
         alert: [Alert]
 
@@ -155,8 +157,9 @@ const typeDefs = gql`
         setUserStatus(_id: ID!, userId: ID!, status: String!): User
 
         addAssignment(title: String!, question: String!, dueDate: String!, courseId: ID!): Assignments
-        updateAssignment(_id: ID!, title: String, question: String, dueDate: String, alert: String, assignmentResponse: String): Assignments
+        updateAssignment(_id: ID!, title: String, question: String, dueDate: String, alert: String): Assignments
         deleteAssignment(_id: ID!, courseId: ID!): Assignments
+        addAssignmentResponse(assignmentId: ID!, responseText: String!, student: ID!): Assignments
 
         addAlert(message:String! ,severity:String!): Alert
         removeAlert(_id: ID!): Alert
@@ -167,7 +170,7 @@ const typeDefs = gql`
         deleteTodoList(_id: ID!): TodoList
         
         addCourse(title: String!, description: String!, startDate: String!, endDate: String!, price: Float!): Course
-        updateCourse(_id: ID!, title: String, description: String!, price: Float, quiz: ID, assignment: ID, lessonNotes: ID, startDate: String, endDate: String,): Course
+        updateCourse(_id: ID!, title: String, description: String, price: Float, quiz: ID, assignment: ID, lessonNotes: ID, startDate: String, endDate: String,): Course
         deleteCourse(_id: ID!): Course
 
         addRole(name: String!, permissions: [String]!): Role

@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 const { commentSchema } = require('./Comments');
 const dateFormat = require('../utils/dateFormat');
 const { Course } = require('./Course');
+const { Comment } = require('./Comments');
 
 const lessonNotes = new Schema({
   title: {
@@ -25,7 +26,7 @@ const lessonNotes = new Schema({
     get: (timestamp) => dateFormat(timestamp),
     required: true,
   },
-  comments: [commentSchema]
+  comments: [Comment.schema]
 });
 
 const lessonNotesResolvers = {

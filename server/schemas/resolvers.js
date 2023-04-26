@@ -37,6 +37,12 @@ const resolvers = {
         assignment: async (parent, { _id }) => {
             return assignmentResolvers.getSingleAssignment({ _id });
         },
+        getSingleAssignmentResponse: async (parent, { _id, assignmentId }) => {
+            return assignmentResolvers.getSingleAssignmentResponse(_id, assignmentId);
+        },
+        getAllAssignmentResponse: async (parent, { assignmentId }) => {
+            return assignmentResolvers.getAllAssignmentResponse(assignmentId);
+        },
         alert: async () => {
             return alertResolvers.getAlerts();
         },
@@ -124,7 +130,6 @@ const resolvers = {
         },
 
 
-
         addUser: async (parent, { firstName, lastName, email, password, role }) => {
             return userResolvers.createUser({ firstName, lastName, email, password, role });
         },
@@ -151,6 +156,9 @@ const resolvers = {
         },
         deleteAssignment: async (parent, { _id, courseId }) => {
             return assignmentResolvers.deleteAssignment({ _id, courseId });
+        },
+        addAssignmentResponse: async (parent, { assignmentId, responseText, student }) => {
+            return assignmentResolvers.addAssignmentResponse({ assignmentId, responseText, student });
         },
 
         addTodoList: async (parent, { _id, title, todo, priority }) => {

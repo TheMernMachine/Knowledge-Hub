@@ -75,6 +75,24 @@ const assignmentResolvers = {
         return assignments;
     },
 
+    addAssignmentResponse: async ({ assignmentId, responseText, student }) => {
+        const response = new Response({ responseText, student });
+
+        const updateAssignment = await Assignments.findByIdAndUpdate(assignmentId, { $push: { assignmentResponse: response } }, { new: true }).populate('alert');
+
+        return updateAssignment;
+    },
+
+    getSingleAssignmentResponse: async (_id, assignmentId) => {
+        const assignment = await Assignments.findOne({ _id: assignmentId }).populate('alert');
+        return assignment.assignmentResponse.id(_id);
+    },
+
+    getAllAssignmentResponse: async (assignmentId) => {
+        const assignment = await Assignments.findOne({ _id: assignmentId }).populate('alert');
+        return assignment.assignmentResponse;
+    }
+
 };
 
 module.exports = { Assignments, assignmentResolvers };

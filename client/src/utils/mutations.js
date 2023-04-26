@@ -196,31 +196,31 @@ export const DELETE_COURSE = gql`
 
 // Role mutations
 export const ADD_ROLE = gql`
-  mutation addRole($title: String!, $description: String!) {
-    addRole(title: $title, description: $description) {
+  mutation addRole($name: String!, $permissions: [String]!) {
+    addRole(name: $name, permissions: $permissions) {
       _id
-      title
-      description
+      name
+      permissions
     }
   }
 `;
 
 export const UPDATE_ROLE = gql`
-  mutation updateRole($roleId: ID!, $title: String!, $description: String!) {
-    updateRole(roleId: $roleId, title: $title, description: $description) {
+  mutation updateRole($roleId: ID!, $title: String, $permissions: [String]) {
+    updateRole(_id: $roleId, name: $title, permissions: $permissions) {
       _id
-      title
-      description
+      name
+      permissions
     }
   }
 `;
 
 export const DELETE_ROLE = gql`
   mutation deleteRole($roleId: ID!) {
-    deleteRole(roleId: $roleId) {
+    deleteRole(_id: $roleId) {
       _id
-      title
-      description
+      name
+      permissions
     }
   }
 `;

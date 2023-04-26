@@ -40,6 +40,7 @@ const courseSchema = new Schema({
     endDate: {
         type: Date,
         required: true,
+        get: (timestamp) => dateFormat(timestamp),
     },
     teacher: [
         {
@@ -62,7 +63,7 @@ const courseResolvers = {
     },
 
     getSingleCourse: async (args) => {
-        const course = await Course.findById(args);
+        const course = await Course.findById(args).populate('quiz').populate('assignment').populate('lessonNotes');
         return course;
     },
 
@@ -72,7 +73,7 @@ const courseResolvers = {
     },
 
     updateCourse: async (args) => {
-        const course = await Course.findByIdAndUpdate(args._id, args);
+        const course = await Course.findByIdAndUpdate(args._id, args, { new: true });
         return course;
     },
 
