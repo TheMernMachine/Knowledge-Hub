@@ -231,7 +231,7 @@ export const GET_COURSES = gql`
 
 export const GET_COURSE = gql`
   query course($courseId: ID!) {
-    course(_id: $id) {
+    course(_id: $courseId) {
       _id
       title
       description

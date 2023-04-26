@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 //
-import { useQuery } from '@apollo/client';
 import Header from './header';
 import Nav from './nav';
 
