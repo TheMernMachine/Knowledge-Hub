@@ -30,13 +30,28 @@ export const LOGIN_USER = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation updateUser($firstName: String, $lastName: String, $email: String, $password: String) {
-    updateUser(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
+  mutation updateUser($userId: ID!, $firstName: String, $lastName: String, $email: String, $password: String, $profilePic: String) {
+    updateUser(_id: $userId, firstName: $firstName, lastName: $lastName, email: $email, password: $password, profilePic: $profilePic) {
       _id
       firstName
       lastName
       username
       email
+      profilePic
+    }
+  }
+`;
+
+export const CHANGE_USER_STATUS = gql`
+  mutation setUserStatus($adminId: ID, $userId: ID!, $status: String!) {
+    setUserStatus(_id: $adminId, userId: $userId, status: $status) {
+      _id
+      firstName
+      lastName
+      username
+      email
+      profilePic
+      role
     }
   }
 `;
@@ -55,13 +70,12 @@ export const ADD_ASSIGNMENT = gql`
 `;
 
 export const UPDATE_ASSIGNMENT = gql`
-  mutation updateAssignment($_id: ID!, $title: String, $question: String, $dueDate: String, $alert: String, $assignmentResponse: String) {
-    updateAssignment(_id: $_id, title: $title, question: $question, dueDate: $dueDate, alert: $alert, assignmentResponse: $assignmentResponse) {
+  mutation updateAssignment($_id: ID!, $title: String, $question: String, $dueDate: String) {
+    updateAssignment(_id: $_id, title: $title, question: $question, dueDate: $dueDate) {
       _id
       title
       question
       dueDate
-      alert
       assignmentResponse
     }
   }
@@ -69,47 +83,24 @@ export const UPDATE_ASSIGNMENT = gql`
 
 export const DELETE_ASSIGNMENT = gql`
   mutation deleteAssignment($assignmentId: ID!, $courseId: ID!) {
-    deleteAssignment(assignmentId: $assignmentId, courseId: $courseId) {
+    deleteAssignment(_id: $assignmentId, courseId: $courseId) {
       _id
       title
       question
       dueDate
-      alert
       assignmentResponse
     }
   }
 `;
 
-// Todo mutations
-export const ADD_TODO_LIST = gql`
-  mutation addTodoList($title: String!, $todo: String!, priority: String!) {
-    addTodoList(title: $title, todo: $todo, priority: $priority) {
+export const ADD_ASSIGNMENT_RESPONSE = gql`
+  mutation addAssignmentResponse($assignmentId: ID!, $responseText: String!, $student: ID!) {
+    addAssignmentResponse(assignmentId: $assignmentId, responseText: $responseText, student: $student) {
       _id
       title
-      todo
-      priority
-    }
-  }
-`;
-
-export const UPDATE_TODO_LIST = gql`
-  mutation updateTodoList($_id: ID!, $title: String, $todo: String, $priority: String) {
-    updateTodoList(_id: $_id, title: $title, todo: $todo, priority: $priority) {
-      _id
-      title
-      todo
-      priority
-    }
-  }
-`;
-
-export const DELETE_TODO_LIST = gql`
-  mutation deleteTodoList($todoListId: ID!) {
-    deleteTodoList(_id: $todoListId) {
-      _id
-      title
-      todo
-      priority
+      question
+      dueDate
+      assignmentResponse
     }
   }
 `;
@@ -145,10 +136,45 @@ export const UPDATE_ALERT = gql`
   }
 `;
 
+
+// Todo mutations
+export const ADD_TODO_LIST = gql`
+  mutation addTodoList($userId: ID!,$title: String!, $todo: String!, priority: String!) {
+    addTodoList(_id: $userId, title: $title, todo: $todo, priority: $priority) {
+      _id
+      title
+      todo
+      priority
+    }
+  }
+`;
+
+export const UPDATE_TODO_LIST = gql`
+  mutation updateTodoList($todoId: ID!, $title: String, $todo: String, $priority: String) {
+    updateTodoList(_id: $todoId, title: $title, todo: $todo, priority: $priority) {
+      _id
+      title
+      todo
+      priority
+    }
+  }
+`;
+
+export const DELETE_TODO_LIST = gql`
+  mutation deleteTodoList($todoListId: ID!) {
+    deleteTodoList(_id: $todoListId) {
+      _id
+      title
+      todo
+      priority
+    }
+  }
+`;
+
 // Course mutations
 export const ADD_COURSE = gql`
-  mutation addCourse($title: String!, $description: String!, $startDate: String!, $endDate: String!) {
-    addCourse(title: $title, description: $description, startDate: $startDate, endDate: $endDate) {
+  mutation addCourse($title: String!, $description: String!, $startDate: String!, $endDate: String!, $price: Float!) {
+    addCourse(title: $title, description: $description, startDate: $startDate, endDate: $endDate, price: $price) {
       _id
       title
       description
@@ -224,3 +250,200 @@ export const DELETE_ROLE = gql`
     }
   }
 `;
+
+// Lesson Notes mutations
+export const ADD_LESSON_NOTES = gql`
+  mutation addLessonNotes($title: String!, $content: String!) {
+    addLessonComment(title: $title, content: $content) {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const UPDATE_LESSON_NOTES = gql`
+  mutation updateLessonNotes($lessonId: ID!, $title: String, $content: String) {
+    updateLessonNotes(_id: $lessonId, title: $title, content: $content) {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+      comments
+  }
+}
+`;
+
+// deleteLessonNotes(_id: ID!): LessonNotes;
+export const DELETE_LESSON_NOTES = gql`
+  mutation deleteLessonNotes($lessonId: ID!) {
+    deleteLessonNotes(_id: $lessonId) {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+      comments
+  }
+}`;
+
+// Lesson Comment mutations
+export const ADD_LESSON_COMMENT = gql`
+  mutation addLessonComment(lessonId: ID!, commentText: String!, authorId: ID!) {
+    addLessonComment(_id: $lessonId, commentText: $commentText, commentAuthor: $authorId) {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+      comments
+    }
+  }
+`;
+
+export const UPDATE_LESSON_COMMENT = gql`
+  mutation updateLessonComment($lessonId: ID!, $commentId: ID!, $commentText: String!) {
+    updateLessonComment(_id: $lessonId, commentId: $commentId, commentText: $commentText) {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+      comments
+    }
+  }
+`;
+
+export const DELETE_LESSON_COMMENT = gql`
+  mutation deleteLessonComment($lessonId: ID!, commentId: ID!) {
+    deleteLessonComment(_id: $lessonId, commentId: $commentId) {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+      comments
+    }
+  }
+`;
+
+// Forum mutations
+export const ADD_FORUM = gql`
+  mutation addForum($title: String!, $postQuestion: String!, $authorId: ID!) {
+    addForum(title: $title, postQuestion: $postQuestion, postAuthor: $authorId) {
+      _id
+      title
+      postQuestion
+      postAuthor
+    }
+  }
+`;
+
+export const UPDATE_FORUM = gql`
+  mutation updateForum($forumId: ID!, $title: String, $postQuestion: String, $authorId: ID) {
+    updateForum(_id: $forumId, title: $title, postQuestion: $postQuestion, postAuthor: $authorId) {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments
+    }
+  }
+`;
+
+export const DELETE_FORUM = gql`
+  mutation deleteForum(forumId: ID!) {
+    deleteForum(_id: $forumId) {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments
+    }
+  }
+`;
+
+
+// Forum Comment mutations
+export const ADD_FORUM_COMMENT = gql`
+  mutation addForumComment($forumId: ID!, $commentText: String!, $authorId: ID!) {
+    addForumComment(_id: $forumId, commentText: $commentText, commentAuthor: $authorId) {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments
+    }
+  }
+`;
+
+export const UPDATE_FORUM_COMMENT = gql`
+  mutation updateForumComment($forumId: ID!, $commentId: ID, $commentText: String) {
+    updateForumComment(_id: $forumId, commentId: $commentId, commentText: $commentText) {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments
+    }
+  }
+`;
+
+export const DELETE_FORUM_COMMENT = gql`
+  mutation deleteForumComment(forumId: ID!, $commentId: ID) {
+    deleteForumComment(_id: $forumId, commentId: $commentId) {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments
+    }
+  }
+`;
+
+
+// Quiz mutations
+export const ADD_QUIZ = gql`
+  mutation addQuiz($courseId: ID!, $title: String!, $dueDate: String!!) {
+    addQuiz(courseId: $courseId, title: $title, dueDate: $dueDate) {
+      _id
+      title
+      dueDate
+    }
+  }
+`;
+
+// updateQuiz(_id: ID!, title: String!, dueDate: String, quizResponse: String): Quiz;
+export const UPDATE_QUIZ = gql`
+  mutation updateQuiz($quizId: ID!, $commentId: ID, $commentText: String) {
+    updateQuiz(_id: $forumId, commentId: $commentId, commentText: $commentText) {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments
+    }
+  }
+`;
+
+// deleteQuiz(_id: ID!, courseId: ID!): Quiz;
+export const DELETE_QUIZ = gql`
+  mutation deleteQuiz(forumId: ID!, $commentId: ID) {
+    deleteQuiz(_id: $forumId, commentId: $commentId) {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments
+    }
+  }
+`;
+
+
+// Quiz Question mutations
+// addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz;
+// updateQuizQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Quiz;
+// deleteQuizQuestion(_id: ID!, questionId: ID!): Quiz;

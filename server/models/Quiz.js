@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 const { questionSchema } = require('./Questions');
 const dateFormat = require('../utils/dateFormat');
 const { Course } = require('./Course');
+const { QuizResponse } = require('./QuizResponse');
 
 const quizSchema = new Schema({
     title: {
@@ -14,24 +15,9 @@ const quizSchema = new Schema({
         required: true,
         get: (timestamp) => dateFormat(timestamp),
     },
-    quizResponse: [
-        {
-            responseText: {
-                type: [String]
-            },
-            studentID: {
-                type: Schema.Types.ObjectId,
-                ref: 'user',
-            },
-            rawScore: {
-                type: Number
-            },
-            grade: {
-                type: String
-            },
-        },
-    ],
+    quizResponse: [QuizResponse.schema]
 });
+
 const Quiz = model('quiz', quizSchema);
 
 
@@ -123,6 +109,24 @@ const quizResolvers = {
             }
         );
     },
+
+    addQuizResponse: async ({ quizId, responses, student }) => {
+        const response = new QuizResponse({ responses, student });
+
+        const updateQuiz = await Quiz.findByIdAndUpdate(quizId, { $push: { assignmentResponse: response } }, { new: true });
+
+        return updateQuiz;
+    },
+
+    getSingleQuizResponse: async (_id, quizId) => {
+        const quiz = await Quiz.findOne({ _id: quizId });
+        return quiz.quizResponse.id(_id);
+    },
+
+    getAllQuizResponse: async (quizId) => {
+        const quiz = await Quiz.findOne({ _id: quizId });
+        return quiz.quizResponse;
+    }
 
 };
 

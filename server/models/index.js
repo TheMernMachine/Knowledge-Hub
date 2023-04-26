@@ -3,13 +3,14 @@ const { Assignments, assignmentResolvers } = require('./Assignments');
 const { Course, courseResolvers } = require('./Course');
 const { Forum, forumResolvers } = require('./Forum');
 const { LessonNotes, lessonNotesResolvers } = require('./LessonNotes');
-// const {Questions, questionResolvers} = require('./Questions');
+// const { Questions, questionResolvers } = require('./Questions');
 const { Quiz, quizResolvers } = require('./Quiz');
 const { Role, roleResolvers } = require('./Role');
 const { todoListSchema, todoResolvers } = require('./TodoList');
 const { User, userResolvers } = require('./User');
 const { Comment } = require('./Comments');
 const { Response } = require('./Response');
+const { QuizResponse } = require('./QuizResponse');
 
 module.exports = {
   Alert, alertResolvers,
@@ -19,8 +20,7 @@ module.exports = {
   todoListSchema, todoResolvers,
   Role, roleResolvers,
   LessonNotes, lessonNotesResolvers,
-  Comment,
   Forum, forumResolvers,
   Quiz, quizResolvers,
-  Response,
+  Response, QuizResponse, Comment
 };
