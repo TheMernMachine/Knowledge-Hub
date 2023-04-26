@@ -37,6 +37,12 @@ const resolvers = {
         assignment: async (parent, { _id }) => {
             return assignmentResolvers.getSingleAssignment({ _id });
         },
+        getSingleAssignmentResponse: async (parent, { _id, assignmentId }) => {
+            return assignmentResolvers.getSingleAssignmentResponse(_id, assignmentId);
+        },
+        getAllAssignmentResponse: async (parent, { assignmentId }) => {
+            return assignmentResolvers.getAllAssignmentResponse(assignmentId);
+        },
         alert: async () => {
             return alertResolvers.getAlerts();
         },
@@ -103,9 +109,19 @@ const resolvers = {
         },
         getSingleQuiz: async (parent, { _id }) => {
             return quizResolvers.getSingleQuiz(_id);
+        },
+
+        getQuizQuestions: async (parent, { _id }) => {
+            return quizResolvers.getQuizQuestions(_id);
+        },
+
+        getSingleQuizResponse: async (parent, { _id, quizId }) => {
+            return quizResolvers.getSingleQuizResponse(_id, quizId);
+        },
+
+        getAllQuizResponses: async (parent, { quizId }) => {
+            return quizResolvers.getAllQuizResponses(quizId);
         }
-
-
     },
 
     //queries fetch data
@@ -122,7 +138,6 @@ const resolvers = {
         updateAlert: async (parent, { _id, message, severity }) => {
             return alertResolvers.updateAlert({ _id, message, severity });
         },
-
 
 
         addUser: async (parent, { firstName, lastName, email, password, role }) => {
@@ -145,14 +160,21 @@ const resolvers = {
             return userResolvers.setUserStatus(_id, userId, status);
         },
 
-        addAssignment: async (parent, { title, question, due_date, alert, assignmentResponse }) => {
-            return assignmentResolvers.createAssignment(title, question, due_date, alert, assignmentResponse);
+        addAssignment: async (parent, { title, question, dueDate, courseId }) => {
+            return assignmentResolvers.createAssignment(title, question, dueDate, courseId);
         },
-        updateAssignment: async (parent, { _id, title, question, due_date, alert, assignmentResponse }) => {
-            return assignmentResolvers.updateAssignment({ _id, title, question, due_date, alert, assignmentResponse });
+        updateAssignment: async (parent, args) => {
+            return assignmentResolvers.updateAssignment(args);
         },
-        deleteAssignment: async (parent, { _id }) => {
-            return assignmentResolvers.deleteAssignment({ _id });
+        deleteAssignment: async (parent, { _id, courseId }) => {
+            return assignmentResolvers.deleteAssignment({ _id, courseId });
+        },
+        addAssignmentResponse: async (parent, { assignmentId, responseText, student }) => {
+            return assignmentResolvers.addAssignmentResponse({ assignmentId, responseText, student });
+        },
+
+        gradeAssignmentResponse: async (parent, { assignmentId, responseId, rawScore }) => {
+            return assignmentResolvers.gradeAssignmentResponse({ assignmentId, responseId, rawScore });
         },
 
         addTodoList: async (parent, { _id, title, todo, priority }) => {
@@ -168,11 +190,11 @@ const resolvers = {
             return todoResolvers.deleteTodoList(_id);
         },
 
-        addCourse: async (parent, { title, description, startDate, endDate }) => {
-            return courseResolvers.createCourse(title, description, startDate, endDate);
+        addCourse: async (parent, { title, description, startDate, endDate, price }) => {
+            return courseResolvers.createCourse(title, description, startDate, endDate, price);
         },
-        updateCourse: async (parent, { _id, title, description, startDate, endDate }) => {
-            return courseResolvers.updateCourse({ _id, title, description, startDate, endDate });
+        updateCourse: async (parent, args) => {
+            return courseResolvers.updateCourse(args);
         },
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });
@@ -229,8 +251,8 @@ const resolvers = {
             return forumResolvers.deleteForumComment(_id, commentId);
         },
 
-        addQuiz: async (parent, { title, questions }) => {
-            return quizResolvers.createQuiz(title, questions);
+        addQuiz: async (parent, { title, dueDate, courseId }) => {
+            return quizResolvers.createQuiz(title, dueDate, courseId);
         },
         updateQuiz: async (parent, { _id, title, questions }) => {
             return quizResolvers.updateQuiz({ _id, title, questions });
@@ -238,6 +260,14 @@ const resolvers = {
         deleteQuiz: async (parent, { _id }) => {
             return quizResolvers.deleteQuiz(_id);
         },
+
+        addQuizResponse: async (parent, { quizId, responses, student, rawScore }) => {
+            return quizResolvers.addQuizResponse({ quizId, responses, student, rawScore });
+        },
+
+        // gradeQuizResponse: async (parent, { quizId, responseId, rawScore }) => {
+        //     return quizResolvers.gradeQuizResponse({ quizId, responseId, rawScore });
+        // },
 
         addQuizQuestion: async (parent, { _id, title, options, answer }) => {
             return quizResolvers.addQuizQuestion(_id, title, options, answer);

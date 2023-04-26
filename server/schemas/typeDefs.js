@@ -18,6 +18,7 @@ const typeDefs = gql`
         _id: ID
         firstName: String
         lastName: String
+        username: String
         email: String
         password: String
         dateJoined: String
@@ -42,6 +43,13 @@ const typeDefs = gql`
         grade: String
     }
 
+    type QuizResponse {
+        _id: ID
+        responses: [String]
+        student: ID
+        rawScore: Int
+        grade: String
+    }
 
     type Alert {
         _id: ID
@@ -53,7 +61,7 @@ const typeDefs = gql`
         _id: ID
         title: String
         question: String
-        due_date: String
+        dueDate: String
         alert: Alert
         assignmentResponse: [Response]
     }
@@ -91,8 +99,8 @@ const typeDefs = gql`
         _id: ID
         title: String
         questions: [Questions]
-        due_date: String
-        quizResponse: [Response]
+        dueDate: String
+        quizResponse: [QuizResponse]
     }
 
     type Questions {
@@ -116,6 +124,8 @@ const typeDefs = gql`
 
         assignments: [Assignments]
         assignment(_id: ID!): Assignments
+        getAllAssignmentResponse(assignmentId: ID!): [Response]
+        getSingleAssignmentResponse(_id: ID!, assignmentId: ID!): Response
 
         alert: [Alert]
 
@@ -144,7 +154,8 @@ const typeDefs = gql`
         getQuiz: [Quiz]
         getSingleQuiz(_id: ID!): Quiz
         getQuizQuestions(_id: ID!): [Questions]
-
+        getSingleQuizResponse(_id: ID!, quizId: ID!): QuizResponse
+        getAllQuizResponses(quizId: ID!): [QuizResponse]
     }
 
     type Mutation {
@@ -153,9 +164,11 @@ const typeDefs = gql`
         updateUser(_id: ID!, firstName: String, lastName: String, email: String, password: String, profilePic: String): User
         setUserStatus(_id: ID!, userId: ID!, status: String!): User
 
-        addAssignment(title: String!, question: String!, due_date: String!, alert: ID!, assignmentResponse: String): Assignments
-        updateAssignment(_id: ID!, title: String!, question: String!, due_date: String!, alert: String, assignmentResponse: String): Assignments
-        deleteAssignment(_id: ID!): Assignments
+        addAssignment(title: String!, question: String!, dueDate: String!, courseId: ID!): Assignments
+        updateAssignment(_id: ID!, title: String, question: String, dueDate: String): Assignments
+        deleteAssignment(_id: ID!, courseId: ID!): Assignments
+        addAssignmentResponse(assignmentId: ID!, responseText: String!, student: ID!): Assignments
+        gradeAssignmentResponse(assignmentId: ID!, responseId: ID!, rawScore: Int!): Assignments
 
         addAlert(message:String! ,severity:String!): Alert
         removeAlert(_id: ID!): Alert
@@ -165,8 +178,8 @@ const typeDefs = gql`
         updateTodoList(_id: ID!, title: String, todo: String, priority: String): TodoList
         deleteTodoList(_id: ID!): TodoList
         
-        addCourse(title: String!, description: String!, startDate: String!, endDate: String!): Course
-        updateCourse(_id: ID!, title: String!, description: String!, startDate: String, endDate: String!): Course
+        addCourse(title: String!, description: String!, startDate: String!, endDate: String!, price: Float!): Course
+        updateCourse(_id: ID!, title: String, description: String, price: Float, quiz: [ID], assignment: [ID], lessonNotes: [ID], startDate: String, endDate: String): Course
         deleteCourse(_id: ID!): Course
 
         addRole(name: String!, permissions: [String]!): Role
@@ -189,12 +202,13 @@ const typeDefs = gql`
         updateForumComment(_id: ID!, commentId: ID!, commentText: String!): Forum
         deleteForumComment(_id: ID!, commentId: ID!): Forum
 
-        addQuiz(title: String!, due_date: String!, quizResponse: String): Quiz
-        updateQuiz(_id: ID!, title: String!, due_date: String!, quizResponse: String): Quiz
-        deleteQuiz(_id: ID!): Quiz
+        addQuiz(title: String!, dueDate: String!, courseId: ID!): Quiz
+        updateQuiz(_id: ID!, title: String, dueDate: String): Quiz
+        deleteQuiz(_id: ID!, courseId: ID!): Quiz
+        addQuizResponse(quizId: ID!, responses: [String]!, student: ID!, rawScore: Int!): Quiz
 
         addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz
-        updateQuizQuestion(_id: ID!, questionId: ID!, title: String!, options: [String]!, answer: String!): Quiz
+        updateQuizQuestion(_id: ID!, questionId: ID!, title: String, options: [String], answer: String): Quiz
         deleteQuizQuestion(_id: ID!, questionId: ID!): Quiz
     }
 `

@@ -1,6 +1,9 @@
 const { Schema, model } = require('mongoose');
 const { questionSchema } = require('./Questions');
 const dateFormat = require('../utils/dateFormat');
+const { Course } = require('./Course');
+const { QuizResponse } = require('./QuizResponse');
+const { getGrade } = require('../utils/helpers');
 
 const quizSchema = new Schema({
     title: {
@@ -8,29 +11,15 @@ const quizSchema = new Schema({
         required: true,
     },
     questions: [questionSchema],
-    due_date: {
+    dueDate: {
         type: Date,
         required: true,
+        default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
     },
-    quizResponse: [
-        {
-            responseText: {
-                type: [String]
-            },
-            studentID: {
-                type: Schema.Types.ObjectId,
-                ref: 'user',
-            },
-            rawScore: {
-                type: Number
-            },
-            grade: {
-                type: String
-            },
-        },
-    ],
+    quizResponse: [QuizResponse.schema]
 });
+
 const Quiz = model('quiz', quizSchema);
 
 
@@ -45,8 +34,13 @@ const quizResolvers = {
         return quiz;
     },
 
-    createQuiz: async (title, due_date, quizResponse) => {
-        const quiz = await Quiz.create({ title, due_date, quizResponse });
+    createQuiz: async (title, dueDate, courseId) => {
+        const quiz = await Quiz.create({ title, dueDate });
+        await Course.findOneAndUpdate(
+            { _id: courseId },
+            { $push: { quiz: quiz._id } },
+            { new: true }
+        );
         return quiz;
     },
 
@@ -55,8 +49,12 @@ const quizResolvers = {
         return quiz;
     },
 
-    deleteQuiz: async (quizId) => {
+    deleteQuiz: async (quizId, courseId) => {
         const quiz = await Quiz.findByIdAndDelete(quizId);
+        await Course.findOneAndUpdate(
+            { quiz: courseId },
+            { $pull: { quiz: quizId } }
+        );
         return quiz;
     },
 
@@ -113,6 +111,33 @@ const quizResolvers = {
             }
         );
     },
+
+    addQuizResponse: async ({ quizId, responses, student, rawScore }) => {
+        const grade = getGrade(rawScore);
+        console.log("grade: ", grade)
+        const response = new QuizResponse({ responses, student, rawScore, grade });
+        console.log("response: ", response);
+
+        const updateQuiz = await Quiz.findByIdAndUpdate(quizId, { $push: { quizResponse: response } }, { new: true });
+        console.log("updateQuiz: ", updateQuiz);
+
+        return updateQuiz;
+    },
+
+    getSingleQuizResponse: async (_id, quizId) => {
+        const quiz = await Quiz.findOne({ _id: quizId });
+        return quiz.quizResponse.id(_id);
+    },
+
+    getAllQuizResponses: async (quizId) => {
+        const quiz = await Quiz.findOne({ _id: quizId });
+        return quiz.quizResponse;
+    },
+
+    getQuizQuestions: async (quizId) => {
+        const quiz = await Quiz.findOne({ _id: quizId });
+        return quiz.questions;
+    }
 
 };
 
