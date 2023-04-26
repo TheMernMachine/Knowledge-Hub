@@ -9,7 +9,7 @@ import { GET_USERS } from '../utils/queries';
 function StudentsPage() {
   const { isLoading, data, error } = useQuery(GET_USERS);
   console.log(data)
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState || [];
 
   useEffect(() => {
     if (data) {
@@ -27,7 +27,6 @@ function StudentsPage() {
           <div key={student.firstName} className="project-card">
             <h2 className='lastname'>{student.lastName}</h2>
             <h2 className='email'>{student.email}</h2>
-            {/* <img src={student.profilePic} alt={`Profile picture of ${student.firstName} ${student.lastName}`} className='profilePic' /> */}
             <h2 className='dateJoined'>{student.dateJoined}</h2>
             <h2 className='status'>{student.status}</h2>
             <h2 className='role'>{student.role}</h2>
