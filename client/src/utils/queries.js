@@ -11,7 +11,6 @@ export const GET_USERS = gql`
       lastName
       fullName
       email
-      password
       dateJoined
       status
       role {
@@ -100,7 +99,6 @@ export const GET_ME = gql`
       lastName
       fullName
       email
-      password
       dateJoined
       status
       role {
@@ -222,89 +220,125 @@ export const GET_COURSES = gql`
   query courses {
     courses {
       _id
-    title
-    description
-    price
-    quiz {
-      _id
       title
-      questions {
-        answer
+      description
+      price
+      quiz {
         _id
         title
-        options
+        questions {
+          _id
+          title
+          options
+          answer
+        }
+        due_date
+        quizResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
-      due_date
-      quizResponse {
+      assignment {
         _id
-        responseText
-        student
-        rawScore
-        grade
+        title
+        question
+        due_date
+        alert {
+          _id
+          message
+          severity
+        }
+        assignmentResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
+      lessonNotes {
+        _id
+        title
+        content
+        createdAt
+        updatedAt
+        comments {
+          _id
+          commentText
+          commentAuthor
+          createdAt
+          updatedAt
+        }
+      }
+      startDate
+      endDate
+    }
   }
 `;
 
 export const GET_COURSE = gql`
   query course($courseId: ID!) {
-    course(_id: $courseId) {
-      _id
-    title
-    description
-    price
-    quiz {
+    course(_id: $id) {
       _id
       title
-      questions {
+      description
+      price
+      quiz {
         _id
         title
-        options
-        answer
+        questions {
+          _id
+          title
+          options
+          answer
+        }
+        due_date
+        quizResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
-      due_date
-      quizResponse {
+      assignment {
         _id
-        responseText
-        student
-        rawScore
-        grade
+        title
+        question
+        due_date
+        alert {
+          _id
+          message
+          severity
+        }
+        assignmentResponse {
+          _id
+          responseText
+          student
+          rawScore
+          grade
+        }
       }
-    }
-    assignment {
-      _id
-      title
-      question
-      due_date
-      alert {
+      lessonNotes {
         _id
-        message
-        severity
-      }
-      assignmentResponse {
-        _id
-        responseText
-        student
-        rawScore
-        grade
-      }
-    }
-    lessonNotes {
-      _id
-      title
-      content
-      createdAt
-      updatedAt
-      comments {
-        _id
-        commentText
-        commentAuthor
+        title
+        content
         createdAt
         updatedAt
+        comments {
+          _id
+          commentText
+          commentAuthor
+          createdAt
+          updatedAt
+        }
       }
+      startDate
+      endDate
     }
-    startDate
-    endDate
-  }
   }
 `;
 
