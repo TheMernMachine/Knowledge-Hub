@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 
-
 // User queries
 export const GET_USERS = gql`
   query users {
@@ -166,7 +165,6 @@ export const GET_ASSIGNMENT = gql`
     }
   }
 `;
-
 // Course queries
 export const GET_COURSES = gql`
   query courses {
@@ -290,6 +288,52 @@ export const GET_COURSE = gql`
       }
       startDate
       endDate
+    }
+  }
+`;
+
+export const GET_QUIZZES = gql`
+  query quizzes {
+    getQuiz {
+      _id
+      title
+      questions {
+        _id
+        title
+        options
+        answer
+      }
+      due_date
+      quizResponse {
+        _id
+        responseText
+        student
+        rawScore
+        grade
+      }
+    }
+  }
+`;
+
+export const GET_QUIZ = gql`
+  query quiz($id: ID!) {
+    getSingleQuiz(_id: $id) {
+      _id
+      title
+      questions {
+        _id
+        title
+        options
+        answer
+      }
+      due_date
+      quizResponse {
+        _id
+        responseText
+        student
+        rawScore
+        grade
+      }
     }
   }
 `;

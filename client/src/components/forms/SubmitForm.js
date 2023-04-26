@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { Helmet } from 'react-helmet-async';
 import { useQuill } from 'react-quilljs';
 import 'react-quill/dist/quill.snow.css';
 // react-bootstrap
 // @mui
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+import { Link, Container, Typography, Button } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
 // components
 import Logo from '../logo';
