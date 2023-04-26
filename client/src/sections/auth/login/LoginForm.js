@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
@@ -35,14 +35,15 @@ export default function LoginForm() {
       event.preventDefault();
       event.stopPropagation();
     }
-
+    console.log(userFormData)
     try {
       const { data } = await login({ variables: { ...userFormData } });
 
       if (!data) {
         throw new Error('something went wrong!');
       }
-      Auth.login(data.login.token);
+      console.log(data);
+      await Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
     }
@@ -51,6 +52,8 @@ export default function LoginForm() {
       email: '',
       password: '',
     });
+
+    handleClick();
   };
 
 
@@ -96,7 +99,7 @@ export default function LoginForm() {
         </Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleFormSubmit}>
         Login
       </LoadingButton>
     </>

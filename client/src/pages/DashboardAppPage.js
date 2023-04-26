@@ -1,8 +1,11 @@
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
+// useQuery
+import { useQuery } from '@apollo/client';
 // components
 import Iconify from '../components/iconify';
 // sections
@@ -17,12 +20,20 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
-
+import { GET_ME } from '../utils/queries';
+import Auth from '../sections/auth/auth';
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+  // const [user, setUser] = useState(null);
+  const { loading, error, data } = useQuery(GET_ME, {
+    variables: { token: Auth.loggedIn() ? Auth.getToken() : null },
+  });
 
+  // setUser(data.me.user);
+  const user = data?.me.user || {};
+  console.log(user);
   return (
     <>
       <Helmet>
