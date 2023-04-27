@@ -7,7 +7,7 @@ export const GET_USERS = gql`
       _id
       firstName
       lastName
-      fullName
+      username
       email
       dateJoined
       status
@@ -26,28 +26,29 @@ export const GET_USERS = gql`
   }
 `;
 
+// Get a single user by id
 export const GET_USER = gql`
-  query user($userId: ID!) {
-    user(_id: $Id) {
+  query getUser($userId: ID!) {
+    getUser(_id: $userId) {
+    _id
+    firstName
+    lastName
+    username
+    email
+    dateJoined
+    status
+    role {
       _id
-      firstName
-      lastName
-      fullName
-      email
-      dateJoined
-      status
-      role {
-        _id
-        name
-        permissions
-      }
-      todoLists {
-        _id
-        title
-        todo
-        priority
-      }
+      name
+      permissions
     }
+    todoLists {
+      _id
+      title
+      todo
+      priority
+    }
+  }
   }
 `;
 
@@ -57,6 +58,34 @@ export const GET_ME = gql`
       _id
       firstName
       lastName
+      username
+      email
+      password
+      dateJoined
+      status
+      role {
+        _id
+        name
+        permissions
+      }
+      todoLists {
+        _id
+        title
+        todo
+        priority
+      }
+    }
+  }
+`;
+
+// Get a single user by email
+export const GET_USER_BY_EMAIL = gql`
+  query user($email: String!) {
+    user(email: $email) {
+      _id
+      firstName
+      lastName
+      username
       email
       dateJoined
       status
@@ -66,13 +95,13 @@ export const GET_ME = gql`
         permissions
       }
       todoLists {
-        priority
-        todo
-        title
         _id
+        title
+        todo
+        priority
       }
     }
-  }
+}
 `;
 
 // Roles queries
@@ -88,7 +117,7 @@ export const GET_ROLES = gql`
 
 export const GET_ROLE = gql`
   query role($roleId: ID!) {
-    role(_id: $Id) {
+    role(_id: $roleId) {
       _id
       name
       permissions
@@ -96,10 +125,20 @@ export const GET_ROLE = gql`
   }
 `;
 
+export const GET_ROLE_BY_NAME = gql`
+query GetAllQuizResponses($name: String!) {
+  findRoleByName(name: $name) {
+    _id;
+    name;
+    permissions;
+  }
+}
+`;
+
 // TodoList queries
 export const GET_TODOLISTS = gql`
-  query todolists {
-    todolists {
+  query getAllTodoLists {
+    getAllTodoLists {
       _id
       title
       todo
@@ -108,9 +147,10 @@ export const GET_TODOLISTS = gql`
   }
 `;
 
-export const GET_TODOLIST = gql`
-  query getTodoList($todolistId: ID!) {
-    getTodoList(_id: $Id) {
+// Get a single todo list by TodoList id
+export const GET_SINGLE_TODOLIST = gql`
+  query getSingleTodoList($todoId: ID!) {
+    getSingleTodoList(_id: $todoId) {
       _id
       title
       todo
@@ -118,6 +158,29 @@ export const GET_TODOLIST = gql`
     }
   }
 `;
+
+// Get a single user's todo list by the user id
+export const GET_USER_TODOLIST = gql`
+  query getUserTodoLists($userId: ID!) {
+    getUserTodoLists(_id: $userId) {
+      _id
+      title
+      todo
+      priority
+    }
+  }
+`;
+
+export const GET_ALL_ALERTS = gql`
+  query alert {
+    alert {
+      _id
+      message
+      severity
+    }
+  }
+`;
+
 
 // Assignment queries
 export const GET_ASSIGNMENTS = gql`
@@ -165,6 +228,32 @@ export const GET_ASSIGNMENT = gql`
     }
   }
 `;
+
+// Assignment Response queries
+export const GET_ASSIGNMENT_RESPONSES = gql`
+  query getAllAssignmentResponse($assignmentId: ID!) {
+    getAllAssignmentResponse(assignmentId: $assignmentId) {
+      _id
+      responseText
+      student
+      rawScore
+      grade
+    }
+  }
+`;
+
+export const GET_SINGLE_ASSIGNMENT_RESPONSE = gql`
+  query getSingleAssignmentResponse($responseId: ID!, $assignmentId: ID!) {
+    getSingleAssignmentResponse(_id: $responseId, assignmentId: $assignmentId) {
+      _id
+      responseText
+      student
+      rawScore
+      grade
+    }
+  }
+`;
+
 // Course queries
 export const GET_COURSES = gql`
   query courses {
@@ -182,10 +271,10 @@ export const GET_COURSES = gql`
           options
           answer
         }
-        due_date
+        dueDate
         quizResponse {
           _id
-          responseText
+          responses
           student
           rawScore
           grade
@@ -195,7 +284,7 @@ export const GET_COURSES = gql`
         _id
         title
         question
-        due_date
+        dueDate
         alert {
           _id
           message
@@ -225,6 +314,32 @@ export const GET_COURSES = gql`
       }
       startDate
       endDate
+      teacher {
+        _id
+        username
+        email
+        dateJoined
+        status
+        role {
+          _id
+          name
+          permissions
+        }
+        todoLists {
+          _id
+          title
+          todo
+          priority
+        }
+      }
+      students {
+        _id
+        username
+        email
+        password
+        dateJoined
+        status
+      }
     }
   }
 `;
@@ -245,10 +360,10 @@ export const GET_COURSE = gql`
           options
           answer
         }
-        due_date
+        dueDate
         quizResponse {
           _id
-          responseText
+          responses
           student
           rawScore
           grade
@@ -258,7 +373,7 @@ export const GET_COURSE = gql`
         _id
         title
         question
-        due_date
+        dueDate
         alert {
           _id
           message
@@ -288,10 +403,37 @@ export const GET_COURSE = gql`
       }
       startDate
       endDate
+      teacher {
+        _id
+        username
+        email
+        dateJoined
+        status
+        role {
+          _id
+          name
+          permissions
+        }
+        todoLists {
+          _id
+          title
+          todo
+          priority
+        }
+      }
+      students {
+        _id
+        username
+        email
+        password
+        dateJoined
+        status
+      }
     }
   }
 `;
 
+// Quiz queries
 export const GET_QUIZZES = gql`
   query quizzes {
     getQuiz {
@@ -315,9 +457,10 @@ export const GET_QUIZZES = gql`
   }
 `;
 
+// Quiz queries
 export const GET_QUIZ = gql`
-  query quiz($id: ID!) {
-    getSingleQuiz(_id: $id) {
+  query getSingleQuiz($quizId: ID!) {
+    getSingleQuiz(_id: $quizId) {
       _id
       title
       questions {
@@ -338,5 +481,165 @@ export const GET_QUIZ = gql`
   }
 `;
 
+export const GET_SINGLE_QUIZ = gql`
+  query getQuizQuestions($questionId: ID!) {
+    getQuizQuestions(_id: $questionId) {
+      _id
+      title
+      options
+      answer
+    }
+  }
+`;
+
+// Quiz Response queries
+export const GET_SINGLE_QUIZ_RESPONSE = gql`
+  query getSingleQuizResponse($responseId: ID!, $quizId: ID!) {
+    getSingleQuizResponse(_id: $responseId, quizId: $quizId) {
+      _id
+      responses
+      student
+      rawScore
+      grade
+    }
+  }
+`;
+
+export const GET_ALL_QUIZ_RESPONSE = gql`
+  query getAllQuizResponses($quizId: ID!) {
+    getAllQuizResponses(quizId: $quizId) {
+      _id
+      responses
+      student
+      rawScore
+      grade
+    }
+  }
+`;
 
 
+//  Lesson Note queries
+export const GET_LESSON_NOTES = gql`
+  query getAllQuizResponses {
+    lessonNotes {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+      comments {
+        _id
+        commentText
+        commentAuthor
+        createdAt
+        updatedAt
+      }
+    }
+}
+`;
+
+export const GET_SINGLE_LESSON_NOTE = gql`
+  query lessonNote($lessonId: ID!) {
+    lessonNote(_id: $lessonId) {
+      _id
+      title
+      content
+      createdAt
+      updatedAt
+      comments {
+        _id
+        commentText
+        commentAuthor
+        createdAt
+        updatedAt
+      }
+    }
+}
+`;
+
+// Lesson Notes Comment queries
+export const GET_LESSON_COMMENTS = gql`
+  query getLessonComments($lessonId: ID!) {
+    getLessonComments(_id: $lessonId) {
+      _id
+      commentText
+      commentAuthor
+      createdAt
+      updatedAt
+    }
+}
+`;
+
+export const GET_SINGLE_LESSON_COMMENT = gql`
+  query getSingleLessonComment($lessonId: ID!, $commentId: ID!) {
+    getSingleLessonComment(_id: $lessonId, commentId: $commentId) {
+      _id
+      commentText
+      commentAuthor
+      createdAt
+      updatedAt
+    }
+}
+`;
+
+// Forum queries
+export const GET_FORUMS = gql`
+  query getForums {
+    getForum {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments {
+        _id
+        commentText
+        commentAuthor
+        createdAt
+        updatedAt
+      }
+    }
+}
+`;
+
+export const GET_SINGLE_FORUM = gql`
+  query GetSingleForum($forumId: ID!) {
+    getSingleForum(_id: $forumId) {
+      _id
+      title
+      postQuestion
+      postAuthor
+      comments {
+        _id
+        commentText
+        commentAuthor
+        createdAt
+        updatedAt
+      }
+    }
+}
+`;
+
+// Lesson Notes Comment queries
+export const GET_FORUM_COMMENTS = gql`
+  query getForumComments($forumId: ID!) {
+    getForumComments(_id: $forumId) {
+      _id
+      commentText
+      commentAuthor
+      createdAt
+      updatedAt
+    }
+}
+`;
+
+export const GET_SINGLE_FORUM_COMMENT = gql`
+  query getSingleForumComment($forumId: ID!, $commentId: ID!) {
+    getSingleForumComment(_id: $forumId, commentId: $commentId) {
+      _id
+      commentText
+      commentAuthor
+      createdAt
+      updatedAt
+    }
+}
+`;

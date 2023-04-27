@@ -268,7 +268,7 @@ const resolvers = {
 
         // { quizId, title, options, answer; }
         addQuizQuestion: async (parent, args) => {
-            args.quizId = _id;
+            args.quizId = args._id;
             return quizResolvers.addQuizQuestion(args);
         },
         updateQuizQuestion: async (parent, { _id, questionId, title, options, answer }) => {
