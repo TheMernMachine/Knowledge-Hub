@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Lessons on HTML 101",
+    "content": "Deep dive into HTML",
+    "courseTitle": "Introduction to Web Development"
+  },
+  {
+    "title": "MySQL and Workbench SQL 102",
+    "content": "All about SQL",
+    "courseTitle": "Database Design with SQL"
+  },
+  {
+    "title": "NoSQL MongoDB 103",
+    "content": "Learn the latest about NoSQL and MongoDB",
+    "courseTitle": "NoSQL Databases"
+  }
+]

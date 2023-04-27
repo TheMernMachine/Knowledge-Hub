@@ -185,8 +185,8 @@ export const DELETE_TODO_LIST = gql`
 
 // Course mutations
 export const ADD_COURSE = gql`
-  mutation addCourse($title: String!, $description: String!, $startDate: String!, $endDate: String!, $price: Float!) {
-    addCourse(title: $title, description: $description, startDate: $startDate, endDate: $endDate, price: $price) {
+  mutation addCourse($title: String!, $description: String!, $startDate: String!, $endDate: String!, $price: Float!, $teacher: [ID]!) {
+    addCourse(title: $title, description: $description, startDate: $startDate, endDate: $endDate, price: $price, teacher: $teacher) {
       _id
       title
       description
@@ -196,6 +196,7 @@ export const ADD_COURSE = gql`
       price
       startDate
       endDate
+      teacher
     }
   }
 `;
@@ -212,6 +213,8 @@ export const UPDATE_COURSE = gql`
       price
       startDate
       endDate
+      teacher
+      students
     }
   }
 `;
@@ -228,6 +231,8 @@ export const DELETE_COURSE = gql`
       price
       startDate
       endDate
+      teacher
+      students
     }
   }
 `;
@@ -265,8 +270,8 @@ export const DELETE_ROLE = gql`
 
 // Lesson Notes mutations
 export const ADD_LESSON_NOTES = gql`
-  mutation addLessonNotes($title: String!, $content: String!) {
-    addLessonComment(title: $title, content: $content) {
+  mutation addLessonNotes($title: String!, $content: String!, $courseId: ID!) {
+    addLessonComment(title: $title, content: $content, courseId: $courseId) {
       _id
       title
       content

@@ -76,6 +76,8 @@ const typeDefs = gql`
         lessonNotes: [LessonNotes]
         startDate: String
         endDate: String
+        teacher: User
+        students: [User]
     }
 
     type LessonNotes {
@@ -178,7 +180,7 @@ const typeDefs = gql`
         updateTodoList(_id: ID!, title: String, todo: String, priority: String): TodoList
         deleteTodoList(_id: ID!): TodoList
         
-        addCourse(title: String!, description: String!, startDate: String!, endDate: String!, price: Float!): Course
+        addCourse(title: String!, description: String!, startDate: String!, endDate: String!, price: Float!, teacher: ID!): Course
         updateCourse(_id: ID!, title: String, description: String, price: Float, quiz: [ID], assignment: [ID], lessonNotes: [ID], startDate: String, endDate: String): Course
         deleteCourse(_id: ID!): Course
 
@@ -186,7 +188,7 @@ const typeDefs = gql`
         updateRole(_id: ID!, name: String, permissions: [String]): Role
         deleteRole(_id: ID!): Role
 
-        addLessonNotes(title: String!, content: String!): LessonNotes
+        addLessonNotes(title: String!, content: String!, courseId: ID!): LessonNotes
         updateLessonNotes(_id: ID!, title: String, content: String): LessonNotes
         deleteLessonNotes(_id: ID!): LessonNotes
 

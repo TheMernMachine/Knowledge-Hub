@@ -37,7 +37,7 @@ const lessonNotesResolvers = {
   getSingleLessonNote: async (lessonId) => {
     return await LessonNotes.findOne({ _id: lessonId });
   },
-  createLessonNotes: async (title, content, courseId) => {
+  createLessonNotes: async ({ title, content, courseId }) => {
     let lesson = await LessonNotes.create({ title, content, courseId });
     await Course.findOneAndUpdate(
       { _id: courseId },

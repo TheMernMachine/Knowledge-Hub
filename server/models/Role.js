@@ -26,7 +26,7 @@ const roleResolvers = {
         return role;
     },
     findRoleByName: async (name) => {
-        let role = await Role.findOne({ name: name });
+        let role = await Role.findOne({ name: name.toLowerCase() });
         return role;
     },
     createRole: async (name, permissions) => {

@@ -6,11 +6,6 @@ const { Response } = require('./Response');
 const { getGrade } = require('../utils/helpers');
 
 const assignmentSchema = new Schema({
-    // Update to required field once we have the context working
-    examiner: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-    },
     title: {
         type: String,
         required: true,
@@ -46,8 +41,7 @@ const assignmentResolvers = {
         return assignment;
     },
 
-    createAssignment: async (title, question, dueDate, courseId) => {
-        // Updated this to create an alert when a new assignment is created
+    createAssignment: async ({ title, question, dueDate, courseId }) => {
         const message = `Assignment Notice: ${title} is due on ${dueDate}`;
         const newAlert = await alertResolvers.addAlert(message, 'high');
         const alert = newAlert._id;

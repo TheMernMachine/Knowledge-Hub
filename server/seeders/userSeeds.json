@@ -1,50 +1,86 @@
 [
   {
+    "firstName": "Isoyor",
+    "lastName": "Kubiti",
+    "email": "ikubiti@knowledgehub.edu",
+    "password": "password09",
+    "role": "teacher"
+  },
+  {
+    "firstName": "Zeus",
+    "lastName": "Cordeiro",
+    "email": "zcordeiro@knowledgehub.edu",
+    "password": "password10",
+    "role": "teacher"
+  },
+  {
+    "firstName": "Chris",
+    "lastName": "Girard",
+    "email": "cgirard@knowledgehub.edu",
+    "password": "password11",
+    "role": "teacher"
+  },
+  {
+    "firstName": "Austin",
+    "lastName": "McClarren",
+    "email": "mcclarren@knowledgehub.edu",
+    "password": "password12",
+    "role": "admin"
+  },
+  {
     "firstName": "Brian",
     "lastName": "Kernighan",
     "email": "bkernighan@techfriends.dev",
-    "password": "password01"
+    "password": "password01",
+    "role": "student"
   },
   {
     "firstName": "Max",
     "lastName": "Kanat-Alexander",
     "email": "mkanatalexander@techfriends.dev",
-    "password": "password02"
+    "password": "password02",
+    "role": "student"
   },
   {
     "firstName": "Kent",
     "lastName": "Beck",
     "email": "kbeck@techfriends.dev",
-    "password": "password03"
+    "password": "password03",
+    "role": "student"
   },
   {
     "firstName": "Edward",
     "lastName": "Beard",
     "email": "evbeard@techfriends.dev",
-    "password": "password04"
+    "password": "password04",
+    "role": "student"
   },
   {
     "firstName": "Alan",
     "lastName": "Stiff",
     "email": "alanstiffs@techfriends.dev",
-    "password": "password05"
+    "password": "password05",
+    "role": "student"
   },
   {
     "firstName": "Carlsen",
     "lastName": "Hoare",
     "email": "choare@techfriends.dev",
-    "password": "password06"
+    "password": "password06",
+    "role": "student"
   },
   {
     "firstName": "David",
     "lastName": "Thomas",
     "email": "dthomas@techfriends.dev",
-    "password": "password07"
+    "password": "password07",
+    "role": "student"
   },
   {
     "firstName": "Donald",
     "lastName": "Knuth",
     "email": "dknuth@techfriends.dev",
-    "password": "password08"
+    "password": "password08",
+    "role": "student"
   }
 ]
