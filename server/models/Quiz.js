@@ -34,7 +34,7 @@ const quizResolvers = {
         return quiz;
     },
 
-    createQuiz: async (title, dueDate, courseId) => {
+    createQuiz: async ({ title, dueDate, courseId }) => {
         const quiz = await Quiz.create({ title, dueDate });
         await Course.findOneAndUpdate(
             { _id: courseId },
@@ -58,7 +58,7 @@ const quizResolvers = {
         return quiz;
     },
 
-    addQuizQuestion: async (quizId, title, options, answer) => {
+    addQuizQuestion: async ({ quizId, title, options, answer }) => {
         return await Quiz.findOneAndUpdate(
             { _id: quizId },
             {

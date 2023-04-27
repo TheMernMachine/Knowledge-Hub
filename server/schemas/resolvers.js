@@ -141,7 +141,7 @@ const resolvers = {
 
 
         addUser: async (parent, { firstName, lastName, email, password, role }) => {
-            const roleObj = roleResolvers.findRoleByName(role);
+            const roleObj = await roleResolvers.findRoleByName(role);
             role = roleObj._id;
             return userResolvers.createUser({ firstName, lastName, email, password, role });
         },
@@ -160,8 +160,8 @@ const resolvers = {
             return userResolvers.setUserStatus(_id, userId, status);
         },
 
-        addAssignment: async (parent, { title, question, dueDate, courseId }) => {
-            return assignmentResolvers.createAssignment(title, question, dueDate, courseId);
+        addAssignment: async (parent, args) => {
+            return assignmentResolvers.createAssignment(args);
         },
         updateAssignment: async (parent, args) => {
             return assignmentResolvers.updateAssignment(args);
@@ -181,7 +181,7 @@ const resolvers = {
             return todoResolvers.addTodoList(_id, title, todo, priority);
         },
         updateTodoList: async (parent, args, context) => {
-            // We can the user's information from the context
+            // I: We can the user's information from the context
             let todoId = args._id;
             delete args._id;
             return todoResolvers.updateTodoList(todoId, args);
@@ -190,8 +190,9 @@ const resolvers = {
             return todoResolvers.deleteTodoList(_id);
         },
 
-        addCourse: async (parent, { title, description, startDate, endDate, price }) => {
-            return courseResolvers.createCourse(title, description, startDate, endDate, price);
+        // I: We can use the context to get the userId of the teacher creating the course
+        addCourse: async (parent, args, context) => {
+            return courseResolvers.createCourse(args);
         },
         updateCourse: async (parent, args) => {
             return courseResolvers.updateCourse(args);
@@ -210,8 +211,8 @@ const resolvers = {
             return roleResolvers.deleteRole({ _id });
         },
 
-        addLessonNotes: async (parent, { title, content }) => {
-            return lessonNotesResolvers.createLessonNotes(title, content);
+        addLessonNotes: async (parent, args) => {
+            return lessonNotesResolvers.createLessonNotes(args);
         },
         updateLessonNotes: async (parent, { _id, title, content }) => {
             return lessonNotesResolvers.updateLessonNotes(_id, title, content);
@@ -231,8 +232,8 @@ const resolvers = {
             return lessonNotesResolvers.deleteLessonComment(_id, commentId);
         },
 
-        addForum: async (parent, { title, postQuestion, postAuthor }) => {
-            return forumResolvers.createForum(title, postQuestion, postAuthor);
+        addForum: async (parent, args) => {
+            return forumResolvers.createForum(args);
         },
         updateForum: async (parent, { _id, title, postQuestion, postAuthor }) => {
             return forumResolvers.updateForum(_id, title, postQuestion, postAuthor);
@@ -251,8 +252,8 @@ const resolvers = {
             return forumResolvers.deleteForumComment(_id, commentId);
         },
 
-        addQuiz: async (parent, { title, dueDate, courseId }) => {
-            return quizResolvers.createQuiz(title, dueDate, courseId);
+        addQuiz: async (parent, args) => {
+            return quizResolvers.createQuiz(args);
         },
         updateQuiz: async (parent, { _id, title, questions }) => {
             return quizResolvers.updateQuiz({ _id, title, questions });
@@ -265,12 +266,10 @@ const resolvers = {
             return quizResolvers.addQuizResponse({ quizId, responses, student, rawScore });
         },
 
-        // gradeQuizResponse: async (parent, { quizId, responseId, rawScore }) => {
-        //     return quizResolvers.gradeQuizResponse({ quizId, responseId, rawScore });
-        // },
-
-        addQuizQuestion: async (parent, { _id, title, options, answer }) => {
-            return quizResolvers.addQuizQuestion(_id, title, options, answer);
+        // { quizId, title, options, answer; }
+        addQuizQuestion: async (parent, args) => {
+            args.quizId = _id;
+            return quizResolvers.addQuizQuestion(args);
         },
         updateQuizQuestion: async (parent, { _id, questionId, title, options, answer }) => {
             return quizResolvers.updateQuizQuestion(_id, questionId, title, options, answer);

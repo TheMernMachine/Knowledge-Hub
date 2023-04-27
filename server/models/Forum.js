@@ -30,7 +30,7 @@ const forumResolvers = {
         return forum;
     },
 
-    createForum: async (title, postQuestion, postAuthor) => {
+    createForum: async ({ title, postQuestion, postAuthor }) => {
         const forum = await Forum.create({ title, postQuestion, postAuthor });
         return forum;
     },

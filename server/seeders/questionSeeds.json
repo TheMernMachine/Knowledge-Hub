@@ -28,5 +28,38 @@
             "alert('Hello World');"
         ],
         "answer": "alert('Hello World');"
+    },
+    {
+        "title": "___ is the language we use to style an HTML document",
+        "options": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Git",
+            "JQuery"
+        ],
+        "answer": "CSS"
+    },
+    {
+        "title": "The condition in an if / else statement is enclosed within ___.",
+        "options": [
+            "Quotes",
+            "Curly Brackets",
+            "Parenthesis",
+            "Square Brackets",
+            "None of the answers"
+        ],
+        "answer": "Curly Brackets"
+    },
+    {
+        "title": "Arrays in JavaScript can be used to store ___.",
+        "options": [
+            "Numbers",
+            "Strings",
+            "Objects",
+            "Booleans",
+            "All of the answers"
+        ],
+        "answer": "All of the answers"
     }
 ]

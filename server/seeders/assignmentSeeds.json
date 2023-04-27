@@ -2,19 +2,37 @@
     {
         "title": "HTML Elements",
         "question": "What are the most popular tags used in HTML?",
-        "due_date": "2023-04-10",
-        "alert": "This is a big part of your grade"
+        "dueDate": "06/10/2023",
+        "courseTitle": "Introduction to Web Development"
     },
     {
-        "title": "CSS Styling",
-        "question": "What is CSS used for in web design?",
-        "due_date": "2025-05-10",
-        "alert": "This is a low priority"
+        "title": "Relationships in SQL",
+        "question": "What are cardinality, rank, one-to-one relationships, one-to-many relationships, and many-to-many relationships?",
+        "dueDate": "05/23/2025",
+        "courseTitle": "Database Design with SQL"
     },
     {
         "title": "JavaScript Basics",
         "question": "How is JavaScript used within a HTML file?",
-        "due_date": "2022-07-10",
-        "alert": "Dont forget to look at the docs"
+        "dueDate": "07/10/2023",
+        "courseTitle": "Introduction to Web Development"
+    },
+    {
+        "title": "Database Records, Tables, and Fields",
+        "question": "What's the relationship between Tables, Records, and Fields?",
+        "dueDate": "06/15/2023",
+        "courseTitle": "Database Design with SQL"
+    },
+    {
+        "title": "Documents in MongoDB",
+        "question": "How are documents structured in MongoDB?",
+        "dueDate": "06/01/2023",
+        "courseTitle": "NoSQL Databases"
+    },
+    {
+        "title": "Relationships and Joins in NoSQL",
+        "question": "How does MongoDB implement the equivalent relationships between data and join them?",
+        "dueDate": "07/25/2023",
+        "courseTitle": "NoSQL Databases"
     }
 ]
