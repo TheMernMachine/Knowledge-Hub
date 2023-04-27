@@ -11,10 +11,11 @@ const theme = createTheme();
 export default function SinglequizPage() {
     const { _id } = useParams();
     const { loading, data } = useQuery(GET_QUIZ,
-        { variables: { id: `${_id}` } });
+        { variables: { quizId: `${_id}` } });
+
     const quiz = data?.getSingleQuiz || [];
     const questions = quiz.questions || [];
-
+    console.log(quiz);
     return (
         <>
             <Helmet>
@@ -44,15 +45,17 @@ export default function SinglequizPage() {
                         </div>
                         {questions.map((question, index) => (
                             <>
+                            <div key={index}>
                                 <Typography variant="h5" align='center' color='common.black' fontWeight={'bold'} sx={{ m: 2 }} >
                                     {question.title}
                                 </Typography>
 
                                 {question.options.map((option, index) => (
-                                    <Button variant="contained" sx={{ m: 2 }} >
+                                    <Button key={index} variant="contained" sx={{ m: 2 }} >
                                         {option}
                                     </Button>
                                 ))}
+                            </div>
                                 <div>
                                     ______________________________________________________________
                                 </div>

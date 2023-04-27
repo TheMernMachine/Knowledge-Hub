@@ -53,9 +53,16 @@ export default function NewQuizForm() {
         title: '',
         options: [],
         answer: '',
-
     });
 
+    const [quizQuestionArrState, setQuizQuestionArrState] = useState([
+        {
+            id: '',
+            title: '',
+            options: [],
+            answer: '',
+        }
+    ]);
 
     const [addQuiz, { error }] = useMutation(ADD_QUIZ);
     const [addQuizQuestion, { error2 }] = useMutation(ADD_QUIZ_QUESTION);
