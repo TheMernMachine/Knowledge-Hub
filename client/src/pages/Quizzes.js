@@ -9,6 +9,7 @@ import QuizCard from '../sections/@dashboard/Assignments/QuizCard';
 
 export default function QuizzesPage() {
     const { loading, data } = useQuery(GET_QUIZZES);
+    console.log("data: ", data.getQuiz);
     const quizzes = data?.getQuiz || [];
     return (
         <>

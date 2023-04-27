@@ -228,8 +228,8 @@ export const ADD_COURSE = gql`
 `;
 
 export const UPDATE_COURSE = gql`
-  mutation updateCourse($courseId: ID!, $title: String, $description: String, $startDate: String, $endDate: String!, $quiz: [ID], $assignment: [ID], $lessonNotes: [ID], $price: Float) {
-    updateCourse(_id: $courseId, title: $title, description: $description, startDate: $startDate, endDate: $endDate, quiz: $quiz, assignment: $assignment, lessonNotes: $lessonNotes, price: $price) {
+  mutation updateCourse($courseId: ID!, $title: String, $description: String, $startDate: String, $endDate: String!, $price: Float) {
+    updateCourse(_id: $courseId, title: $title, description: $description, startDate: $startDate, endDate: $endDate, price: $price) {
       _id
       title
       description

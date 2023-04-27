@@ -11,7 +11,8 @@ const theme = createTheme();
 export default function SinglequizPage() {
     const { _id } = useParams();
     const { loading, data } = useQuery(GET_QUIZ,
-        { variables: { id: `${_id}` } });
+        { variables: { quizId: `${_id}` } });
+    // console.log("data: ", data.getSingleQuiz);
     const quiz = data?.getSingleQuiz || [];
     const questions = quiz.questions || [];
 

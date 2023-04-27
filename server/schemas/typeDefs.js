@@ -181,7 +181,7 @@ const typeDefs = gql`
         deleteTodoList(_id: ID!): TodoList
         
         addCourse(title: String!, description: String!, startDate: String!, endDate: String!, price: Float!, teacher: ID!): Course
-        updateCourse(_id: ID!, title: String, description: String, price: Float, quiz: [ID], assignment: [ID], lessonNotes: [ID], startDate: String, endDate: String): Course
+        updateCourse(_id: ID!, title: String, description: String, price: Float, startDate: String, endDate: String): Course
         deleteCourse(_id: ID!): Course
 
         addRole(name: String!, permissions: [String]!): Role
