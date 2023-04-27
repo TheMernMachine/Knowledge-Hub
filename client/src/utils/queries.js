@@ -28,8 +28,8 @@ export const GET_USERS = gql`
 
 // Get a single user by id
 export const GET_USER = gql`
-  query getUser($userId: ID!) {
-    getUser(_id: $userId) {
+query GetUser($id: ID!) {
+  getUser(_id: $id) {
     _id
     firstName
     lastName
@@ -49,7 +49,7 @@ export const GET_USER = gql`
       priority
     }
   }
-  }
+}
 `;
 
 export const GET_ME = gql`
@@ -79,6 +79,7 @@ export const GET_ME = gql`
 `;
 
 // Get a single user by email
+
 export const GET_USER_BY_EMAIL = gql`
   query user($email: String!) {
     user(email: $email) {
@@ -125,12 +126,13 @@ export const GET_ROLE = gql`
   }
 `;
 
+// Get a single role by name *** Broken on Main branch ***
 export const GET_ROLE_BY_NAME = gql`
-query GetAllQuizResponses($name: String!) {
+query FindRoleByName($name: String!) {
   findRoleByName(name: $name) {
-    _id;
-    name;
-    permissions;
+    _id
+    name
+    permissions
   }
 }
 `;
