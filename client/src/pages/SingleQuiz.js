@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { Container, Typography, Button } from '@mui/material';
+import { Container, Typography, Button, Link } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GET_QUIZ } from '../utils/queries';
 import Iconify from '../components/iconify';
@@ -24,6 +24,12 @@ export default function SinglequizPage() {
                 <Container maxWidth="lg">
                     <Typography variant="h1" align='center' color='primary.main' fontWeight={'bolder'} >
                         {quiz.title}
+                    </Typography>
+                    <Typography sx={{m: 2}}>
+                        <Link variant="subtitle2" 
+                        onClick={() => window.location.assign('/dashboard/quizzes')}
+                        sx={{ cursor: 'pointer', textAlign: 'center' }}
+                        >Cancel</Link>
                     </Typography>
                     <Typography variant="h6" align='center' fontStyle={'italic'} color='primary.light' >
                         This quiz will be due on:
