@@ -9,6 +9,19 @@ export const GET_USERS = gql`
       lastName
       fullName
       email
+      students{
+        _id
+        firstName
+        lastName
+        dateJoined
+        email
+      }
+      teacher{
+        _id
+        firstName
+        lastName
+
+      }
       dateJoined
       status
       role {

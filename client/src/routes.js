@@ -13,7 +13,7 @@ import RegisterPage from './pages/RegisterPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
-
+import StudentsPage from './pages/studentPage';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -31,6 +31,7 @@ export default function Router() {
         { path: 'assignment/:_id', element: <SingleAssignmentPage /> },
         { path: 'quizzes', element: <QuizzesPage /> },
         { path: 'quiz/:_id', element: <QuizPage /> },
+        { path: 'students', element: <StudentsPage /> },
       ],
     },
     {
