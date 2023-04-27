@@ -51,7 +51,10 @@ export const CHANGE_USER_STATUS = gql`
       username
       email
       profilePic
-      role
+      role {
+        _id
+        name
+      }
     }
   }
 `;
@@ -63,7 +66,11 @@ export const ADD_ASSIGNMENT = gql`
       _id
       title
       question
-      alert
+      alert {
+        _id
+        message
+        severity
+      }
       dueDate
     }
   }
@@ -76,7 +83,9 @@ export const UPDATE_ASSIGNMENT = gql`
       title
       question
       dueDate
-      assignmentResponse
+      assignmentResponse {
+        _id
+      }
     }
   }
 `;
@@ -88,7 +97,9 @@ export const DELETE_ASSIGNMENT = gql`
       title
       question
       dueDate
-      assignmentResponse
+      assignmentResponse {
+        _id
+      }
     }
   }
 `;
@@ -100,7 +111,9 @@ export const ADD_ASSIGNMENT_RESPONSE = gql`
       title
       question
       dueDate
-      assignmentResponse
+      assignmentResponse {
+        _id
+      }
     }
   }
 `;
@@ -112,7 +125,9 @@ export const GRADE_ASSIGNMENT_RESPONSE = gql`
       title
       question
       dueDate
-      assignmentResponse
+      assignmentResponse {
+        _id
+      }
     }
   }
 `;
@@ -190,13 +205,24 @@ export const ADD_COURSE = gql`
       _id
       title
       description
-      quiz
-      assignment
-      lessonNotes
+      quiz {
+        _id
+      }
+      assignment {
+        _id
+      }
+      lessonNotes {
+        _id
+      }
       price
       startDate
       endDate
-      teacher
+      teacher {
+        _id
+      }
+      students {
+        _id
+      }
     }
   }
 `;
@@ -207,14 +233,24 @@ export const UPDATE_COURSE = gql`
       _id
       title
       description
-      quiz
-      assignment
-      lessonNotes
+      quiz {
+        _id
+      }
+      assignment {
+        _id
+      }
+      lessonNotes {
+        _id
+      }
       price
       startDate
       endDate
-      teacher
-      students
+      teacher {
+        _id
+      }
+      students {
+        _id
+      }
     }
   }
 `;
@@ -225,14 +261,24 @@ export const DELETE_COURSE = gql`
       _id
       title
       description
-      quiz
-      assignment
-      lessonNotes
+      quiz {
+        _id
+      }
+      assignment {
+        _id
+      }
+      lessonNotes {
+        _id
+      }
       price
       startDate
       endDate
-      teacher
-      students
+      teacher {
+        _id
+      }
+      students {
+        _id
+      }
     }
   }
 `;
@@ -289,7 +335,15 @@ export const UPDATE_LESSON_NOTES = gql`
       content
       createdAt
       updatedAt
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
   }
 }
 `;
@@ -303,7 +357,15 @@ export const DELETE_LESSON_NOTES = gql`
       content
       createdAt
       updatedAt
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
   }
 }`;
 
@@ -316,7 +378,15 @@ export const ADD_LESSON_COMMENT = gql`
       content
       createdAt
       updatedAt
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -329,7 +399,15 @@ export const UPDATE_LESSON_COMMENT = gql`
       content
       createdAt
       updatedAt
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -342,7 +420,15 @@ export const DELETE_LESSON_COMMENT = gql`
       content
       createdAt
       updatedAt
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -354,7 +440,9 @@ export const ADD_FORUM = gql`
       _id
       title
       postQuestion
-      postAuthor
+      postAuthor {
+        _id
+      }
     }
   }
 `;
@@ -366,7 +454,15 @@ export const UPDATE_FORUM = gql`
       title
       postQuestion
       postAuthor
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -378,7 +474,15 @@ export const DELETE_FORUM = gql`
       title
       postQuestion
       postAuthor
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -392,7 +496,15 @@ export const ADD_FORUM_COMMENT = gql`
       title
       postQuestion
       postAuthor
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -404,7 +516,15 @@ export const UPDATE_FORUM_COMMENT = gql`
       title
       postQuestion
       postAuthor
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -416,7 +536,15 @@ export const DELETE_FORUM_COMMENT = gql`
       title
       postQuestion
       postAuthor
-      comments
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -438,9 +566,22 @@ export const UPDATE_QUIZ = gql`
     updateQuiz(_id: $quizId, title: $title, dueDate: $dueDate) {
       _id
       title
-      questions
+      questions {
+        _id
+        title
+        options
+        answer
+      }
       dueDate
-      quizResponse
+      quizResponse {
+        _id
+        responses
+        student {
+          _id
+        }
+        rawScore
+        grade
+      }
     }
   }
 `;
@@ -450,9 +591,22 @@ export const DELETE_QUIZ = gql`
     deleteQuiz(_id: $quizId, courseId: $courseId) {
       _id
       title
-      questions
+      questions {
+        _id
+        title
+        options
+        answer
+      }
       dueDate
-      quizResponse
+      quizResponse {
+        _id
+        responses
+        student {
+          _id
+        }
+        rawScore
+        grade
+      }
     }
   }
 `;
@@ -462,9 +616,22 @@ export const ADD_QUIZ_RESPONSE = gql`
     addQuizResponse(quizId: $quizId, responses: $responses, student: $student, rawScore: $rawScore) {
       _id
       title
-      question
+      questions {
+        _id
+        title
+        options
+        answer
+      }
       dueDate
-      assignmentResponse
+      quizResponse {
+        _id
+        responses
+        student {
+          _id
+        }
+        rawScore
+        grade
+      }
     }
   }
 `;
@@ -476,9 +643,22 @@ export const ADD_QUIZ_QUESTION = gql`
     addQuizQuestion(_id: $quizId, title: $title, options: $options, answer: $answer) {
       _id
       title
-      questions
+      questions {
+        _id
+        title
+        options
+        answer
+      }
       dueDate
-      quizResponse
+      quizResponse {
+        _id
+        responses
+        student {
+          _id
+        }
+        rawScore
+        grade
+      }
     }
   }
 `;
@@ -488,7 +668,12 @@ export const UPDATE_QUIZ_QUESTION = gql`
     updateQuizQuestion(_id: $quizId, questionId: $questionId, title: $title, options: $options, answer: $answer) {
       _id
       title
-      questions
+      questions {
+        _id
+        title
+        options
+        answer
+      }
       dueDate
     }
   }
@@ -499,9 +684,22 @@ export const DELETE_QUIZ_QUESTION = gql`
     deleteQuizQuestion(_id: $quizId, questionId: $questionId) {
       _id
       title
-      questions
+      questions {
+        _id
+        title
+        options
+        answer
+      }
       dueDate
-      quizResponse
+      quizResponse {
+        _id
+        responses
+        student {
+          _id
+        }
+        rawScore
+        grade
+      }
     }
   }
 `;
