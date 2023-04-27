@@ -3,8 +3,10 @@ import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 import AssignmentPage from './pages/AssignmentsPage';
 import SingleAssignmentPage from './pages/SingleAssignmentPage';
+import NewAssignmentForm from './components/forms/NewAssignmentForm';
 import QuizzesPage from './pages/Quizzes';
 import QuizPage from './pages/SingleQuiz';
+import NewQuizForm from './components/forms/NewQuizForm';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -14,10 +16,11 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 
+
 // ----------------------------------------------------------------------
 // test imports
 
-import NewAssignmentForm from './components/forms/NewAssignmentForm';
+
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +49,7 @@ export default function Router() {
         { path: 'assignments/new', element: <NewAssignmentForm />},
         { path: 'quizzes', element: <QuizzesPage /> },
         { path: 'quiz/:_id', element: <QuizPage /> },
+        { path: 'quizzes/new', element: <NewQuizForm />},
       ],
     },
     {

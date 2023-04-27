@@ -21,7 +21,7 @@ export default function QuizzesPage() {
                     <Typography variant="h4" gutterBottom>
                         Quiz
                     </Typography>
-                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => window.location.assign('/dashboard/quizzes/new')}>
                         New Quiz
                     </Button>
                 </Stack>

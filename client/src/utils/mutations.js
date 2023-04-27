@@ -282,7 +282,6 @@ export const DELETE_COURSE = gql`
     }
   }
 `;
-
 // Role mutations
 export const ADD_ROLE = gql`
   mutation addRole($name: String!, $permissions: [String]!) {
@@ -552,11 +551,24 @@ export const DELETE_FORUM_COMMENT = gql`
 
 // Quiz mutations
 export const ADD_QUIZ = gql`
-  mutation addQuiz($courseId: ID!, $title: String!, $dueDate: String!) {
-    addQuiz(courseId: $courseId, title: $title, dueDate: $dueDate) {
+  mutation addQuiz($title: String!, $dueDate: String!, $courseId: ID!) {
+    addQuiz(title: $title, dueDate: $dueDate, courseId: $courseId) {
       _id
       title
+      questions {
+        _id
+        title
+        options
+        answer
+      }
       dueDate
+      quizResponse {
+        _id
+        responses
+        student
+        rawScore
+        grade
+      }
     }
   }
 `;
@@ -639,8 +651,8 @@ export const ADD_QUIZ_RESPONSE = gql`
 
 // Quiz Question mutations
 export const ADD_QUIZ_QUESTION = gql`
-  mutation addQuizQuestion($quizId: ID!, $title: String!, $options: [String]!, $answer: String!) {
-    addQuizQuestion(_id: $quizId, title: $title, options: $options, answer: $answer) {
+  mutation addQuizQuestion($id: ID!, $title: String!, $options: [String]!, $answer: String!) {
+    addQuizQuestion(_id: $id, title: $title, options: $options, answer: $answer) {
       _id
       title
       questions {
@@ -653,9 +665,7 @@ export const ADD_QUIZ_QUESTION = gql`
       quizResponse {
         _id
         responses
-        student {
-          _id
-        }
+        student
         rawScore
         grade
       }
