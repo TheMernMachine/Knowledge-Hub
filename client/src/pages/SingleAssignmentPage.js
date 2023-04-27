@@ -13,7 +13,7 @@ export default function SingleAssignmentPage() {
     const { _id: assignmentId } = useParams();
     console.log(assignmentId);
     const { loading, data } = useQuery(GET_ASSIGNMENT,
-        { variables: { assignmentId: `${assignmentId}` } });
+        { variables: { id: `${assignmentId}` } });
     const assignment = data?.assignment || [];
     console.log(assignment);
 
@@ -35,7 +35,7 @@ export default function SingleAssignmentPage() {
                         This Assignment will be due on:
                     </Typography>
                     <Typography variant="h6" align='center' underline='always'>
-                        {assignment.due_date}
+                        {assignment.dueDate}
                     </Typography>
                     <Typography variant="h5" align='center' pt={3} fontStyle={'italic'} color='primary.main' >
                         This Assignment's Instructions:

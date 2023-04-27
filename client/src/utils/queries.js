@@ -184,43 +184,43 @@ export const GET_ALL_ALERTS = gql`
 
 // Assignment queries
 export const GET_ASSIGNMENTS = gql`
-  query assignments {
-    assignments {
+query assignments {
+  assignments {
+    _id
+    title
+    question
+    dueDate
+    alert {
       _id
-      title
-      question
-      due_date
-      alert {
-        _id
-        message
-        severity
-      }
-      assignmentResponse {
-        responseText
-        _id
-        student
-        rawScore
-        grade
-      }
+      message
+      severity
+    }
+    assignmentResponse {
+      _id
+      responseText
+      student
+      rawScore
+      grade
     }
   }
+}
 `;
 
 export const GET_ASSIGNMENT = gql`
-  query assignment($assignmentId: ID!) {
-    assignment(_id: $assignmentId) {
+  query assignment($id: ID!) {
+    assignment(_id: $id) {
       _id
       title
       question
-      due_date
+      dueDate
       alert {
         _id
         message
         severity
       }
       assignmentResponse {
-        responseText
         _id
+        responseText
         student
         rawScore
         grade
@@ -445,10 +445,10 @@ export const GET_QUIZZES = gql`
         options
         answer
       }
-      due_date
+      dueDate
       quizResponse {
         _id
-        responseText
+        responses
         student
         rawScore
         grade
@@ -469,10 +469,10 @@ export const GET_QUIZ = gql`
         options
         answer
       }
-      due_date
+      dueDate
       quizResponse {
         _id
-        responseText
+        responses
         student
         rawScore
         grade
