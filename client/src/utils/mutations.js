@@ -58,15 +58,26 @@ export const CHANGE_USER_STATUS = gql`
 
 // Assignment mutations
 export const ADD_ASSIGNMENT = gql`
-  mutation addAssignment($title: String!, $question: String!, $dueDate: String!, $courseId: ID!) {
-    addAssignment(title: $title, question: $question, dueDate: $dueDate, course: $courseId) {
+mutation Mutation($title: String!, $question: String!, $dueDate: String!, $courseId: ID!) {
+  addAssignment(title: $title, question: $question, dueDate: $dueDate, courseId: $courseId) {
+    _id
+    title
+    question
+    dueDate
+    alert {
       _id
-      title
-      question
-      alert
-      dueDate
+      message
+      severity
+    }
+    assignmentResponse {
+      _id
+      responseText
+      student
+      rawScore
+      grade
     }
   }
+}
 `;
 
 export const UPDATE_ASSIGNMENT = gql`

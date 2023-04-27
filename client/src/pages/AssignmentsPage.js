@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 import { GET_ASSIGNMENTS } from '../utils/queries';
 import Iconify from '../components/iconify';
@@ -10,9 +10,16 @@ import AssignmentPostCard from '../sections/@dashboard/Assignments/AssignmentPos
 // ----------------------------------------------------------------------
 
 export default function AssignmentsPage() {
+  const navigate = useNavigate();
   const { loading, data } = useQuery(GET_ASSIGNMENTS);
   console.log(data)
   const assignments = data?.assignments || [];
+
+  const handleOnClick = () => {
+    const url = '/dashboard/assignments/new';
+    navigate(url);
+  }
+
   return (
     <>
       <Helmet>
@@ -24,7 +31,7 @@ export default function AssignmentsPage() {
           <Typography variant="h4" gutterBottom>
             Assignments
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button onClick={handleOnClick} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Assignment
           </Button>
         </Stack>

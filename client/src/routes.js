@@ -15,6 +15,11 @@ import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 
 // ----------------------------------------------------------------------
+// test imports
+
+import NewAssignmentForm from './components/forms/NewAssignmentForm';
+
+// ----------------------------------------------------------------------
 
 export default function Router() {
   
@@ -38,6 +43,7 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'assignments', element: <AssignmentPage /> },
         { path: 'assignment/:_id', element: <SingleAssignmentPage /> },
+        { path: 'assignments/new', element: <NewAssignmentForm />},
         { path: 'quizzes', element: <QuizzesPage /> },
         { path: 'quiz/:_id', element: <QuizPage /> },
       ],
