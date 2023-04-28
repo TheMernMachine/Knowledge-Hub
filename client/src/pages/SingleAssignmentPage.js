@@ -13,7 +13,7 @@ export default function SingleAssignmentPage() {
     const { _id: assignmentId } = useParams();
     console.log(assignmentId);
     const { loading, data } = useQuery(GET_ASSIGNMENT,
-        { variables: { id: `${assignmentId}` } });
+    { variables: { id: `${assignmentId}` } });
     const assignment = data?.assignment || [];
     console.log(assignment);
 
