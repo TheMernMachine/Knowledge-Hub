@@ -317,27 +317,19 @@ export const GET_COURSES = gql`
       endDate
       teacher {
         _id
+        firstName
+        lastName
         username
         email
         dateJoined
         status
-        role {
-          _id
-          name
-          permissions
-        }
-        todoLists {
-          _id
-          title
-          todo
-          priority
-        }
       }
       students {
         _id
+        firstName
+        lastName
         username
         email
-        password
         dateJoined
         status
       }
@@ -406,27 +398,19 @@ export const GET_COURSE = gql`
       endDate
       teacher {
         _id
+        firstName
+        lastName
         username
         email
         dateJoined
         status
-        role {
-          _id
-          name
-          permissions
-        }
-        todoLists {
-          _id
-          title
-          todo
-          priority
-        }
       }
       students {
         _id
+        firstName
+        lastName
         username
         email
-        password
         dateJoined
         status
       }
@@ -521,7 +505,7 @@ export const GET_ALL_QUIZ_RESPONSE = gql`
 
 //  Lesson Note queries
 export const GET_LESSON_NOTES = gql`
-  query getAllQuizResponses {
+  query lessonNotes {
     lessonNotes {
       _id
       title

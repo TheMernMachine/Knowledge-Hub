@@ -337,9 +337,7 @@ export const UPDATE_LESSON_NOTES = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -359,9 +357,7 @@ export const DELETE_LESSON_NOTES = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -380,9 +376,7 @@ export const ADD_LESSON_COMMENT = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -401,9 +395,7 @@ export const UPDATE_LESSON_COMMENT = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -422,9 +414,7 @@ export const DELETE_LESSON_COMMENT = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -439,9 +429,7 @@ export const ADD_FORUM = gql`
       _id
       title
       postQuestion
-      postAuthor {
-        _id
-      }
+      postAuthor
     }
   }
 `;
@@ -456,9 +444,7 @@ export const UPDATE_FORUM = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -476,9 +462,7 @@ export const DELETE_FORUM = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -498,9 +482,7 @@ export const ADD_FORUM_COMMENT = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -518,9 +500,7 @@ export const UPDATE_FORUM_COMMENT = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -538,9 +518,7 @@ export const DELETE_FORUM_COMMENT = gql`
       comments {
         _id
         commentText
-        commentAuthor {
-          _id
-        }
+        commentAuthor
         createdAt
         updatedAt
       }
@@ -686,9 +664,7 @@ export const DELETE_QUIZ_QUESTION = gql`
       quizResponse {
         _id
         responses
-        student {
-          _id
-        }
+        student
         rawScore
         grade
       }
