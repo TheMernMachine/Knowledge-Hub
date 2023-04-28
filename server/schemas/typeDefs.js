@@ -114,6 +114,12 @@ const typeDefs = gql`
         answer: String
     }
 
+    type Question {
+        title: String
+        options: [String]
+        answer: String
+    }
+
 
     type Auth {
         token: ID!
