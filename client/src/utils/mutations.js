@@ -255,6 +255,34 @@ export const UPDATE_COURSE = gql`
   }
 `;
 
+export const ADD_STUDENT_TO_COURSE = gql`
+  mutation addStudentToCourse($courseId: ID!, $studentId: ID!) {
+    addStudentToCourse(courseId: $courseId, studentId: $studentId) {
+      _id
+      title
+      description
+      quiz {
+        _id
+      }
+      assignment {
+        _id
+      }
+      lessonNotes {
+        _id
+      }
+      price
+      startDate
+      endDate
+      teacher {
+        _id
+      }
+      students {
+        _id
+      }
+    }
+  }
+`;
+
 export const DELETE_COURSE = gql`
   mutation deleteCourse($courseId: ID!) {
     deleteCourse(_id: $courseId) {
