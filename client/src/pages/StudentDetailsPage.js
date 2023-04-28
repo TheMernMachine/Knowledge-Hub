@@ -5,6 +5,8 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { GET_USERS } from '../utils/queries';
 import imageSrc from '../assets/images/icons/avatar_19.jpg';
 
+
+
 const CardWrapper = styled('div')({
   borderRadius: '8px',
   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',

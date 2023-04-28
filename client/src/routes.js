@@ -13,11 +13,10 @@ import RegisterPage from './pages/RegisterPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
-import StudentsPage from './pages/studentPage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
-import SingleStudent from './pages/singleStudent';
-
+import StudentsPage from './pages/studentPage';
+import StudentDetailsPage from './pages/StudentDetailsPage';
 
 
 // ----------------------------------------------------------------------
@@ -42,7 +41,7 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/dashboastudentsPagerd/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'course/:_id/register', element: <CoursePayment /> },
         { path: 'user', element: <UserPage /> },
@@ -52,8 +51,10 @@ export default function Router() {
         { path: 'assignments/new', element: <NewAssignmentForm />},
         { path: 'quizzes', element: <QuizzesPage /> },
         { path: 'quiz/:_id', element: <QuizPage /> },
-        { path: 'students', element: <SingleStudent /> },
         { path: 'quizzes/new', element: <NewQuizForm />},
+        { path: 'students', element: <StudentsPage /> },
+        { path: 'SingleStudent', element: <StudentDetailsPage /> },
+
       ],
     },
     {
