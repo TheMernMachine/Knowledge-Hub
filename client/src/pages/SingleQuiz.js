@@ -1,9 +1,11 @@
+import { useState } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
-import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { Container, Typography, Button, Link } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { GET_QUIZ } from '../utils/queries';
+import { GET_QUIZ, GET_ME } from '../utils/queries';
+import { ADD_QUIZ_RESPONSE } from '../utils/mutations';
 import Iconify from '../components/iconify';
 
 const theme = createTheme();
@@ -13,9 +15,50 @@ export default function SinglequizPage() {
     const { loading, data } = useQuery(GET_QUIZ,
         { variables: { quizId: `${_id}` } });
 
+    const { loading: loading1, data: data1 } = useQuery(GET_ME);
+    const user = data1?.me || {};
+
+    const [addQuizResponse, { error }] = useMutation(ADD_QUIZ_RESPONSE);
+
     const quiz = data?.getSingleQuiz || [];
     const questions = quiz.questions || [];
-    console.log(quiz);
+
+
+    const [score, setScore] = useState(0);
+    const [responsesArray, setResponsesArray] = useState([]);
+
+    const checkAnswer = (answer, correctAnswer) => {
+        if (answer === correctAnswer) {
+            setScore(score + 1);
+        }
+
+        setResponsesArray([...responsesArray, answer]);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const scores = (score / questions.length) * 100;
+
+        const studentResponse = {
+            responses: responsesArray,
+            student: user._id,
+            rawScore: scores,
+            quizId: _id
+        };
+
+        try {
+            const { data } = await addQuizResponse({
+                variables: studentResponse
+            });
+            console.log("data: ", data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    if (loading || loading1) {
+        return <div>Loading...</div>;
+    }
     return (
         <>
             <Helmet>
@@ -36,7 +79,7 @@ export default function SinglequizPage() {
                         This quiz will be due on:
                     </Typography>
                     <Typography variant="h6" align='center' underline='always'>
-                        {quiz.due_date}
+                        {quiz.dueDate}
                     </Typography>
                     <Typography variant="h5" align='center' pt={3} fontStyle={'italic'} color='primary.main' >
                         Please Answer the Following Questions:
@@ -47,11 +90,11 @@ export default function SinglequizPage() {
                             <>
                             <div key={index}>
                                 <Typography variant="h5" align='center' color='common.black' fontWeight={'bold'} sx={{ m: 2 }} >
-                                    {question.title}
+                                        ({index + 1}.) {question.title}
                                 </Typography>
 
-                                {question.options.map((option, index) => (
-                                    <Button key={index} variant="contained" sx={{ m: 2 }} >
+                                    {question.options.map((option, index) => (
+                                        <Button key={index} variant="contained" sx={{ m: 2 }} onClick={() => { checkAnswer(option, question.answer); }}>
                                         {option}
                                     </Button>
                                 ))}
@@ -64,6 +107,7 @@ export default function SinglequizPage() {
                     </Typography>
                     <Button variant="contained" align="center" startIcon={<Iconify icon="eva:plus-fill" />}
                         sx={{ mt: 10 }}
+                        onClick={handleSubmit}
                     >
                         Submit Quiz
                     </Button>

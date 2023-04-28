@@ -60,7 +60,6 @@ export const GET_ME = gql`
       lastName
       username
       email
-      password
       dateJoined
       status
       role {
