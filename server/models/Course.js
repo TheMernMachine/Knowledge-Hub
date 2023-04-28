@@ -84,7 +84,6 @@ const courseResolvers = {
 
     addStudent: async (courseId, studentId) => {
       const course = await Course.findByIdAndUpdate(courseId, { $push: { students: [ { _id: studentId } ] } });
-      console.log(course);
       return course;
   },
 

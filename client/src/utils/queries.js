@@ -440,7 +440,6 @@ export const GET_COURSE = gql`
         _id
         username
         email
-        password
         dateJoined
         status
       }
