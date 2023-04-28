@@ -588,9 +588,7 @@ export const UPDATE_QUIZ = gql`
       quizResponse {
         _id
         responses
-        student {
-          _id
-        }
+        student
         rawScore
         grade
       }
@@ -613,9 +611,7 @@ export const DELETE_QUIZ = gql`
       quizResponse {
         _id
         responses
-        student {
-          _id
-        }
+        student
         rawScore
         grade
       }
@@ -624,28 +620,14 @@ export const DELETE_QUIZ = gql`
 `;
 
 export const ADD_QUIZ_RESPONSE = gql`
-  mutation addQuizResponse($quizId: ID!, $responses: [String]!, $student: ID!, $rawScore: Int!) {
-    addQuizResponse(quizId: $quizId, responses: $responses, student: $student, rawScore: $rawScore) {
-      _id
-      title
-      questions {
-        _id
-        title
-        options
-        answer
-      }
-      dueDate
-      quizResponse {
-        _id
-        responses
-        student {
-          _id
-        }
-        rawScore
-        grade
-      }
-    }
+  mutation addQuizResponse($quizId: ID!, $responses: [String]!, $student: ID!, $rawScore: Float!) { addQuizResponse(quizId: $quizId, responses: $responses, student: $student, rawScore: $rawScore) {
+    _id
+    responses
+    student
+    rawScore
+    grade
   }
+}
 `;
 
 

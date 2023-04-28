@@ -47,7 +47,7 @@ const typeDefs = gql`
         _id: ID
         responses: [String]
         student: ID
-        rawScore: Int
+        rawScore: Float
         grade: String
     }
 
@@ -207,7 +207,7 @@ const typeDefs = gql`
         addQuiz(title: String!, dueDate: String!, courseId: ID!): Quiz
         updateQuiz(_id: ID!, title: String, dueDate: String): Quiz
         deleteQuiz(_id: ID!, courseId: ID!): Quiz
-        addQuizResponse(quizId: ID!, responses: [String]!, student: ID!, rawScore: Int!): Quiz
+        addQuizResponse(quizId: ID!, responses: [String]!, student: ID!, rawScore: Float!): QuizResponse
 
         addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz
         updateQuizQuestion(_id: ID!, questionId: ID!, title: String, options: [String], answer: String): Quiz
