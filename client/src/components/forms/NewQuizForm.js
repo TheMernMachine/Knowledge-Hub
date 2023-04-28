@@ -2,44 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
-import { styled } from '@mui/material/styles';
 import { Grid, Link, Container, Typography, TextField, Button, MenuItem, Select } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
-import { GET_COURSES } from '../../utils/queries';
+import { GET_COURSES, GET_ME, GET_QUIZ } from '../../utils/queries';
 import { ADD_QUIZ, ADD_QUIZ_QUESTION } from '../../utils/mutations';
 import Iconify from '../iconify';
-// ----------------------------------------------------------------------
-
-const StyledRoot = styled('div')(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-    },
-}));
-
-const StyledSection = styled('div')(({ theme }) => ({
-    width: '100%',
-    maxWidth: 480,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    boxShadow: theme.customShadows.card,
-    backgroundColor: theme.palette.background.default,
-}));
-
-const StyledContent = styled('div')(({ theme }) => ({
-    maxWidth: 480,
-    margin: 'auto',
-    minHeight: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'column',
-
-}));
 
 // ----------------------------------------------------------------------
 export default function NewQuizForm() {
     const { loading, data } = useQuery(GET_COURSES);
-    const courses = data?.getCourses || [];
+    const { loading: loading2, data: data2 } = useQuery(GET_ME);
+    const user = data2?.me || {};
+    const courses = data?.courses || [];
+
+    const availableCourses = courses.filter(course => course.teacher._id === user._id);
 
     const [quizState, setQuizState] = useState({
         title: '',
@@ -55,14 +31,7 @@ export default function NewQuizForm() {
         answer: '',
     });
 
-    const [quizQuestionArrState, setQuizQuestionArrState] = useState([
-        {
-            id: '',
-            title: '',
-            options: [],
-            answer: '',
-        }
-    ]);
+    const [quizQuestionArrState, setQuizQuestionArrState] = useState([]);
 
     const [addQuiz, { error }] = useMutation(ADD_QUIZ);
     const [addQuizQuestion, { error2 }] = useMutation(ADD_QUIZ_QUESTION);
@@ -79,11 +48,37 @@ export default function NewQuizForm() {
         console.log('quizQuestionState: ', quizQuestionState);
     };
 
-    const handleAddQuestion = async (event) => {
-        event.preventDefault();
+    const handleAddQuiz = async () => {
         console.log('quizQuestionState: ', quizQuestionState);
+
+        console.log('quizState: ', quizState);
+        const { data } = await addQuiz({
+            variables: {
+                title: quizState.title,
+                dueDate: quizState.dueDate,
+                courseId: quizState.courseId,
+            },
+        });
+        console.log('data: ', data);
+        setQuizState({
+            title: '',
+            question: '',
+            dueDate: '',
+            courseId: '',
+        });
     };
 
+    const handleAddQuestion = async () => {
+        console.log('quizQuestionState: ', quizQuestionState);
+        
+        const questionArry = [{
+            title: quizQuestionState.title,
+            options: [quizQuestionState.options],
+            answer: quizQuestionState.answer,
+        }]
+        console.log('questionArry: ', questionArry);
+    
+    };
 
     return (
         <>
@@ -138,19 +133,22 @@ export default function NewQuizForm() {
                     </Grid>
                     <Grid item xs={12}>
                         <Typography>Select Course:</Typography>
-                        <Select
-                            fullWidth
-                            value={quizState.courseId}
-                            onChange={(event) =>
-                                setQuizState({ ...quizState, courseId: event.target.value })
-                            }
-                        >
-                            {courses.map((course) => (
+                        {availableCourses.map((course) => (
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                value={quizState.courseId}
+                                onClick={(event) =>
+                                    setQuizState({ ...quizState, courseId: course._id})
+                                }
+                            >
                                 <MenuItem key={course.id} value={course.id}>
                                     {course.title}
                                 </MenuItem>
-                            ))}
-                        </Select>
+                            </Button>
+
+                        ))}
+
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -239,16 +237,9 @@ export default function NewQuizForm() {
                             variant="contained"
                             startIcon={<Iconify icon="eva:plus-fill" />}
                             sx={{ mt: 2 }}
-                            onClick={async () => {
-                                await handleAddQuestion();
-                                setQuizQuestionState({
-                                    id: '',
-                                    title: '',
-                                    options: [],
-                                    answer: '',
-                                });
-                            }}
+                            onClick={handleAddQuestion}
                         >
+
                             Add Another Question
                         </Button>
 
@@ -257,13 +248,12 @@ export default function NewQuizForm() {
                         <Button
                             variant="contained"
                             startIcon={<Iconify icon="eva:plus-fill" />}
-                            onClick={handleFormSubmit}
+                            onClick={handleAddQuiz}
                         >
                             Create Quiz
                         </Button>
                     </Grid>
                 </Grid>
-
             </Container >
         </>
 

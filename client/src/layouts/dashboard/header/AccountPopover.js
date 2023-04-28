@@ -30,9 +30,7 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
 
   const { loading, error, data } = useQuery(GET_ME);
-  // console.log(data);
   const user = data?.me || {};
-  // console.log(user)
   const fullName = `${user.firstName} ${user.lastName}`;
 
   const handleOpen = (event) => {

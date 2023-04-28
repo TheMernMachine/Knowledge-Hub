@@ -280,7 +280,9 @@ const resolvers = {
         deleteQuizQuestion: async (parent, { _id, questionId }) => {
             return quizResolvers.deleteQuizQuestion(_id, questionId);
         },
-
+        addQuizAndQuestions: async (parent, { title, dueDate, courseId, questionTitle, questionOptions, questionAnswer }) => {
+            return quizResolvers.addQuizAndQuestions({ title, dueDate, courseId, questionTitle, questionOptions, questionAnswer });
+        }
     },
 };
 
