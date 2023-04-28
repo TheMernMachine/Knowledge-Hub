@@ -12,7 +12,6 @@ const courseSchema = new Schema({
     },
     price: {
         type: Number,
-
     },
     quiz: [
         {
@@ -51,8 +50,6 @@ const courseSchema = new Schema({
         {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: false,
-            unique: true,
         },
     ],
 });
@@ -68,7 +65,7 @@ const courseResolvers = {
         return course;
     },
 
-    createCourse: async (title, description, startDate, endDate) => {
+    createCourse: async ({title, description, startDate, endDate}) => {
         const course = await Course.create({ title, description, startDate, endDate });
         return course;
     },
