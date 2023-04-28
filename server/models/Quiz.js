@@ -58,6 +58,33 @@ const quizResolvers = {
         return quiz;
     },
 
+    addQuizAndQuestions: async ({ title, dueDate, courseId, questionTitle, questionOptions, questionAnswer }) => {
+        const quiz = await Quiz.create({ title, dueDate });
+        await Course.findOneAndUpdate(
+            { _id: courseId },
+            { $push: { quiz: quiz._id } },
+            { new: true }
+        );
+        
+
+        const newQuestion = await Quiz.findOneAndUpdate(
+            { _id: quiz._id },
+            {
+                $addToSet: {
+                    questions: {
+                        title: questionTitle,
+                        options: questionOptions,
+                        answer: questionAnswer,
+                    },
+                },
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+    },
+
     addQuizQuestion: async ({ quizId, title, options, answer }) => {
         return await Quiz.findOneAndUpdate(
             { _id: quizId },

@@ -215,6 +215,7 @@ const typeDefs = gql`
         addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz
         updateQuizQuestion(_id: ID!, questionId: ID!, title: String, options: [String], answer: String): Quiz
         deleteQuizQuestion(_id: ID!, questionId: ID!): Quiz
+        addQuizAndQuestions(title: String!, dueDate: String!, courseId: ID!, questionTitle: String!, questionOptions: [String]!, questionAnswer: String!): Quiz
     }
 `
 
