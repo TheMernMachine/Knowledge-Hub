@@ -41,7 +41,7 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboastudentsPagerd/app" />, index: true },
+        { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'course/:_id/register', element: <CoursePayment /> },
         { path: 'user', element: <UserPage /> },
@@ -53,7 +53,7 @@ export default function Router() {
         { path: 'quiz/:_id', element: <QuizPage /> },
         { path: 'quizzes/new', element: <NewQuizForm />},
         { path: 'students', element: <StudentsPage /> },
-        { path: 'SingleStudent', element: <StudentDetailsPage /> },
+        { path: 'StudentDetailsPage', element: <StudentDetailsPage /> },
 
       ],
     },
