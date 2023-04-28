@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
-
 // react-bootstrap
 // @mui
 import { styled } from '@mui/material/styles';
@@ -52,18 +51,11 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Login | Knowledge-Hub </title>
+        <title> Knowledge-Hub </title>
       </Helmet>
 
       <StyledRoot>
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 },
-          }}
-        />
-
+      
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
@@ -76,12 +68,12 @@ export default function LoginPage() {
           <Container maxWidth="sm">
             <StyledContent>
               <Typography variant="h4" gutterBottom>
-                Sign in to Minimal
+                Sign in to Knowledge-Hub
               </Typography>
 
               <Typography variant="body2" sx={{ mb: 5 }}>
                 Don’t have an account? {''}
-                <Link variant="subtitle2">Get started</Link>
+                <Link variant="subtitle2" sx={{cursor: 'pointer'}} to='register'>Get Started</Link>
               </Typography>
 
               <Divider sx={{ my: 3 }}>

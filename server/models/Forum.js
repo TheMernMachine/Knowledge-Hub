@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { commentSchema } = require('./Comments');
+const { Comment } = require('./Comments');
 
 const forumSchema = new Schema({
     title: {
@@ -15,7 +15,7 @@ const forumSchema = new Schema({
         ref: 'user',
         required: true,
     },
-    comments: [commentSchema],
+    comments: [Comment.schema],
 
 },);
 
@@ -30,7 +30,7 @@ const forumResolvers = {
         return forum;
     },
 
-    createForum: async (title, postQuestion, postAuthor) => {
+    createForum: async ({ title, postQuestion, postAuthor }) => {
         const forum = await Forum.create({ title, postQuestion, postAuthor });
         return forum;
     },

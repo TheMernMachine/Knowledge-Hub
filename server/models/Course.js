@@ -40,13 +40,12 @@ const courseSchema = new Schema({
     endDate: {
         type: Date,
         required: true,
+        get: (timestamp) => dateFormat(timestamp),
     },
-    teacher: [
-        {
+    teacher: {
             type: Schema.Types.ObjectId,
-            ref: 'User',
-        },
-    ],
+        ref: 'User'
+    },
     students: [
         {
             type: Schema.Types.ObjectId,
@@ -55,24 +54,31 @@ const courseSchema = new Schema({
     ],
 });
 
+// select({ password: 0 }) must prevent the password from being returned in a query
 const courseResolvers = {
     getCourses: async () => {
-        const course = await Course.find({});
+        const course = await Course.find({}).populate('quiz')
+            .populate('assignment').populate('lessonNotes')
+            .populate('teacher').populate({ path: 'teacher', populate: { path: 'role' } })
+            .populate('students').populate({ path: 'students', populate: { path: 'role' } });
         return course;
     },
 
     getSingleCourse: async (args) => {
-        const course = await Course.findById(args);
+        const course = await Course.findById(args).populate('quiz')
+            .populate('assignment').populate('lessonNotes')
+            .populate('teacher').populate({ path: 'teacher', populate: { path: 'role' } })
+            .populate('students').populate({ path: 'students', populate: { path: 'role' } });
         return course;
     },
 
-    createCourse: async (title, description, startDate, endDate) => {
-        const course = await Course.create({ title, description, startDate, endDate });
+    createCourse: async (args) => {
+        const course = await Course.create(args);
         return course;
     },
 
     updateCourse: async (args) => {
-        const course = await Course.findByIdAndUpdate(args._id, args);
+        const course = await Course.findByIdAndUpdate(args._id, args, { new: true });
         return course;
     },
 

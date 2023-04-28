@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
+import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { useQuill } from 'react-quilljs';
 import 'react-quill/dist/quill.snow.css';
-// react-bootstrap
-// @mui
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+import { Grid, Link, Container, Typography, TextField, Button } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
-// components
-import Logo from '../logo';
+import { GET_COURSES } from '../../utils/queries';
+import { ADD_ASSIGNMENT } from '../../utils/mutations';
 import Iconify from '../iconify';
-
 // ----------------------------------------------------------------------
-
 
 const StyledRoot = styled('div')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
@@ -42,49 +38,132 @@ const StyledContent = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
 export default function NewAssignmentForm() {
+    const { loading, data } = useQuery(GET_COURSES);
+    const courses = data?.getCourses || [];
+
+    const [formState, setFormState] = useState({
+        title: '',
+        question: '',
+        dueDate: '',
+        courseId: '',
+    });
+
+    const [addAssignment, { error }] = useMutation(ADD_ASSIGNMENT);
+
     const mdUp = useResponsive('up', 'md');
     const { quill, quillRef } = useQuill();
+    const [quillState, setQuillState] = useState('');
+
+    useEffect(() => {
+        if (quill) {
+            quill.on('text-change', (delta, oldDelta, source) => {
+                const question = quill.getText();
+                setQuillState(question);
+            });
+        }
+    }, [quill]);
+
+
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            console.log("title: ", formState.title)
+            console.log("question: ", quillState)
+            console.log("dueDate: ", formState.dueDate)
+            console.log("courseId: ", formState.courseId)
+            const mutationResponse = await addAssignment({
+                variables: {
+                    title: formState.title,
+                    question: quillState,
+                    dueDate: formState.dueDate,
+                    courseId: formState.courseId,
+                },
+            });
+            if (mutationResponse) {
+                const token = mutationResponse.data.addAssignment.token;
+                localStorage.setItem('token', token);
+                window.location.assign('/dashboard');
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const handleInputChange = (event) => {
+        setFormState({
+            ...formState,
+            [event.target.name]: event.target.value,
+        });
+    };
 
     return (
         <>
             <Helmet>
-                <title> Create New Assignment </title>
+                <title>Create New Assignment</title>
             </Helmet>
 
-            <StyledRoot>
+            <Container maxWidth="sm">
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography variant="h4">Create New Assignment</Typography>
+                    </Grid>
 
-                <Container maxWidth="sm">
-                    <StyledContent>
-                        <Typography variant="h4">
-                            Create New Assignment
-                        </Typography>
+                    <Grid item xs={12}>
                         <Typography>
-                            <Link variant="subtitle2">Cancel</Link>
+                            <Link
+                                onClick={() => window.location.assign('/dashboard/assignments')}
+                                variant="subtitle2"
+                                sx={{ cursor: 'pointer' }}>Cancel</Link>
                         </Typography>
+                    </Grid>
 
+                    <Grid item xs={12}>
                         <Typography sx={{ color: 'text.secondary' }}>
                             Enter the details of your new assignment below:
                         </Typography>
+                    </Grid>
 
-                      
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            fullWidth
+                            label="Title"
+                            name="title"
+                            value={formState.title}
+                            onChange={handleInputChange}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12}>
                         <div style={{ width: 600, height: 300 }}>
                             <div ref={quillRef} />
                         </div>
-                        
-                        <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
-                        sx={{ mt: 10 }}
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            fullWidth
+                            label="Due Date"
+                            name="dueDate"
+                            value={formState.dueDate}
+                            onChange={handleInputChange}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Button
+                            variant="contained"
+                            startIcon={<Iconify icon="eva:plus-fill" />}
+                            sx={{ mt: 10 }}
+                            onClick={handleFormSubmit}
                         >
                             Create Assignment
                         </Button>
-                    </StyledContent>
-
-                </Container>
-
-            </StyledRoot>
-
-
+                    </Grid>
+                </Grid>
+            </Container>
         </>
     );
 }

@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 import { GET_QUIZZES } from '../utils/queries';
 import Iconify from '../components/iconify';
-import QuizCard from '../sections/@dashboard/blog/QuizCard';
+import QuizCard from '../sections/@dashboard/Assignments/QuizCard';
 
 // ----------------------------------------------------------------------
 
@@ -21,15 +21,15 @@ export default function QuizzesPage() {
                     <Typography variant="h4" gutterBottom>
                         Quiz
                     </Typography>
-                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => window.location.assign('/dashboard/quizzes/new')}>
                         New Quiz
                     </Button>
                 </Stack>
-                    <Grid container spacing={3}>
-                        {quizzes.map((quiz, index) => (
-                            <QuizCard key={quiz._id} quiz={quiz} index={index} />
-                        ))}
-                    </Grid>
+                <Grid container spacing={3}>
+                    {quizzes.map((quiz, index) => (
+                        <QuizCard key={quiz._id} quiz={quiz} index={index} />
+                    ))}
+                </Grid>
             </Container>
         </>
     );

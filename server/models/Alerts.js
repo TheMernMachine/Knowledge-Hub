@@ -23,11 +23,11 @@ const alertResolvers = {
     },
 
     addAlert: async (message, severity) => {
-        return Alert.create({ message: message, severity: severity });
+        return await Alert.create({ message: message, severity: severity });
     },
 
     removeAlert: async (_id) => {
-        return Alert.findByIdAndDelete(_id);
+        return await Alert.findByIdAndDelete(_id);
     },
 
     updateAlert: async (args) => {

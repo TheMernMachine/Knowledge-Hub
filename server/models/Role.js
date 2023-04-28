@@ -4,7 +4,6 @@ const roleSchema = new Schema({
     name: {
         type: String,
         required: true,
-        enum: ["admin", "teacher", "student"]
     },
     permissions: [
         {
@@ -27,14 +26,14 @@ const roleResolvers = {
         return role;
     },
     findRoleByName: async (name) => {
-        let role = await Role.findOne({ name: name });
+        let role = await Role.findOne({ name: name.toLowerCase() });
         return role;
     },
     createRole: async (name, permissions) => {
         let role = await Role.create({ name, permissions });
         return role;
     },
-    updateRole: async (_id, name, permissions) => {
+    updateRole: async ({ _id, name, permissions }) => {
         let role = await Role.findOneAndUpdate({ _id: _id }, { name, permissions }, { new: true });
         return role;
     },

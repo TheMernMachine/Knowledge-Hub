@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Introduction to Web Development",
+    "description": "Everything you need to know about building websites with HTML, CSS, and JavaScript.",
+    "startDate": "05/20/2023",
+    "endDate": "11/01/2023",
+    "price": 2000,
+    "email": "zcordeiro@knowledgehub.edu"
+  },
+  {
+    "title": "Database Design with SQL",
+    "description": "Introduction to relational databases, MySQL, and SQL.",
+    "startDate": "06/01/2023",
+    "endDate": "09/15/2023",
+    "price": 2500,
+    "email": "cgirard@knowledgehub.edu"
+  },
+  {
+    "title": "NoSQL Databases",
+    "description": "NoSQL databases offers flexibility that SQL databases can't offer, Learn the latest and greatest in NoSQL database design.",
+    "startDate": "08/06/2023",
+    "endDate": "12/20/2023",
+    "price": 3000,
+    "email": "ikubiti@knowledgehub.edu"
+  }
+]

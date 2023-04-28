@@ -59,7 +59,10 @@ export default function SubmitForm({ type }) {
                         Submit {type}
                     </Typography>
                     <Typography sx={{m: 2}}>
-                        <Link variant="subtitle2">Cancel</Link>
+                        <Link variant="subtitle2" 
+                        onClick={() => window.location.assign('/dashboard/assignments')}
+                        sx={{ cursor: 'pointer' }}
+                        >Cancel</Link>
                     </Typography>
 
                     <Typography sx={{ color: 'text.secondary'}}>
