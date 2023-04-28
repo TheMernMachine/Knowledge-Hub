@@ -82,6 +82,11 @@ const courseResolvers = {
         return course;
     },
 
+    addStudent: async (courseId, studentId) => {
+      const course = await Course.findByIdAndUpdate(courseId, { $push: { students: [ { _id: studentId } ] } });
+      return course;
+  },
+
     deleteCourse: async (args) => {
         const course = await Course.findByIdAndDelete(args._id);
         return course;

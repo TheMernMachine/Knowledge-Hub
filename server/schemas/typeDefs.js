@@ -25,6 +25,8 @@ const typeDefs = gql`
         status: String
         role: Role
         todoLists: [TodoList]
+        students: [User]
+        teacher: [User]
     }
 
     type Comment {
@@ -182,6 +184,7 @@ const typeDefs = gql`
         
         addCourse(title: String!, description: String!, startDate: String!, endDate: String!, price: Float!, teacher: ID!): Course
         updateCourse(_id: ID!, title: String, description: String, price: Float, startDate: String, endDate: String): Course
+        addStudentToCourse(courseId: ID!, studentId: ID!): Course
         deleteCourse(_id: ID!): Course
 
         addRole(name: String!, permissions: [String]!): Role
