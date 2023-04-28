@@ -423,13 +423,17 @@ export const GET_COURSE = gql`
           priority
         }
       }
+      teacher {
+        _id
+        firstName
+        lastName
+        email
+      }
       students {
         _id
-        username
+        firstName
+        lastName
         email
-        password
-        dateJoined
-        status
       }
     }
   }

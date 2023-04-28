@@ -197,6 +197,9 @@ const resolvers = {
         updateCourse: async (parent, args) => {
             return courseResolvers.updateCourse(args);
         },
+        addStudentToCourse: async (parent, { courseId, studentId }) => {
+            return courseResolvers.addStudent(courseId, studentId);
+        },
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });
         },

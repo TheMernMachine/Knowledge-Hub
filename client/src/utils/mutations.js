@@ -200,8 +200,33 @@ export const DELETE_TODO_LIST = gql`
 
 // Course mutations
 export const ADD_COURSE = gql`
-  mutation addCourse($title: String!, $description: String!, $startDate: String!, $endDate: String!, $price: Float!, $teacher: [ID]!) {
+  mutation addCourse($title: String!, $description: String!, $startDate: String!, $endDate: String!, $price: Float!, $teacher: ID!) {
     addCourse(title: $title, description: $description, startDate: $startDate, endDate: $endDate, price: $price, teacher: $teacher) {
+      _id
+      title
+      description
+      quiz {
+        _id
+      }
+      assignment {
+        _id
+      }
+      lessonNotes {
+        _id
+      }
+      price
+      startDate
+      endDate
+      teacher {
+        _id
+      }
+    }
+  }
+`;
+
+export const UPDATE_COURSE = gql`
+  mutation updateCourse($courseId: ID!, $title: String, $description: String, $startDate: String, $endDate: String, $quiz: [ID], $assignment: [ID], $lessonNotes: [ID], $price: Float, $teacher: ID, $students: [ID]) {
+    updateCourse(_id: $courseId, title: $title, description: $description, startDate: $startDate, endDate: $endDate, quiz: $quiz, assignment: $assignment, lessonNotes: $lessonNotes, price: $price, teacher: $teacher, students: $students) {
       _id
       title
       description
@@ -227,9 +252,9 @@ export const ADD_COURSE = gql`
   }
 `;
 
-export const UPDATE_COURSE = gql`
-  mutation updateCourse($courseId: ID!, $title: String, $description: String, $startDate: String, $endDate: String!, $quiz: [ID], $assignment: [ID], $lessonNotes: [ID], $price: Float) {
-    updateCourse(_id: $courseId, title: $title, description: $description, startDate: $startDate, endDate: $endDate, quiz: $quiz, assignment: $assignment, lessonNotes: $lessonNotes, price: $price) {
+export const ADD_STUDENT_TO_COURSE = gql`
+  mutation addStudentToCourse($courseId: ID!, $studentId: ID!) {
+    addStudentToCourse(courseId: $courseId, studentId: $studentId) {
       _id
       title
       description

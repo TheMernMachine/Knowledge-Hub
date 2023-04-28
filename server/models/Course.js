@@ -40,45 +40,47 @@ const courseSchema = new Schema({
     endDate: {
         type: Date,
         required: true,
-        get: (timestamp) => dateFormat(timestamp),
     },
-    teacher: {
-            type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    students: [
+    teacher: [
         {
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
     ],
+    students: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: false,
+            unique: true,
+        },
+    ],
 });
 
-// select({ password: 0 }) must prevent the password from being returned in a query
 const courseResolvers = {
     getCourses: async () => {
-        const course = await Course.find({}).populate('quiz')
-            .populate('assignment').populate('lessonNotes')
-            .populate('teacher').populate({ path: 'teacher', populate: { path: 'role' } })
-            .populate('students').populate({ path: 'students', populate: { path: 'role' } });
+        const course = await Course.find({});
         return course;
     },
 
     getSingleCourse: async (args) => {
-        const course = await Course.findById(args).populate('quiz')
-            .populate('assignment').populate('lessonNotes')
-            .populate('teacher').populate({ path: 'teacher', populate: { path: 'role' } })
-            .populate('students').populate({ path: 'students', populate: { path: 'role' } });
+        const course = await Course.findById(args).populate('teacher').populate('students');
         return course;
     },
 
-    createCourse: async (args) => {
-        const course = await Course.create(args);
+    createCourse: async (title, description, startDate, endDate) => {
+        const course = await Course.create({ title, description, startDate, endDate });
         return course;
     },
 
     updateCourse: async (args) => {
-        const course = await Course.findByIdAndUpdate(args._id, args, { new: true });
+        const course = await Course.findByIdAndUpdate(args._id, args);
+        return course;
+    },
+
+    addStudent: async (courseId, studentId) => {
+        const course = await Course.findByIdAndUpdate(courseId, { $push: { students: [ { _id: studentId } ] } });
+        console.log(course);
         return course;
     },
 
