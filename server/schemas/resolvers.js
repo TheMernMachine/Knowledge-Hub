@@ -63,6 +63,13 @@ const resolvers = {
         courses: async () => {
             return courseResolvers.getCourses();
         },
+        userCourses: async (parent, args, context) => {
+            if (context.user) {
+                userId = context.user._id;
+                return courseResolvers.getUserCourses(userId);
+            }
+            throw new AuthenticationError('You need to be logged in!');
+        },
         course: async (parent, { _id }) => {
             return courseResolvers.getSingleCourse(_id);
         },

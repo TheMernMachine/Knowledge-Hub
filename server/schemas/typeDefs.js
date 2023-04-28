@@ -139,6 +139,7 @@ const typeDefs = gql`
 
         courses: [Course]
         course(_id: ID!): Course
+        userCourses: [Course]
 
         roles: [Role]
         role(_id: ID!): Role

@@ -64,6 +64,11 @@ const courseResolvers = {
         return course;
     },
 
+    getUserCourses: async (userId) => {
+        const course = await Course.find({ $or:[ {students: { _id: userId }}, {teacher: {_id: userId}}]}).populate('teacher')
+        return course;
+    },
+
     getSingleCourse: async (args) => {
         const course = await Course.findById(args).populate('quiz')
             .populate('assignment').populate('lessonNotes')

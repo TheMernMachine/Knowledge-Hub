@@ -359,6 +359,24 @@ export const GET_COURSES = gql`
   }
 `;
 
+export const GET_USERS_COURSES = gql`
+  query userCourses {
+    userCourses {
+      _id
+      title
+      description
+      startDate
+      endDate
+      teacher {
+        _id
+        username
+        email
+      }
+    }
+  }
+`;
+
+
 export const GET_COURSE = gql`
   query course($courseId: ID!) {
     course(_id: $courseId) {

@@ -14,6 +14,7 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import StudentsPage from './pages/studentPage';
+import CoursesPage from './pages/CoursesPage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 
@@ -42,6 +43,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
+        { path: 'courses', element: <CoursesPage /> },
         { path: 'course/:_id/register', element: <CoursePayment /> },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
