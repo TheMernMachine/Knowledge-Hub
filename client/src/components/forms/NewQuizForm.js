@@ -17,67 +17,50 @@ export default function NewQuizForm() {
 
     const availableCourses = courses.filter(course => course.teacher._id === user._id);
 
+    // state for quiz Id
+    const [quizId, setQuizId] = useState('false');
+    // Create for quiz details
     const [quizState, setQuizState] = useState({
         title: '',
-        question: '',
         dueDate: '',
         courseId: '',
     });
 
+    // state for quiz questions
     const [quizQuestionState, setQuizQuestionState] = useState({
-        id: '',
         title: '',
         options: [],
         answer: '',
     });
-
-    const [quizQuestionArrState, setQuizQuestionArrState] = useState([]);
 
     const [addQuiz, { error }] = useMutation(ADD_QUIZ);
     const [addQuizQuestion, { error2 }] = useMutation(ADD_QUIZ_QUESTION);
 
     const mdUp = useResponsive('up', 'md');
 
-    const handleInputChange = (event) => {
-        console.log("clicked");
-    };
+    const handleAddQuestion = async () => {
+        let tempKey = quizId;
+        if (quizId === 'false') {
+            if (!quizState.title || !quizState.dueDate || !quizState.courseId) {
+                return;
+            }
 
-    const handleFormSubmit = async (event) => {
-        event.preventDefault();
-        console.log('quizState: ', quizState);
-        console.log('quizQuestionState: ', quizQuestionState);
+            const { data } = await addQuiz({ variables: quizState });
+            setQuizId(data.addQuiz._id);
+            // State variable isn't always available immediately after setting it
+            tempKey = data.addQuiz._id;
+        }
+
+        if (quizQuestionState.title && quizQuestionState.options && quizQuestionState.answer) {
+            await addQuizQuestion({ variables: { ...quizQuestionState, quizId: tempKey } });
+        }
+        setQuizQuestionState({ title: '', options: [], answer: '' });
     };
 
     const handleAddQuiz = async () => {
-        console.log('quizQuestionState: ', quizQuestionState);
-
-        console.log('quizState: ', quizState);
-        const { data } = await addQuiz({
-            variables: {
-                title: quizState.title,
-                dueDate: quizState.dueDate,
-                courseId: quizState.courseId,
-            },
-        });
-        console.log('data: ', data);
-        setQuizState({
-            title: '',
-            question: '',
-            dueDate: '',
-            courseId: '',
-        });
-    };
-
-    const handleAddQuestion = async () => {
-        console.log('quizQuestionState: ', quizQuestionState);
-        
-        const questionArry = [{
-            title: quizQuestionState.title,
-            options: [quizQuestionState.options],
-            answer: quizQuestionState.answer,
-        }]
-        console.log('questionArry: ', questionArry);
-    
+        // Add last question if any
+        await handleAddQuestion();
+        setQuizState({ title: '', dueDate: '', courseId: '' });
     };
 
     return (
