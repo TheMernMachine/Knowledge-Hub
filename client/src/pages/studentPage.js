@@ -16,6 +16,7 @@ const CardWrapper = styled('div')({
   marginBottom: '20px',
   bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
   
+  
 });
 
 
@@ -60,10 +61,10 @@ function StudentsPage() {
     <CardWrapper key={user.id}>
       <AvatarImage src={imageSrc} />
        <Typography variant="h1" style={{ wordWrap: 'break-word' }}>{user.firstName} {user.lastName}</Typography>
-      <Typography variant="h6" style={{ wordWrap: 'break-word' }}>{user.email}</Typography>
-      <Typography variant="h6" style={{ wordWrap: 'break-word' }}>{user.dateJoined}</Typography>
-      <Typography variant="h7" style={{ wordWrap: 'break-word' }}>{user.status}</Typography>
-      <Typography variant="h5" style={{ wordWrap: 'break-word' }}>{user.role.name}</Typography>
+      <Typography variant="h4" style={{ wordWrap: 'break-word' }}>{user.email}</Typography>
+      <Typography variant="body1" style={{ wordWrap: 'break-word' }}>{user.dateJoined}</Typography>
+      <Typography variant="h3" style={{ wordWrap: 'break-word' }}>{user.status}</Typography>
+      <Typography variant="h4" style={{ wordWrap: 'break-word' }}>{user.role.name}</Typography>
     </CardWrapper>
   ))}
 </StyledRoot>

@@ -1,108 +1,61 @@
-// import { Helmet } from 'react-helmet-async';
-// import { useQuery } from '@apollo/client';
-// import { useParams } from 'react-router-dom';
-// import { Container, Typography } from '@mui/material';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { GET_USER } from '../utils/queries';
+import React from 'react';
+import { useQuery } from '@apollo/client';
+import { alpha, styled } from '@mui/material/styles';
+import { Card, CardContent, Typography } from '@mui/material';
+import { GET_USERS } from '../utils/queries';
+import imageSrc from '../assets/images/icons/avatar_19.jpg';
 
-// const theme = createTheme();
+const CardWrapper = styled('div')({
+  borderRadius: '8px',
+  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+  padding: '16px',
+  width: 'calc(50% - 10px)',
+  marginBottom: '20px',
+  bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
+});
 
-// export default function SingleStudent() {
-//     const { _id: userId } = useParams();
-//     console.log(userId);
-//     const { loading, data } = useQuery(GET_USER,
-//         { variables: { id: `${userId}` } });
-//     const user = data?.user || [];
-//     console.log(user);
+const AvatarImage = styled('img')({
+  width: '48px',
+  height: '48px',
+  marginRight: '16px',
+  borderRadius: '50%',
+  overflow: 'hidden',
+});
 
-//     return (
-//         <>
-//             <Helmet>
-//                 <title>Student Page </title>
-//             </Helmet>
+const StyledRoot = styled('div')({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
+  height: 'auto',
+  overflow: 'hidden',
+  bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
+});
 
-//             <ThemeProvider theme={theme}>
-//                 <Container maxWidth="lg">
+function StudentOne() {
+  const { loading, data, error } = useQuery(GET_USERS);
+  console.log(data);
 
-//                     <AssignmentPostCard key={user._id} user={assignment} index={0} />
+  if (loading) {
+    <p>Loading...</p>; }if (error) {
+    return <p>Error: {error.message}</p>;}
 
-//                     <Typography variant="h3" align='center' pt={10} color='primary.darker' >
-//                         {user.title}
-//                     </Typography>
-//                     <Typography variant="h6" align='center' fontStyle={'italic'} color='primary.main' >
-//                         student's name:
-//                     </Typography>
-//                     <Typography variant="h6" align='center' underline='always'>
-//                         {user.dueDate}
-//                     </Typography>
-//                     <Typography variant="h5" align='center' pt={3} fontStyle={'italic'} color='primary.main' >
-//                         This Assignment's Instructions:
-//                     </Typography>
-//                     <Typography variant="h6" align='center' >
-//                         {assignment.question}
-//                     </Typography>
-//                     <SubmitForm type={'Assignment'} />
-//                 </Container>
+  const me = data?.users || [];
+  const getSingleStudent = Array.isArray(me) ? me.filter(me => me.role.name === 'teacher') : [];
 
-//             </ThemeProvider>
+  return (
+    <StyledRoot>
+      {getSingleStudent.map(me => (
+        <CardWrapper key={me.id}>
+          <AvatarImage src={imageSrc} />
+          <Typography variant="h1" style={{ wordWrap: 'break-word' }}>{me.firstName} {me.lastName}</Typography>
+          <Typography variant="h4" style={{ wordWrap: 'break-word' }}>{me.email}</Typography>
+          <Typography variant="body1" style={{ wordWrap: 'break-word' }}>{me.dateJoined}</Typography>
+          <Typography variant="h3" style={{ wordWrap: 'break-word' }}>{me.status}</Typography>
+          <Typography variant="h4" style={{ wordWrap: 'break-word' }}>{me.role.name}</Typography>
+        </CardWrapper>
+      ))}
+    </StyledRoot>
+  );
+}
 
-
-//         </>
-//     );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import '../assets/style.css'
-// import { useQuery } from '@apollo/client';
-// import { GET_USER } from '../utils/queries';
-
-
-
-// //  DATA ISN'T SHOWING UP ON THE PAGE
-// function SingleStudent() {
-//   const { loading, data, error } = useQuery(GET_USER);
-//   const [student, setStudent] = data?.student || [];
-  
-//   console.log(data)
-//   useEffect(() => {
-//     if (data) {
-//       setStudent(data.student);
-//     }
-//   }, [data]);
-  
-//   return (
-//     <div>
-//       <h1>{student.firstName}{student.lastName}</h1>
-//       {loading && <p>Loading...</p>}
-//       {error && <p>Error: {error.message}</p>}
-//       <div>
-//         {student.map(student => (
-//           <div key={student.id}>
-//             <h1>{student.firstName}{student.lastName}</h1>
-//             <p>{student.email}</p>
-//             <p>{student.dateJoined}</p>
-//             <h2>{student.status}</h2>
-//             <h3>{student.role}</h3>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default SingleStudent;
+export default StudentOne;
