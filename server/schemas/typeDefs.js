@@ -25,6 +25,8 @@ const typeDefs = gql`
         status: String
         role: Role
         todoLists: [TodoList]
+        students: [User]
+        teacher: [User]
     }
 
     type Comment {

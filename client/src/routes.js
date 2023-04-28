@@ -13,6 +13,7 @@ import RegisterPage from './pages/RegisterPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
+import StudentsPage from './pages/studentPage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 
@@ -49,6 +50,7 @@ export default function Router() {
         { path: 'assignments/new', element: <NewAssignmentForm />},
         { path: 'quizzes', element: <QuizzesPage /> },
         { path: 'quiz/:_id', element: <QuizPage /> },
+        { path: 'students', element: <StudentsPage /> },
         { path: 'quizzes/new', element: <NewQuizForm />},
       ],
     },
