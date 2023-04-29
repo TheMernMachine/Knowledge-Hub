@@ -114,14 +114,10 @@ const quizResolvers = {
 
     addQuizResponse: async ({ quizId, responses, student, rawScore }) => {
         const grade = getGrade(rawScore);
-        console.log("grade: ", grade)
         const response = new QuizResponse({ responses, student, rawScore, grade });
-        console.log("response: ", response);
+        await Quiz.findByIdAndUpdate(quizId, { $push: { quizResponse: response } }, { new: true });
 
-        const updateQuiz = await Quiz.findByIdAndUpdate(quizId, { $push: { quizResponse: response } }, { new: true });
-        console.log("updateQuiz: ", updateQuiz);
-
-        return updateQuiz;
+        return response;
     },
 
     getSingleQuizResponse: async (_id, quizId) => {

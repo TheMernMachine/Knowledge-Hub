@@ -63,6 +63,13 @@ const resolvers = {
         courses: async () => {
             return courseResolvers.getCourses();
         },
+        userCourses: async (parent, args, context) => {
+            if (context.user) {
+                userId = context.user._id;
+                return courseResolvers.getUserCourses(userId);
+            }
+            throw new AuthenticationError('You need to be logged in!');
+        },
         course: async (parent, { _id }) => {
             return courseResolvers.getSingleCourse(_id);
         },
@@ -197,6 +204,9 @@ const resolvers = {
         updateCourse: async (parent, args) => {
             return courseResolvers.updateCourse(args);
         },
+        addStudentToCourse: async (parent, { courseId, studentId }) => {
+          return courseResolvers.addStudent(courseId, studentId);
+      },
         deleteCourse: async (parent, { _id }) => {
             return courseResolvers.deleteCourse({ _id });
         },
@@ -277,7 +287,9 @@ const resolvers = {
         deleteQuizQuestion: async (parent, { _id, questionId }) => {
             return quizResolvers.deleteQuizQuestion(_id, questionId);
         },
-
+        addQuizAndQuestions: async (parent, { title, dueDate, courseId, questionTitle, questionOptions, questionAnswer }) => {
+            return quizResolvers.addQuizAndQuestions({ title, dueDate, courseId, questionTitle, questionOptions, questionAnswer });
+        }
     },
 };
 

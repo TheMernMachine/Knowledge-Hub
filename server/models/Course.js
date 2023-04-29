@@ -64,6 +64,11 @@ const courseResolvers = {
         return course;
     },
 
+    getUserCourses: async (userId) => {
+        const course = await Course.find({ $or:[ {students: { _id: userId }}, {teacher: {_id: userId}}]}).populate('teacher')
+        return course;
+    },
+
     getSingleCourse: async (args) => {
         const course = await Course.findById(args).populate('quiz')
             .populate('assignment').populate('lessonNotes')
@@ -81,6 +86,11 @@ const courseResolvers = {
         const course = await Course.findByIdAndUpdate(args._id, args, { new: true });
         return course;
     },
+
+    addStudent: async (courseId, studentId) => {
+      const course = await Course.findByIdAndUpdate(courseId, { $push: { students: [ { _id: studentId } ] } });
+      return course;
+  },
 
     deleteCourse: async (args) => {
         const course = await Course.findByIdAndDelete(args._id);

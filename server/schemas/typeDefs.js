@@ -49,7 +49,7 @@ const typeDefs = gql`
         _id: ID
         responses: [String]
         student: ID
-        rawScore: Int
+        rawScore: Float
         grade: String
     }
 
@@ -114,6 +114,12 @@ const typeDefs = gql`
         answer: String
     }
 
+    type Question {
+        title: String
+        options: [String]
+        answer: String
+    }
+
 
     type Auth {
         token: ID!
@@ -139,6 +145,7 @@ const typeDefs = gql`
 
         courses: [Course]
         course(_id: ID!): Course
+        userCourses: [Course]
 
         roles: [Role]
         role(_id: ID!): Role
@@ -183,7 +190,8 @@ const typeDefs = gql`
         deleteTodoList(_id: ID!): TodoList
         
         addCourse(title: String!, description: String!, startDate: String!, endDate: String!, price: Float!, teacher: ID!): Course
-        updateCourse(_id: ID!, title: String, description: String, price: Float, quiz: [ID], assignment: [ID], lessonNotes: [ID], startDate: String, endDate: String): Course
+        updateCourse(_id: ID!, title: String, description: String, price: Float, startDate: String, endDate: String): Course
+        addStudentToCourse(courseId: ID!, studentId: ID!): Course
         deleteCourse(_id: ID!): Course
 
         addRole(name: String!, permissions: [String]!): Role
@@ -209,11 +217,12 @@ const typeDefs = gql`
         addQuiz(title: String!, dueDate: String!, courseId: ID!): Quiz
         updateQuiz(_id: ID!, title: String, dueDate: String): Quiz
         deleteQuiz(_id: ID!, courseId: ID!): Quiz
-        addQuizResponse(quizId: ID!, responses: [String]!, student: ID!, rawScore: Int!): Quiz
+        addQuizResponse(quizId: ID!, responses: [String]!, student: ID!, rawScore: Float!): QuizResponse
 
         addQuizQuestion(_id: ID!, title: String!, options: [String]!, answer: String!): Quiz
         updateQuizQuestion(_id: ID!, questionId: ID!, title: String, options: [String], answer: String): Quiz
         deleteQuizQuestion(_id: ID!, questionId: ID!): Quiz
+        addQuizAndQuestions(title: String!, dueDate: String!, courseId: ID!, questionTitle: String!, questionOptions: [String]!, questionAnswer: String!): Quiz
     }
 `
 
