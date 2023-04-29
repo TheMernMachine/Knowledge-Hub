@@ -26,36 +26,55 @@ export default function SinglequizPage() {
 
 
     // Track quiz states
-    const [score, setScore] = useState(0);
+    const [scoreArray, setScoreArray] = useState([]);
     const [responsesArray, setResponsesArray] = useState([]);
+    const [questionNumber, setQuestionNumber] = useState(0);
+
+    // const saveResponse = (number) => {
+    //     return function (option, answer) {
+    //         const responses = [...responsesArray];
+    //         responses[number] = index;
+    //         setResponsesArray(responses);
+    //     };
+    // }
 
     const checkAnswer = (answer, correctAnswer) => {
+        console.log(questionNumber);
+        const responses = [...scoreArray];
         if (answer === correctAnswer) {
-            setScore(score + 1);
+            responses[questionNumber] = 1;
+        } else {
+            responses[questionNumber] = 0;
         }
 
-        setResponsesArray([...responsesArray, answer]);
+        console.log("responses", responses);
+
+        setScoreArray(...responses);
+        const answers = [...responsesArray];
+        answers[questionNumber] = answer;
+        setResponsesArray([...answers]);
+        console.log("answers", answers);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const scores = (score / questions.length) * 100;
+        // const scores = (score / questions.length) * 100;
 
-        const studentResponse = {
-            responses: responsesArray,
-            student: user._id,
-            rawScore: scores,
-            quizId: _id
-        };
+        // const studentResponse = {
+        //     responses: responsesArray,
+        //     student: user._id,
+        //     rawScore: scores,
+        //     quizId: _id
+        // };
 
-        try {
-            const { data } = await addQuizResponse({
-                variables: studentResponse
-            });
-            console.log("data: ", data);
-        } catch (e) {
-            console.error(e);
-        }
+        // try {
+        //     const { data } = await addQuizResponse({
+        //         variables: studentResponse
+        //     });
+        //     console.log("data: ", data);
+        // } catch (e) {
+        //     console.error(e);
+        // }
     };
 
 
@@ -109,6 +128,7 @@ export default function SinglequizPage() {
                         </div>
                         {questions.map((question, index) => (
                             <>
+                                {/* {setQuestionNumber(index + 1)} */}
                             <div key={index}>
                                 <Typography variant="h5" align='center' color='common.black' fontWeight={'bold'} sx={{ m: 2 }} >
                                         ({index + 1}.) {question.title}
