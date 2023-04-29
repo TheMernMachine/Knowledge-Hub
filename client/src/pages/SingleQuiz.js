@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -6,15 +6,15 @@ import { Grid, Container, Typography, Button, Link } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GET_QUIZ, GET_ME } from '../utils/queries';
 import { ADD_QUIZ_RESPONSE } from '../utils/mutations';
+import { randomizeArray, randomAnswers } from '../utils/helpers';
 import Iconify from '../components/iconify';
-import { AppWidgetSummary } from '../sections/@dashboard/app';
+import { AppWidgetSummary, AppWidgetInfo } from '../sections/@dashboard/app';
 
 const theme = createTheme();
 
 export default function SinglequizPage() {
     const { _id } = useParams();
-    const { loading, data } = useQuery(GET_QUIZ,
-        { variables: { quizId: _id } });
+    const { loading, data } = useQuery(GET_QUIZ, { variables: { quizId: _id } });
 
     const { loading: loading1, data: data1 } = useQuery(GET_ME);
     const user = data1?.me || {};
@@ -22,59 +22,60 @@ export default function SinglequizPage() {
     const [addQuizResponse, { error }] = useMutation(ADD_QUIZ_RESPONSE);
 
     const quiz = data?.getSingleQuiz || [];
-    const questions = quiz.questions || [];
+    const rawQuestions = quiz.questions || [];
 
 
     // Track quiz states
     const [scoreArray, setScoreArray] = useState([]);
     const [responsesArray, setResponsesArray] = useState([]);
-    const [questionNumber, setQuestionNumber] = useState(0);
+    const [rawScore, setRawScore] = useState('N/A');
+    const [grade, setGrade] = useState('N/A');
+    const [timer, setTimer] = useState(60);
+    const [questions, setQuestions] = useState([]);
+    const [buttonColor, setButtonColor] = useState('primary');
 
-    // const saveResponse = (number) => {
-    //     return function (option, answer) {
-    //         const responses = [...responsesArray];
-    //         responses[number] = index;
-    //         setResponsesArray(responses);
-    //     };
-    // }
+    useEffect(() => {
+        const studentQuestions = randomizeArray(rawQuestions);
+        const randomQuestions = randomAnswers(studentQuestions);
+        setQuestions([...randomQuestions]);
+    }, [rawQuestions]);
 
-    const checkAnswer = (answer, correctAnswer) => {
-        console.log(questionNumber);
+    const checkAnswer = (answer, question) => {
+        const index = questions.indexOf(question);
         const responses = [...scoreArray];
-        if (answer === correctAnswer) {
-            responses[questionNumber] = 1;
+        if (answer === question.answer) {
+            responses[index] = 1;
         } else {
-            responses[questionNumber] = 0;
+            responses[index] = 0;
         }
 
-        console.log("responses", responses);
-
-        setScoreArray(...responses);
+        setScoreArray([...responses]);
         const answers = [...responsesArray];
-        answers[questionNumber] = answer;
+        answers[index] = answer;
         setResponsesArray([...answers]);
-        console.log("answers", answers);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // const scores = (score / questions.length) * 100;
 
-        // const studentResponse = {
-        //     responses: responsesArray,
-        //     student: user._id,
-        //     rawScore: scores,
-        //     quizId: _id
-        // };
+        const studentScore = scoreArray.reduce((sum, score) => score ? sum + score : sum + 0, 0);
+        const score = (studentScore / questions.length) * 100;
+        setRawScore(score);
 
-        // try {
-        //     const { data } = await addQuizResponse({
-        //         variables: studentResponse
-        //     });
-        //     console.log("data: ", data);
-        // } catch (e) {
-        //     console.error(e);
-        // }
+        const responses = responsesArray.map(response => response || "unanswered");
+        const studentResponse = {
+            responses,
+            student: user._id,
+            rawScore: score,
+            quizId: _id
+        };
+
+        try {
+            const { data } = await addQuizResponse({ variables: studentResponse });
+            setGrade(data.addQuizResponse.grade);
+        } catch (e) {
+            console.error(e);
+        }
     };
 
 
@@ -106,19 +107,19 @@ export default function SinglequizPage() {
                     </Typography>
                     <Grid container spacing={3} sx={{ m: 2 }}>
                         <Grid item xs={12} sm={6} md={3}>
-                            <AppWidgetSummary title="Timer" total={714000} color="info" icon={'ant-design:android-filled'} />
+                            <AppWidgetSummary title="Timer" total={timer} color="info" icon={'ant-design:android-filled'} />
                         </Grid>
 
                         <Grid item xs={12} sm={6} md={3}>
-                            <AppWidgetSummary title="Duration" total={1352831} color="warning" icon={'ant-design:apple-filled'} />
+                            <AppWidgetInfo title="Duration" total={"60s"} color="warning" icon={'ant-design:apple-filled'} />
                         </Grid>
 
                         <Grid item xs={12} sm={6} md={3}>
-                            <AppWidgetSummary title="Score" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+                            <AppWidgetSummary title="Score" total={rawScore} color="warning" icon={'ant-design:windows-filled'} />
                         </Grid>
 
                         <Grid item xs={12} sm={6} md={3} color="error" >
-                            <AppWidgetSummary title="Grade" total={234} color="error" icon={'ant-design:bug-filled'} />
+                            <AppWidgetInfo title="Grade" total={grade} color="error" icon={'ant-design:bug-filled'} />
                         </Grid>
                     </Grid>
                     <Typography variant="h5" align='center' pt={3} fontStyle={'italic'} color='primary.main' >
@@ -128,17 +129,17 @@ export default function SinglequizPage() {
                         </div>
                         {questions.map((question, index) => (
                             <>
-                                {/* {setQuestionNumber(index + 1)} */}
                             <div key={index}>
                                 <Typography variant="h5" align='center' color='common.black' fontWeight={'bold'} sx={{ m: 2 }} >
                                         ({index + 1}.) {question.title}
                                 </Typography>
 
                                     {question.options.map((option, index) => (
-                                        <Button key={index} variant="contained" sx={{ m: 2 }} onClick={() => { checkAnswer(option, question.answer); }}>
+                                        <Button key={index} color={buttonColor} variant="contained" sx={{ m: 2 }} onClick={() => { checkAnswer(option, question); }}>
                                         {option}
                                     </Button>
-                                ))}
+                                    ))}
+
                             </div>
                                 <div>
                                     ______________________________________________________________
