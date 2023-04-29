@@ -15,6 +15,7 @@ import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import StudentsPage from './pages/studentPage';
 import CoursesPage from './pages/CoursesPage';
+import CoursePage from './pages/CoursePage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 
@@ -33,9 +34,8 @@ export default function Router() {
       path: '/',
       element: <LandingPage />,
       children: [
-        { element: <Navigate to='/home' />, index: true },
-        { path: 'home', element: <LandingPage /> },
-      ],
+        { path: 'home', element: <LandingPage /> }
+      ]
     },
     {
       path: '/dashboard',
@@ -44,7 +44,11 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'courses', element: <CoursesPage /> },
-        { path: 'course/:_id/register', element: <CoursePayment /> },
+        { path: 'course/:_id', element: <CoursePage />,
+          children: [
+            { path: 'register', element: <CoursePayment /> },
+          ]
+        },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'assignments', element: <AssignmentPage /> },

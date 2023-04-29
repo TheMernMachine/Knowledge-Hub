@@ -26,14 +26,7 @@ import Auth from '../sections/auth/auth';
 
 export default function DashboardAppPage() {
   const theme = useTheme();
-  // const [user, setUser] = useState(null);
-  const { loading, error, data } = useQuery(GET_ME, {
-    variables: { token: Auth.loggedIn() ? Auth.getToken() : null },
-  });
 
-  // setUser(data.me.user);
-  const user = data?.me.user || {};
-  console.log(user);
   return (
     <>
       <Helmet>

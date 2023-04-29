@@ -1,12 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@apollo/client';
 import { Link, useNavigate } from 'react-router-dom';
-import { Grid, Button, Container, Stack, Typography } from '@mui/material';
+import { Grid, Button, Container, Stack, Typography, ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 import { GET_USERS_COURSES } from '../utils/queries';
 import Iconify from '../components/iconify';
-import CourseCard from '../components/CourseComponents/CourseCard';
+import CourseCard from '../sections/@dashboard/courses/CourseCard';
 
 // ----------------------------------------------------------------------
+const theme = createTheme();
 
 export default function CoursesPage() {
   const navigate = useNavigate();
@@ -21,14 +23,16 @@ export default function CoursesPage() {
         <title>Courses Page </title>
       </Helmet>
 
-      <Container maxWidth="lg">
-        <Typography variant='h2' align='center' pt={10} color='primary.darker'>Courses</Typography>
-        <Grid container py={4} spacing={4}>
-          {courses.map((course) => (
-            <CourseCard course={course} />
-          ))}
-        </Grid>
-      </Container>
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="lg">
+          <Typography variant='h2' align='center' pt={10} color='primary.darker'>Courses</Typography>
+          <Grid container py={4} spacing={4}>
+            {courses.map((course) => (
+              <CourseCard key={course._id} course={course} />
+            ))}
+          </Grid>
+        </Container>
+      </ThemeProvider>
     </>
   );
 }
