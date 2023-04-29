@@ -94,7 +94,7 @@ export default function QuizCard({ quiz, index }) {
             }}
             onClick={() => {
             handleClick(quiz._id);
-             console.log(`/dashboard/quiz/${quiz._id}`)
+            //  console.log(`/dashboard/quiz/${quiz._id}`)
             }}
           >
             {quiz.title}

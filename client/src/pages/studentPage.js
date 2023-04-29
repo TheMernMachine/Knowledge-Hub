@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
+import { Link, useNavigate } from 'react-router-dom';
 import {alpha,styled} from '@mui/material/styles';
-import {Card,CardContent,Typography } from '@mui/material';
+import {Card,CardContent,Typography,Button } from '@mui/material';
 import { GET_USERS } from '../utils/queries';
+import Iconify from '../components/iconify';
+
 import imageSrc from '../assets/images/icons/avatar_19.jpg';
+
 
 // --------------------------------------------------------------------------
 
@@ -15,6 +19,7 @@ const CardWrapper = styled('div')({
   width: 'calc(50% - 10px)',
   marginBottom: '20px',
   bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
+  
   
 });
 
@@ -44,6 +49,7 @@ const StyledRoot = styled('div')({
 
 // THIS FUNCTION IS LOADING THE DATA FROM THE DATABASE
 function StudentsPage() {
+    const navigate = useNavigate();
   const { loading, data, error } = useQuery(GET_USERS);
   if (loading) {
     <p>Loading...</p>; }if (error) {
@@ -52,6 +58,12 @@ function StudentsPage() {
   const allStudents = users.filter(user => user.role.name === 'student');
   
 
+
+    const handleOnClick = () => {
+    const url = '/dashboard/SingleStudent';
+    navigate(url);
+  }
+
   // --------------------------------------------------------------------------
 
   return (
@@ -59,11 +71,14 @@ function StudentsPage() {
   {allStudents.map(user => (
     <CardWrapper key={user.id}>
       <AvatarImage src={imageSrc} />
+    <Button onClick={handleOnClick} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+            More Details 
+          </Button>
        <Typography variant="h1" style={{ wordWrap: 'break-word' }}>{user.firstName} {user.lastName}</Typography>
-      <Typography variant="h6" style={{ wordWrap: 'break-word' }}>{user.email}</Typography>
-      <Typography variant="h6" style={{ wordWrap: 'break-word' }}>{user.dateJoined}</Typography>
-      <Typography variant="h7" style={{ wordWrap: 'break-word' }}>{user.status}</Typography>
-      <Typography variant="h5" style={{ wordWrap: 'break-word' }}>{user.role.name}</Typography>
+      <Typography variant="h4" style={{ wordWrap: 'break-word' }}>{user.email}</Typography>
+      <Typography variant="body1" style={{ wordWrap: 'break-word' }}>{user.dateJoined}</Typography>
+      <Typography variant="h3" style={{ wordWrap: 'break-word' }}>{user.status}</Typography>
+      <Typography variant="h4" style={{ wordWrap: 'break-word' }}>{user.role.name}</Typography>
     </CardWrapper>
   ))}
 </StyledRoot>

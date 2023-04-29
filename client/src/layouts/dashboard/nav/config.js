@@ -5,26 +5,16 @@ import SvgColor from '../../../components/svg-color';
 
 const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
-const navConfig = [
+const navConfigTeacher = [
   {
     title: 'dashboard',
     path: '/dashboard/app',
     icon: icon('ic_analytics'),
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: icon('ic_user'),
-  },
-  {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: icon('ic_cart'),
-  },
-  {
     title: 'students',
     path: '/dashboard/students',
-    icon: icon('ic_blog'),
+    icon: icon('ic_user'),
   },
   {
     title: 'courses',
@@ -42,15 +32,38 @@ const navConfig = [
     icon: icon('ic_blog'),
   },
   {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic_disabled'),
+    title: 'forum',
+    path: '/dashboard/coming-soon',
+    icon: icon('ic_user'),
   },
 ];
 
-export default navConfig;
+const navConfigStudent = [
+  {
+    title: 'dashboard',
+    path: '/dashboard/app',
+    icon: icon('ic_analytics'),
+  },
+  {
+    title: 'assignments',
+    path: '/dashboard/assignments',
+    icon: icon('ic_blog'),
+  },
+  {
+    title: 'quizzes',
+    path: '/dashboard/quizzes',
+    icon: icon('ic_blog'),
+  },
+  {
+    title: 'grades',
+    path: '/dashboard/coming-soon',
+    icon: icon('ic_analytics'),
+  },
+  {
+    title: 'forum',
+    path: '/dashboard/coming-soon',
+    icon: icon('ic_user'),
+  },
+];
+
+export { navConfigTeacher, navConfigStudent };
