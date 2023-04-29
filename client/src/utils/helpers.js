@@ -32,47 +32,6 @@ export function randomAnswers(question) {
 }
 
 // ----------------------------------------------------------------------
-
-// Decide whether to render a new question or end the quiz
-// function renderQuestion() {
-//   // Update time counter
-//   timeStatusElement.textContent = --timeCounter;
-//   if (timeCounter < 10 && isSet) {
-//     isSet = false;
-//     timeStatusElement.setAttribute('class', 'change-primary');
-//   }
-
-//   if (timeCounter <= 0 || questionIndex === quizQuestionSize) {
-//     clearInterval(timer);
-//     if (timeCounter < 0) {
-//       timeStatusElement.textContent = 0;
-//     }
-//     scoreEntry();
-//   } else {
-//     displayQuestion();
-//   }
-// }
 // ----------------------------------------------------------------------
-
-// // Starts the coding quiz challenge
-// let startQuiz = function () {
-//   randomizeArray(quizQuestions);
-//   scoreCounter = 0;
-//   questionIndex = 0;
-//   timeCounter = quizTime;
-//   questionNumber = -1;
-//   questionOnce = -1;
-//   timer = setInterval(renderQuestion, 1000);
-// };
-// ----------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------
-
-
-
-// ----------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------
-
+// color = { buttonColor };
+// color = { buttonColor[`${getUniqueKey(question, index)}`] || "success" };

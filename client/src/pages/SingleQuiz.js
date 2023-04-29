@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import Iconify from '../components/iconify';
 import { AppWidgetSummary, AppWidgetInfo } from '../sections/@dashboard/app';
 
 const theme = createTheme();
+const quizDuration = 15;
 
 export default function SinglequizPage() {
     const { _id } = useParams();
@@ -28,11 +29,16 @@ export default function SinglequizPage() {
     // Track quiz states
     const [scoreArray, setScoreArray] = useState([]);
     const [responsesArray, setResponsesArray] = useState([]);
-    const [rawScore, setRawScore] = useState('N/A');
+    const [rawScore, setRawScore] = useState(0);
     const [grade, setGrade] = useState('N/A');
-    const [timer, setTimer] = useState(60);
+    const [timer, setTimer] = useState(0);
     const [questions, setQuestions] = useState([]);
-    const [buttonColor, setButtonColor] = useState('primary');
+    const [quizDisplay, setQuizDisplay] = useState("Click to Start");
+    const [resultDisplay, setResultDisplay] = useState(false);
+    // const [buttonColor, setButtonColor] = useState({});
+    const [timerColor, setTimerColor] = useState('lightBlue');
+    const [activateQuiz, setActivateQuiz] = useState(true);
+    const [allowQuiz, setAllowQuiz] = useState(true);
 
     useEffect(() => {
         const studentQuestions = randomizeArray(rawQuestions);
@@ -41,6 +47,8 @@ export default function SinglequizPage() {
     }, [rawQuestions]);
 
     const checkAnswer = (answer, question) => {
+        if (activateQuiz) return;
+
         const index = questions.indexOf(question);
         const responses = [...scoreArray];
         if (answer === question.answer) {
@@ -49,14 +57,19 @@ export default function SinglequizPage() {
             responses[index] = 0;
         }
 
+        // setButtonColor('secondary');
         setScoreArray([...responses]);
         const answers = [...responsesArray];
         answers[index] = answer;
         setResponsesArray([...answers]);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async () => {
+        if (activateQuiz) return;
+        setActivateQuiz(true);
+        clearInterval(decrementTimer);
+        setResultDisplay(true);
+        setAllowQuiz(false);
 
         const studentScore = scoreArray.reduce((sum, score) => score ? sum + score : sum + 0, 0);
         const score = (studentScore / questions.length) * 100;
@@ -73,10 +86,47 @@ export default function SinglequizPage() {
         try {
             const { data } = await addQuizResponse({ variables: studentResponse });
             setGrade(data.addQuizResponse.grade);
+            // 👇 Will scroll smoothly to the top of the next section
+            document.getElementById('quizPanel').scrollIntoView({ behavior: 'smooth' });
         } catch (e) {
             console.error(e);
         }
     };
+
+    const decrementTimer = useCallback(() => {
+        setTimer((oldTimer) => oldTimer - 1);
+    }, []);
+
+    useEffect(() => {
+        if (timer <= 0) {
+            handleSubmit();
+            setTimerColor('lightBlue');
+            return () => clearInterval(decrementTimer);
+        }
+
+        if (timer < 11) {
+            setTimerColor('#dda0dd');
+        }
+        const timeoutFunction = setInterval(decrementTimer, 1000);
+        return () => clearInterval(timeoutFunction);
+    }, [decrementTimer, timer, handleSubmit]);
+
+    const startQuiz = () => {
+        if (!activateQuiz || !allowQuiz) return;
+
+        setQuizDisplay('Timer');
+        setActivateQuiz(false);
+        setTimer(quizDuration);
+    };
+
+    // useEffect()
+
+    // const getUniqueKey = (question, option) => {
+    //     const number = questions.indexOf(question);
+    //     const newKey = `${number}-${option}`;
+    //     setButtonColor({ ...buttonColor, [newKey]: false });
+    //     return newKey;
+    // };
 
 
 
@@ -89,7 +139,7 @@ export default function SinglequizPage() {
                 <title>Quiz Page </title>
             </Helmet>
             <ThemeProvider theme={theme}>
-                <Container maxWidth="lg">
+                <Container maxWidth="lg" id="quizPanel" >
                     <Typography variant="h1" align='center' color='primary.main' fontWeight={'bolder'} >
                         {quiz.title}
                     </Typography>
@@ -99,28 +149,28 @@ export default function SinglequizPage() {
                         sx={{ cursor: 'pointer', textAlign: 'center' }}
                         >Cancel</Link>
                     </Typography>
-                    <Typography variant="h6" align='center' fontStyle={'italic'} color='primary.light' >
+                    <Typography variant="h6" align='center' fontStyle={'italic'} color='primary.light'>
                         This quiz will be due on:
                     </Typography>
                     <Typography variant="h6" align='center' underline='always'>
                         {quiz.dueDate}
                     </Typography>
                     <Grid container spacing={3} sx={{ m: 2 }}>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <AppWidgetSummary title="Timer" total={timer} color="info" icon={'ant-design:android-filled'} />
+                        <Grid item xs={12} sm={6} md={3} onClick={startQuiz}>
+                            <AppWidgetSummary title={quizDisplay} total={timer || 'N/A'} color="warning" icon={'ant-design:android-filled'} sx={{ background: timerColor }} />
                         </Grid>
 
                         <Grid item xs={12} sm={6} md={3}>
-                            <AppWidgetInfo title="Duration" total={"60s"} color="warning" icon={'ant-design:apple-filled'} />
+                            <AppWidgetInfo title="Duration" total={`${quizDuration}s`} color="warning" icon={'ant-design:apple-filled'} sx={{ background: 'lightGreen' }} />
                         </Grid>
 
-                        <Grid item xs={12} sm={6} md={3}>
-                            <AppWidgetSummary title="Score" total={rawScore} color="warning" icon={'ant-design:windows-filled'} />
-                        </Grid>
+                        {resultDisplay && <Grid item xs={12} sm={6} md={3}>
+                            <AppWidgetSummary title="Score" total={rawScore || 'N/A'} color="warning" icon={'ant-design:windows-filled'} sx={{ background: 'lightBlue' }} />
+                        </Grid>}
 
-                        <Grid item xs={12} sm={6} md={3} color="error" >
-                            <AppWidgetInfo title="Grade" total={grade} color="error" icon={'ant-design:bug-filled'} />
-                        </Grid>
+                        {resultDisplay && <Grid item xs={12} sm={6} md={3} color="error" >
+                            <AppWidgetInfo title="Grade" total={grade} color="error" icon={'ant-design:bug-filled'} sx={{ background: '#00FFFF' }} />
+                        </Grid>}
                     </Grid>
                     <Typography variant="h5" align='center' pt={3} fontStyle={'italic'} color='primary.main' >
                         Please Answer the Following Questions:
@@ -135,7 +185,7 @@ export default function SinglequizPage() {
                                 </Typography>
 
                                     {question.options.map((option, index) => (
-                                        <Button key={index} color={buttonColor} variant="contained" sx={{ m: 2 }} onClick={() => { checkAnswer(option, question); }}>
+                                        <Button key={index} variant="contained" sx={{ m: 2 }} onClick={() => { checkAnswer(option, question); }}>
                                         {option}
                                     </Button>
                                     ))}

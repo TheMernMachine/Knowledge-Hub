@@ -36,7 +36,7 @@ export default function DashboardAppPage() {
   const enrolledCourses = courses.filter(course => course.students_id === user._id);
   const availableQuizzes = availableCourses.map(course => course.quiz);
   const availableAssignments = availableCourses.map(course => course.assignment);
-  console.log('availebleQuizzes: ', availableQuizzes, 'availableAssignments: ', availableAssignments);
+  console.log('availableQuizzes: ', availableQuizzes, 'availableAssignments: ', availableAssignments);
 
   const quizTitles = availableQuizzes.flatMap((quiz) =>
     quiz.map((quiz) => quiz.title)
