@@ -17,8 +17,12 @@ import CoursePage from './pages/CoursePage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 import StudentsPage from './pages/studentPage';
-import StudentDetailsPage from './pages/StudentDetailsPage';
-import ComingSoon from './pages/ComingSoon';
+import StudentDetails from './pages/StudentDetails';
+
+
+// ----------------------------------------------------------------------
+// test imports
+
 
 
 // ----------------------------------------------------------------------
@@ -53,16 +57,8 @@ export default function Router() {
         { path: 'quiz/:_id', element: <QuizPage /> },
         { path: 'quizzes/new', element: <NewQuizForm />},
         { path: 'students', element: <StudentsPage /> },
-        { path: 'StudentDetailsPage', element: <StudentDetailsPage /> },
-        { path: 'coming-soon', element: <ComingSoon /> },
-      ],
-    },
-    {
-      path: '/',
-      element: <LandingPage />,
-      children: [
-        { element: <Navigate to='/home' />, index: true },
-        { path: 'home', element: <LandingPage /> },
+        { path: 'StudentDetails/:_id', element: <StudentDetails /> },
+
       ],
     },
     {
