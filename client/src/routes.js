@@ -16,7 +16,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 import StudentsPage from './pages/studentPage';
-import StudentDetailsPage from './pages/StudentDetailsPage';
+import StudentDetails from './pages/StudentDetails';
 
 
 // ----------------------------------------------------------------------
@@ -53,7 +53,7 @@ export default function Router() {
         { path: 'quiz/:_id', element: <QuizPage /> },
         { path: 'quizzes/new', element: <NewQuizForm />},
         { path: 'students', element: <StudentsPage /> },
-        { path: 'StudentDetailsPage', element: <StudentDetailsPage /> },
+        { path: 'StudentDetails/:_id', element: <StudentDetails /> },
 
       ],
     },

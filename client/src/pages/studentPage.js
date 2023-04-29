@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import {alpha,styled} from '@mui/material/styles';
-import {Card,CardContent,Typography,Button } from '@mui/material';
+import {Typography,Button } from '@mui/material';
 import { GET_USERS } from '../utils/queries';
-import Iconify from '../components/iconify';
-
 import imageSrc from '../assets/images/icons/avatar_19.jpg';
 
+ 
 
 // --------------------------------------------------------------------------
 
@@ -19,7 +17,6 @@ const CardWrapper = styled('div')({
   width: 'calc(50% - 10px)',
   marginBottom: '20px',
   bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-  
   
 });
 
@@ -48,41 +45,48 @@ const StyledRoot = styled('div')({
 
 
 // THIS FUNCTION IS LOADING THE DATA FROM THE DATABASE
-function StudentsPage() {
-    const navigate = useNavigate();
-  const { loading, data, error } = useQuery(GET_USERS);
-  if (loading) {
-    <p>Loading...</p>; }if (error) {
-    return <p>Error: {error.message}</p>;}
-    const users = data?.users || [];
-  const allStudents = users.filter(user => user.role.name === 'student');
-  
+export default function StudentsPage() {
+  const navigate = useNavigate();
+const { loading, data, error } = useQuery(GET_USERS);
+if (loading) {
+<p>Loading...</p>; }if (error) {
+return <p>Error: {error.message}</p>;}
+const users = data?.users || [];
+const allStudents = users.filter(user => user.role.name === 'student');
+console.log(data)
 
 
-    const handleOnClick = () => {
-    const url = '/dashboard/SingleStudent';
-    navigate(url);
-  }
 
-  // --------------------------------------------------------------------------
 
+
+
+
+// THIS IS THE FUNCTION TO HANDLE THE ONCLICK
+  const handleOnClick = (id) => {
+    navigate(`/dashboard/studentDetails/${id}`);
+  };
+
+// THIS IS THE RETURN FOR THE STUDENT PAGE
   return (
 <StyledRoot>
   {allStudents.map(user => (
     <CardWrapper key={user.id}>
       <AvatarImage src={imageSrc} />
-    <Button onClick={handleOnClick} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            More Details 
-          </Button>
+      <Button onClick={() => {
+  handleOnClick(user._id);
+}}>
+  More Details
+</Button>
        <Typography variant="h1" style={{ wordWrap: 'break-word' }}>{user.firstName} {user.lastName}</Typography>
-      <Typography variant="h4" style={{ wordWrap: 'break-word' }}>{user.email}</Typography>
-      <Typography variant="body1" style={{ wordWrap: 'break-word' }}>{user.dateJoined}</Typography>
-      <Typography variant="h3" style={{ wordWrap: 'break-word' }}>{user.status}</Typography>
-      <Typography variant="h4" style={{ wordWrap: 'break-word' }}>{user.role.name}</Typography>
+      <Typography variant="h6" style={{ wordWrap: 'break-word' }}>{user.email}</Typography>
+      <Typography variant="h6" style={{ wordWrap: 'break-word' }}>{user.dateJoined}</Typography>
+      <Typography variant="h7" style={{ wordWrap: 'break-word' }}>{user.status}</Typography>
+      <Typography variant="h5" style={{ wordWrap: 'break-word' }}>{user.role.name}</Typography>
     </CardWrapper>
+
   ))}
 </StyledRoot>
 );}
-export default StudentsPage;
+
 
 
