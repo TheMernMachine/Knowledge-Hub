@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
+import { Link, Card, Grid, Typography, CardContent } from '@mui/material';
 // utils
 import images from '../../../assets/covers/index'
 

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 import { GET_ME } from '../../../utils/queries';
 import Auth from '../../../sections/auth/auth';
-// mocks_
-import account from '../../../_mock/account';
+
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -15,11 +15,11 @@ const MENU_OPTIONS = [
     icon: 'eva:home-fill',
   },
   {
-    label: 'Profile',
+    label: 'Assignments',
     icon: 'eva:person-fill',
   },
   {
-    label: 'Settings',
+    label: 'Quizzes',
     icon: 'eva:settings-2-fill',
   },
 ];
@@ -27,6 +27,7 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(null);
 
   const { loading, error, data } = useQuery(GET_ME);
@@ -45,6 +46,7 @@ export default function AccountPopover() {
     handleClose();
     Auth.logout();
   };
+
   
   return (
     <>
@@ -66,7 +68,7 @@ export default function AccountPopover() {
         }}
       >
         {/* Replace with actual user image url once implemented */}
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={'/assets/images/avatars/avatar_default.jpg'} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -101,7 +103,17 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
+            <MenuItem key={option.label} onClick={
+              () => {
+                if (option.label === 'Home') {
+                  navigate('/dashboard/app');
+                } else if (option.label === 'Assignments') {
+                  navigate('/dashboard/assignments');
+                } else if (option.label === 'Quizzes') {
+                  navigate('/dashboard/quizzes');
+                }
+              }
+            }>
               {option.label}
             </MenuItem>
           ))}
