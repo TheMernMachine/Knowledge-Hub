@@ -17,6 +17,11 @@ const navConfigTeacher = [
     icon: icon('ic_user'),
   },
   {
+    title: 'courses',
+    path: '/dashboard/courses',
+    icon: icon('ic_blog'),
+  },
+  {
     title: 'assignments',
     path: '/dashboard/assignments',
     icon: icon('ic_blog'),

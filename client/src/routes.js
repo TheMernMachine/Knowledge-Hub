@@ -12,6 +12,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
+import StudentsPage from './pages/studentPage';
+import CoursesPage from './pages/CoursesPage';
+import CoursePage from './pages/CoursePage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 import StudentsPage from './pages/studentPage';
@@ -25,12 +28,24 @@ export default function Router() {
   
   const routes = useRoutes([
     {
+      path: '/',
+      element: <LandingPage />,
+      children: [
+        { path: 'home', element: <LandingPage /> }
+      ]
+    },
+    {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'course/:_id/register', element: <CoursePayment /> },
+        { path: 'courses', element: <CoursesPage /> },
+        { path: 'course/:_id', element: <CoursePage />,
+          children: [
+            { path: 'register', element: <CoursePayment /> },
+          ]
+        },
         { path: 'user', element: <UserPage /> },
         { path: 'assignments', element: <AssignmentPage /> },
         { path: 'assignment/:_id', element: <SingleAssignmentPage /> },
