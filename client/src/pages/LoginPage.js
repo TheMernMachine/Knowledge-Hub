@@ -1,18 +1,11 @@
 // hooks
-import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-// react-bootstrap
-// @mui
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+import { Link, Container, Typography, Divider, Button } from '@mui/material';
 import useResponsive from '../hooks/useResponsive';
-// components
-import Logo from '../components/logo';
-import Iconify from '../components/iconify';
-// sections
 import { LoginForm } from '../sections/auth/login';
-
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +40,11 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
+  const navigate = useNavigate();
+
+  const handleLoginRedirect = () => {
+    navigate('/register', { replace: true });
+  }
 
   return (
     <>
@@ -73,7 +71,7 @@ export default function LoginPage() {
 
               <Typography variant="body2" sx={{ mb: 5 }}>
                 Don’t have an account? {''}
-                <Link variant="subtitle2" sx={{cursor: 'pointer'}} to='register'>Get Started</Link>
+                <Link variant='subtitle2' sx={{cursor: 'pointer'}} onClick={handleLoginRedirect}> Get Started </Link>
               </Typography>
 
               <Divider sx={{ my: 3 }}>

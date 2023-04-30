@@ -15,7 +15,7 @@ import { LOGIN_USER } from '../../../utils/mutations';
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
 
   const [login, { error, data }] = useMutation(LOGIN_USER);
@@ -34,15 +34,13 @@ export default function LoginForm() {
       event.preventDefault();
       event.stopPropagation();
     }
-    console.log(userFormData)
     try {
       const { data } = await login({ variables: { ...userFormData } });
 
       if (!data) {
         throw new Error('something went wrong!');
       }
-      console.log(data);
-      await Auth.login(data.login.token);
+      Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
     }
@@ -57,19 +55,20 @@ export default function LoginForm() {
 
 
   const handleClick = () => {
-    navigate('/dashboard/app', { replace: true });
+    navigate('/dashboard/app', 
+    { replace: true });
   };
 
   return (
     <form onSubmit={handleFormSubmit}>
       <Stack spacing={3}>
-        <TextField 
-        name="email" 
-        label="Email address"
-        type="email"
-        placeholder="Enter your email address"
-        onChange={handleInputChange}
-        value={userFormData.email}
+        <TextField
+          name="email"
+          label="Email address"
+          type="email"
+          placeholder="Enter your email address"
+          onChange={handleInputChange}
+          value={userFormData.email}
         />
 
         <TextField

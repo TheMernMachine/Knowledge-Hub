@@ -7,7 +7,6 @@ import NewAssignmentForm from './components/forms/NewAssignmentForm';
 import QuizzesPage from './pages/Quizzes';
 import QuizPage from './pages/SingleQuiz';
 import NewQuizForm from './components/forms/NewQuizForm';
-import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Page404 from './pages/Page404';
@@ -18,11 +17,7 @@ import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 import StudentsPage from './pages/studentPage';
 import StudentDetails from './pages/StudentDetails';
-
-
-// ----------------------------------------------------------------------
-// test imports
-
+import ComingSoon from './pages/ComingSoon';
 
 
 // ----------------------------------------------------------------------
@@ -34,8 +29,9 @@ export default function Router() {
       path: '/',
       element: <LandingPage />,
       children: [
-        { path: 'home', element: <LandingPage /> }
-      ]
+        { element: <Navigate to='/home' />, index: true },
+        { path: 'home', element: <LandingPage /> },
+      ],
     },
     {
       path: '/dashboard',
@@ -49,7 +45,6 @@ export default function Router() {
             { path: 'register', element: <CoursePayment /> },
           ]
         },
-        { path: 'user', element: <UserPage /> },
         { path: 'assignments', element: <AssignmentPage /> },
         { path: 'assignment/:_id', element: <SingleAssignmentPage /> },
         { path: 'assignments/new', element: <NewAssignmentForm />},
@@ -58,7 +53,7 @@ export default function Router() {
         { path: 'quizzes/new', element: <NewQuizForm />},
         { path: 'students', element: <StudentsPage /> },
         { path: 'StudentDetails/:_id', element: <StudentDetails /> },
-
+        { path: 'coming-soon', element: <ComingSoon /> },
       ],
     },
     {
