@@ -121,6 +121,10 @@ const resolvers = {
 
         getAllQuizResponses: async (parent, { quizId }) => {
             return quizResolvers.getAllQuizResponses(quizId);
+        },
+
+        getStudentQuizResponse: async (parent, args) => {
+            return quizResolvers.getStudentQuizResponse(args);
         }
     },
 

@@ -166,6 +166,7 @@ const typeDefs = gql`
         getQuizQuestions(_id: ID!): [Questions]
         getSingleQuizResponse(_id: ID!, quizId: ID!): QuizResponse
         getAllQuizResponses(quizId: ID!): [QuizResponse]
+        getStudentQuizResponse(quizId: ID!, studentId: ID!): [QuizResponse]
     }
 
     type Mutation {
