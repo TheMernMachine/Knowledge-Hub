@@ -26,14 +26,6 @@ export default function Router() {
   
   const routes = useRoutes([
     {
-      path: '/',
-      element: <LandingPage />,
-      children: [
-        { element: <Navigate to='/home' />, index: true },
-        { path: 'home', element: <LandingPage /> },
-      ],
-    },
-    {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
@@ -76,6 +68,13 @@ export default function Router() {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
+    {
+      path: '/',
+      element: <LandingPage />,
+      children: [
+        { path: 'home', element: <LandingPage /> },
+      ],
+    }
   ]);
 
   return routes;
