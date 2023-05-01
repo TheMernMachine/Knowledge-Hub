@@ -36,6 +36,11 @@ const navConfigTeacher = [
     path: '/dashboard/coming-soon',
     icon: icon('ic_user'),
   },
+  {
+    title: 'lesson notes',
+    path: '/dashboard/coming-soon',
+    icon: icon('ic_blog'),
+  },
 ];
 
 const navConfigStudent = [
@@ -55,6 +60,11 @@ const navConfigStudent = [
     icon: icon('ic_blog'),
   },
   {
+    title: 'lesson notes',
+    path: '/dashboard/coming-soon',
+    icon: icon('ic_blog'),
+  },
+  {
     title: 'grades',
     path: '/dashboard/coming-soon',
     icon: icon('ic_analytics'),
@@ -64,6 +74,7 @@ const navConfigStudent = [
     path: '/dashboard/coming-soon',
     icon: icon('ic_user'),
   },
+
 ];
 
 export { navConfigTeacher, navConfigStudent };
