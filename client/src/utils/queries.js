@@ -659,3 +659,15 @@ export const GET_SINGLE_FORUM_COMMENT = gql`
     }
 }
 `;
+
+export const GET_STUDENT_RESPONSES = gql`
+  query GetStudentQuizResponse($quizId: ID!, $studentId: ID!) {
+    getStudentQuizResponse(quizId: $quizId, studentId: $studentId) {
+      _id
+      responses
+      student
+      rawScore
+      grade
+    }
+}
+`;

@@ -80,9 +80,13 @@ export default function QuizCard({ quiz, index }) {
             width: '100%',
             position: 'absolute',
           }}
+
+          onClick={() => {
+            handleClick(quiz._id);
+          }}
         >
           <Typography gutterBottom variant="caption" sx={{ color: 'secondary.light', display: 'block', typography: 'subtitle1' }}>
-            {quiz.due_date}
+            {quiz.dueDate}
           </Typography>
 
           <Typography
@@ -91,10 +95,6 @@ export default function QuizCard({ quiz, index }) {
             sx={{
               color: 'common.white', display: 'block', typography: 'h5',
               height: 100, textDecoration: 'underline', cursor: 'pointer'
-            }}
-            onClick={() => {
-            handleClick(quiz._id);
-            //  console.log(`/dashboard/quiz/${quiz._id}`)
             }}
           >
             {quiz.title}

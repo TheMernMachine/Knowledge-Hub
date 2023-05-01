@@ -11,7 +11,6 @@ import AssignmentPostCard from '../sections/@dashboard/Assignments/AssignmentPos
 export default function AssignmentsPage() {
   const navigate = useNavigate();
   const { loading, data } = useQuery(GET_ASSIGNMENTS);
-  console.log(data)
   const assignments = data?.assignments || [];
 
   const handleOnClick = () => {

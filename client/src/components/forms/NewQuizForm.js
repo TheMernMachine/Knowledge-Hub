@@ -42,25 +42,44 @@ export default function NewQuizForm() {
         let tempKey = quizId;
         if (quizId === 'false') {
             if (!quizState.title || !quizState.dueDate || !quizState.courseId) {
-                return;
+                return false;
             }
 
-            const { data } = await addQuiz({ variables: quizState });
-            setQuizId(data.addQuiz._id);
-            // State variable isn't always available immediately after setting it
-            tempKey = data.addQuiz._id;
+            try {
+                const { data } = await addQuiz({ variables: quizState });
+                setQuizId(data.addQuiz._id);
+                // State variable isn't always available immediately after setting it
+                tempKey = data.addQuiz._id;
+            } catch (e) {
+                console.error(e);
+            }
+
         }
 
+
         if (quizQuestionState.title && quizQuestionState.options && quizQuestionState.answer) {
-            await addQuizQuestion({ variables: { ...quizQuestionState, quizId: tempKey } });
+            try {
+                await addQuizQuestion({ variables: { ...quizQuestionState, quizId: tempKey } });
+                setQuizQuestionState({ title: '', options: [], answer: '' });
+                return true;
+            } catch (e) {
+                console.error(e);
+            }
         }
-        setQuizQuestionState({ title: '', options: [], answer: '' });
+
+        return false;
     };
 
     const handleAddQuiz = async () => {
-        // Add last question if any
-        await handleAddQuestion();
-        setQuizState({ title: '', dueDate: '', courseId: '' });
+        try {
+            // Add last question if any
+            const success = await handleAddQuestion();
+            if (success) {
+                setQuizState({ title: '', dueDate: '', courseId: '' });
+            }
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     return (

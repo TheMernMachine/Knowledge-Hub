@@ -28,14 +28,14 @@ export default function DashboardAppPage() {
   const user = data?.me || {};
   const courses = data1?.courses || [];
 
-  console.log("user: ", user, "courses: ", courses);
+  // console.log("user: ", user, "courses: ", courses);
   const fullName = `${user.firstName} ${user.lastName}`;
 
   const availableCourses = courses.filter(course => course.teacher._id === user._id);
   const enrolledCourses = courses.filter(course => course.students_id === user._id);
   const availableQuizzes = availableCourses.map(course => course.quiz);
   const availableAssignments = availableCourses.map(course => course.assignment);
-  console.log('availebleQuizzes: ', availableQuizzes, 'availableAssignments: ', availableAssignments);
+  // console.log('availableQuizzes: ', availableQuizzes, 'availableAssignments: ', availableAssignments);
 
   const quizTitles = availableQuizzes.flatMap((quiz) =>
     quiz.map((quiz) => quiz.title)
@@ -46,7 +46,7 @@ export default function DashboardAppPage() {
   );
 
 
-  console.log('assignmentTitles: ', assignmentTitles);
+  // console.log('assignmentTitles: ', assignmentTitles);
 
   if (loading) {
     return <div>Loading...</div>

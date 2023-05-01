@@ -133,6 +133,12 @@ const quizResolvers = {
     getQuizQuestions: async (quizId) => {
         const quiz = await Quiz.findOne({ _id: quizId });
         return quiz.questions;
+    },
+
+    getStudentQuizResponse: async ({ quizId, studentId }) => {
+        const quiz = await Quiz.findOne({ _id: quizId });
+        const quizResponse = quiz.quizResponse.filter((response) => response.student == studentId);
+        return quizResponse[0] || {};
     }
 
 };
