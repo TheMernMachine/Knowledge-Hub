@@ -98,7 +98,6 @@ export default function AssignmentPostCard({ assignment, index }) {
             }}
             onClick={() => {
             handleClick(assignment._id);
-             console.log(`/dashboard/assignments/${assignment._id}`)
             }}
           >
             {assignment.title}

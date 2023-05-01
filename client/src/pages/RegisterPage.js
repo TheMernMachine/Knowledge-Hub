@@ -48,7 +48,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
 
   const handleLoginRedirect = () => {
-    navigate('/login', { replace: true });
+    navigate('/', { replace: true });
   }
   return (
     <>
@@ -82,7 +82,7 @@ export default function RegisterPage() {
 
             <Typography variant='body2' sx={{ mb: 5 }}>
               Have an account already? {''}
-              <Link variant='subtitle2' onClick={handleLoginRedirect}>Get Back To Learning</Link>
+              <Link variant='subtitle2' sx={{cursor: 'pointer'}} onClick={handleLoginRedirect}>Get Back To Learning</Link>
             </Typography>
 
             <Divider sx={{ my: 3 }}>

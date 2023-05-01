@@ -6,8 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 // useQuery
 import { useQuery } from '@apollo/client';
-// components
-import Iconify from '../components/iconify';
+
 // sections
 import {
   AppTasks,

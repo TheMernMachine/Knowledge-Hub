@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { GET_ASSIGNMENT } from '../utils/queries';
 import img from '../assets/images/underConstructionImg.png'
@@ -34,7 +34,6 @@ export default function SingleAssignmentPage() {
 
             <ThemeProvider theme={theme}>
                 <Container maxWidth="lg">
-
 
                     <StyledCover alt={'Under Construction'} src={img} />
 
