@@ -29,11 +29,12 @@ export default function Router() {
       path: '/',
       element: <LandingPage />,
       children: [
+        { element: <Navigate to='/home' />, index: true },
         { path: 'home', element: <LandingPage /> },
       ],
     },
     {
-      path: '/dashboard',
+      path: 'dashboard',
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
