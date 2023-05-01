@@ -11,10 +11,7 @@ export default function OptionsLayer({ question, questionNumber, enableQuiz }) {
   const [colorArray, setColorArray] = useState([...tempArray]);
 
   const checkLayer = (result, position, answer) => {
-    console.log(enableQuiz);
     if (!enableQuiz) return;
-    console.log("result: ", result);
-    console.log("questionNumber: ", questionNumber);
     const newArray = [...tempArray];
     newArray[position] = 'success';
     setColorArray([...newArray]);

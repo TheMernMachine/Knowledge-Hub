@@ -7,7 +7,6 @@ import { useState } from 'react';
 
 export default function AnswerElement({ option, answer, index, layerCheck, color, enableQuiz }) {
   const handleClick = () => {
-    console.log(enableQuiz);
     if (!enableQuiz) return;
     layerCheck(option === answer ? 1 : 0, index, option);
   };

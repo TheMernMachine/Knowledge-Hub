@@ -138,7 +138,7 @@ const quizResolvers = {
     getStudentQuizResponse: async ({ quizId, studentId }) => {
         const quiz = await Quiz.findOne({ _id: quizId });
         const quizResponse = quiz.quizResponse.filter((response) => response.student == studentId);
-        return quizResponse;
+        return quizResponse[0] || {};
     }
 
 };
