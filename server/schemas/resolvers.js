@@ -188,8 +188,8 @@ const resolvers = {
             return assignmentResolvers.gradeAssignmentResponse({ assignmentId, responseId, rawScore });
         },
 
-        addTodoList: async (parent, { _id, title, todo, priority }) => {
-            return todoResolvers.addTodoList(_id, title, todo, priority);
+        addTodoList: async (parent, { userId, title, todo, priority }) => {
+            return todoResolvers.addTodoList({ userId, title, todo, priority });
         },
         updateTodoList: async (parent, args, context) => {
             // I: We can the user's information from the context

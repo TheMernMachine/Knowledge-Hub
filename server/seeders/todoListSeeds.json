@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Prepare for introduction to Web Development",
+    "todo": "Introduction to Web Development: Update lesson notes",
+    "priority": "low",
+    "email": "zcordeiro@knowledgehub.edu"
+  },
+  {
+    "title": "Database Design with SQL",
+    "todo": "Database Design with SQL: Add new quizzes and contribute to forum",
+    "priority": "medium",
+    "email": "cgirard@knowledgehub.edu"
+  },
+  {
+    "title": "NoSQL Databases",
+    "todo": "NoSQL Databases: Create new assignments",
+    "priority": "medium",
+    "email": "ikubiti@knowledgehub.edu"
+  },
+  {
+    "title": "Economics 101",
+    "todo": "Economics 101: Delete outmoded assignments",
+    "priority": "high",
+    "email": "zcordeiro@knowledgehub.edu"
+  },
+  {
+    "title": "Higher Order Functions",
+    "todo": "Higher Order Functions: Add new assignments and quizzes",
+    "priority": "high",
+    "email": "cgirard@knowledgehub.edu"
+  },
+  {
+    "title": "Differential Equations",
+    "todo": "Differential Equations: Update Lesson Notes, add new assignments and quizzes",
+    "priority": "high",
+    "email": "ikubiti@knowledgehub.edu"
+  },
+  {
+    "title": "JavaScript - The Complete Guide",
+    "todo": "JavaScript Guide: Add new Lesson Notes and delete outdated notes",
+    "priority": "high",
+    "email": "zcordeiro@knowledgehub.edu"
+  },
+  {
+    "title": "NodeJs - The Complete Guide",
+    "todo": "NodeJs Guide: Create new course notes, assignments and quizzes",
+    "priority": "low",
+    "email": "ikubiti@knowledgehub.edu"
+  },
+  {
+    "title": "Laravel: A Guide for Beginners",
+    "todo": "Laravel Guide: Update framework version and add new assignments",
+    "priority": "medium",
+    "email": "zcordeiro@knowledgehub.edu"
+  },
+  {
+    "title": "Grade Assignments for Web Development Course",
+    "todo": "Grade submitted assignments for Web Development Course",
+    "priority": "high",
+    "email": "zcordeiro@knowledgehub.edu"
+  },
+  {
+    "title": "Grade Assignments SQL Course",
+    "todo": "Grade all submitted assignments for Database Design with SQL Course",
+    "priority": "high",
+    "email": "cgirard@knowledgehub.edu"
+  },
+  {
+    "title": "Grade Assignments for NoSQL Course",
+    "todo": "Grade submitted assignments for NoSQL Course",
+    "priority": "high",
+    "email": "ikubiti@knowledgehub.edu"
+  }
+]

@@ -12,7 +12,7 @@ import {
   AppWidgetSummary,
   AppCurrentSubject,
 } from '../sections/@dashboard/app';
-import { GET_ME, GET_COURSES } from '../utils/queries';
+import { GET_ME, GET_COURSES, GET_USER_TODOLIST } from '../utils/queries';
 
 // ----------------------------------------------------------------------
 
@@ -24,13 +24,18 @@ export default function DashboardAppPage() {
 
   const user = data?.me || {};
   const courses = data1?.courses || [];
+  const { loading: loading2, error: error2, data: data2 } = useQuery(GET_USER_TODOLIST, { variables: { userId: user._id } });
 
-  const fullName = `${user.firstName} ${user.lastName}`;
+  // const fullName = `${user.firstName} ${user.lastName}`;
+  const fullName = user.username;
 
   const availableCourses = courses.filter(course => course.teacher._id === user._id);
   const enrolledCourses = courses.filter(course => course.students_id === user._id);
   const availableQuizzes = availableCourses.map(course => course.quiz);
   const availableAssignments = availableCourses.map(course => course.assignment);
+  const todoLists = data2?.getUserTodoLists || [];
+
+  console.log('todoLists: ', todoLists);
 
   const quizTitles = availableQuizzes.flatMap((quiz) =>
     quiz.map((quiz) => quiz.title)
@@ -40,12 +45,13 @@ export default function DashboardAppPage() {
     assignment.map((assignment) => assignment.title)
   );
 
-  if (loading) {
+  const userTodoLists = todoLists.map((todoList, index) => {
+    return { id: index, label: todoList.todo };
+  });
+
+  if (loading || loading1 || loading2) {
     return <div>Loading...</div>
   } 
-  if(loading1) {
-    return <div>Loading...</div>
-  }
 
   if (user.role.name === 'student') {
     return (
@@ -129,13 +135,7 @@ export default function DashboardAppPage() {
             <Grid item xs={12} md={6} lg={8}>
               <AppTasks
                 title="TO DO LIST"
-                list={[
-                  { id: '1', label: 'Create FireStone Logo' },
-                  { id: '2', label: 'Add SCSS and JS files if required' },
-                  { id: '3', label: 'Stakeholder Meeting' },
-                  { id: '4', label: 'Scoping & Estimations' },
-                  { id: '5', label: 'Sprint Showcase' },
-                ]}
+                list={userTodoLists}
               />
             </Grid>
 
@@ -226,13 +226,7 @@ export default function DashboardAppPage() {
             <Grid item xs={12} md={6} lg={8}>
               <AppTasks
                 title="TO DO LIST"
-                list={[
-                  { id: '1', label: 'Create FireStone Logo' },
-                  { id: '2', label: 'Add SCSS and JS files if required' },
-                  { id: '3', label: 'Stakeholder Meeting' },
-                  { id: '4', label: 'Scoping & Estimations' },
-                  { id: '5', label: 'Sprint Showcase' },
-                ]}
+                list={userTodoLists}
               />
             </Grid>
 
