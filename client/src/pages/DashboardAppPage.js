@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
-// @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-// useQuery
 import { useQuery } from '@apollo/client';
 
-// sections
 import {
   AppTasks,
   AppNewsUpdate,
@@ -28,14 +25,12 @@ export default function DashboardAppPage() {
   const user = data?.me || {};
   const courses = data1?.courses || [];
 
-  // console.log("user: ", user, "courses: ", courses);
   const fullName = `${user.firstName} ${user.lastName}`;
 
   const availableCourses = courses.filter(course => course.teacher._id === user._id);
   const enrolledCourses = courses.filter(course => course.students_id === user._id);
   const availableQuizzes = availableCourses.map(course => course.quiz);
   const availableAssignments = availableCourses.map(course => course.assignment);
-  // console.log('availableQuizzes: ', availableQuizzes, 'availableAssignments: ', availableAssignments);
 
   const quizTitles = availableQuizzes.flatMap((quiz) =>
     quiz.map((quiz) => quiz.title)
@@ -45,12 +40,14 @@ export default function DashboardAppPage() {
     assignment.map((assignment) => assignment.title)
   );
 
-
-  // console.log('assignmentTitles: ', assignmentTitles);
-
   if (loading) {
     return <div>Loading...</div>
-  } if (user.role.name === 'student') {
+  } 
+  if(loading1) {
+    return <div>Loading...</div>
+  }
+
+  if (user.role.name === 'student') {
     return (
       <>
         <Helmet>
@@ -63,20 +60,20 @@ export default function DashboardAppPage() {
           </Typography>
 
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={3}>
-              <AppWidgetSummary title="Assignments Completed" total={714000} icon={'ant-design:android-filled'} />
+          <Grid item xs={12} sm={6} md={3}>
+              <AppWidgetSummary title="Current To Do's" total={user.todoLists.length} icon={'ant-design:android-filled'} />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <AppWidgetSummary title="Current Courses" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+              <AppWidgetSummary title="Current Courses" total={availableCourses.length} color="info" icon={'ant-design:apple-filled'} />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <AppWidgetSummary title="Assignments" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+              <AppWidgetSummary title="Quizzes" total={availableQuizzes.length} color="error" icon={'ant-design:bug-filled'} />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <AppWidgetSummary title="Posts" total={234} color="error" icon={'ant-design:bug-filled'} />
+              <AppWidgetSummary title="Lesson Notes Created" total={0} color="warning" icon={'ant-design:bug-filled'} />
             </Grid>
 
             <Grid item xs={12} md={6} lg={8}>
@@ -147,7 +144,7 @@ export default function DashboardAppPage() {
       </>
     )
 
-  } if (user.role.name === 'teacher') {
+  } if (user.role.name === 'teacher' || user.role.name === 'admin') {
     return (
       <>
         <Helmet>
@@ -160,21 +157,22 @@ export default function DashboardAppPage() {
           </Typography>
 
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={3}>
-              <AppWidgetSummary title="Students" total={714000} icon={'ant-design:android-filled'} />
+          <Grid item xs={12} sm={6} md={3}>
+              <AppWidgetSummary title="Assignments Completed" total={availableAssignments[0].length} icon={'ant-design:android-filled'} />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <AppWidgetSummary title="Current Courses" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+              <AppWidgetSummary title="Current Courses" total={availableCourses.length} color="info" icon={'ant-design:apple-filled'} />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <AppWidgetSummary title="Assignments" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+              <AppWidgetSummary title="Quizzes" total={availableQuizzes[0].length} color="error" icon={'ant-design:bug-filled'} />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <AppWidgetSummary title="Posts" total={234} color="error" icon={'ant-design:bug-filled'} />
+              <AppWidgetSummary title="Lesson Notes Created" total={availableCourses[0].lessonNotes.length} color="warning" icon={'ant-design:bug-filled'} />
             </Grid>
+
 
             <Grid item xs={12} md={6} lg={4}>
               <AppOrderTimeline

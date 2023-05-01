@@ -38,6 +38,8 @@ Zeus Cordeiro [Github](https://github.com/Zcordeiro)
 
 ## Link to Deployed Page
 
+[Link to Deployed Site](https://knowledge-hub-pi.vercel.app/)
+
 ## Repo
 
 [Link To Github Repo](https://github.com/TheMernMachine/Knowledge-Hub)
