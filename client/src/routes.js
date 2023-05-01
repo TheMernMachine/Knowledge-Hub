@@ -34,7 +34,7 @@ export default function Router() {
       ],
     },
     {
-      path: '/dashboard',
+      path: 'dashboard',
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
