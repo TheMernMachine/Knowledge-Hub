@@ -34,7 +34,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <HelmetProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <ThemeProvider>
             <Router />
           </ThemeProvider>
