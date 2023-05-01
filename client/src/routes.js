@@ -12,11 +12,17 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
+import CoursesPage from './pages/CoursesPage';
+import CoursePage from './pages/CoursePage';
 import CoursePayment from './pages/coursePayment';
 import LandingPage from './pages/LandingPage';
 import StudentsPage from './pages/studentPage';
-import StudentDetailsPage from './pages/StudentDetailsPage';
-import ComingSoon from './pages/ComingSoon';
+import StudentDetails from './pages/StudentDetails';
+
+
+// ----------------------------------------------------------------------
+// test imports
+
 
 
 // ----------------------------------------------------------------------
@@ -25,12 +31,24 @@ export default function Router() {
   
   const routes = useRoutes([
     {
+      path: '/',
+      element: <LandingPage />,
+      children: [
+        { path: 'home', element: <LandingPage /> }
+      ]
+    },
+    {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'course/:_id/register', element: <CoursePayment /> },
+        { path: 'courses', element: <CoursesPage /> },
+        { path: 'course/:_id', element: <CoursePage />,
+          children: [
+            { path: 'register', element: <CoursePayment /> },
+          ]
+        },
         { path: 'user', element: <UserPage /> },
         { path: 'assignments', element: <AssignmentPage /> },
         { path: 'assignment/:_id', element: <SingleAssignmentPage /> },
@@ -39,16 +57,8 @@ export default function Router() {
         { path: 'quiz/:_id', element: <QuizPage /> },
         { path: 'quizzes/new', element: <NewQuizForm />},
         { path: 'students', element: <StudentsPage /> },
-        { path: 'StudentDetailsPage', element: <StudentDetailsPage /> },
-        { path: 'coming-soon', element: <ComingSoon /> },
-      ],
-    },
-    {
-      path: '/',
-      element: <LandingPage />,
-      children: [
-        { element: <Navigate to='/home' />, index: true },
-        { path: 'home', element: <LandingPage /> },
+        { path: 'StudentDetails/:_id', element: <StudentDetails /> },
+
       ],
     },
     {

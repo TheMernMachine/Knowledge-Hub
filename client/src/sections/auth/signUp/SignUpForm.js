@@ -56,17 +56,17 @@ export default function SignUpForm() {
   // If the user is already logged in, redirect them to the dashboard
   const isLoggedIn = () => {
     if (Auth.loggedIn()) {
-      navigate("/dashboard", { replace: true });
+      navigate("/dashboard/app", { replace: true });
     };
   };
 
   const handleClick = () => {
-    navigate('/dashboard', { replace: true });
+    navigate('/dashboard/app', { replace: true });
   };
 
   isLoggedIn();
   return (
-    <>
+    <form onSubmit={handleFormSubmit}>
       <Stack spacing={5}>
         <TextField 
           name="firstName" 
@@ -130,9 +130,9 @@ export default function SignUpForm() {
         </FormControl>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" sx={{ my: 2 }} onClick={handleFormSubmit}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" sx={{ my: 2 }} >
         Sign Up
       </LoadingButton>
-    </>
+    </form>
   );
 }
