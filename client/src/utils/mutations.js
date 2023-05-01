@@ -167,7 +167,7 @@ export const UPDATE_ALERT = gql`
 // Todo mutations
 export const ADD_TODO_LIST = gql`
   mutation addTodoList($userId: ID!,$title: String!, $todo: String!, $priority: String!) {
-    addTodoList(_id: $userId, title: $title, todo: $todo, priority: $priority) {
+    addTodoList(userId: $userId, title: $title, todo: $todo, priority: $priority) {
       _id
       title
       todo

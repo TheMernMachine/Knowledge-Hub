@@ -30,8 +30,8 @@ const todoResolvers = {
   },
 
   // Get all todoLists for a specific user
-  getUserTodoLists: async (id) => {
-    let user = await User.findOne({ _id: id }).populate('todoLists').populate('role');
+  getUserTodoLists: async (userId) => {
+    let user = await User.findOne({ _id: userId }).populate('todoLists').populate('role');
     return user.todoLists;
   },
 
@@ -43,10 +43,10 @@ const todoResolvers = {
   // Mutations for the todoList model to be imported into the resolvers index.js file at Path: server\schemas\resolvers.js
 
   // Add a todoList
-  addTodoList: async (id, title, todo, priority) => {
+  addTodoList: async ({ userId, title, todo, priority }) => {
     let list = await TodoList.create({ title, todo, priority });
     await User.findOneAndUpdate(
-      { _id: id },
+      { _id: userId },
       { $push: { todoLists: list._id } },
       { new: true }
     );

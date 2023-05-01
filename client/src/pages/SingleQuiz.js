@@ -78,9 +78,6 @@ export default function SinglequizPage() {
         const scoreArray = readUserResponse('scoreArray');
         const responsesArray = readUserResponse('responseArray');
         if (scoreArray.length === 0) return;
-        console.log(scoreArray);
-        console.log(responsesArray);
-
         const studentScore = scoreArray.reduce((sum, score) => score ? sum + score : sum + 0, 0);
         const score = (studentScore / questions.length) * 100;
 
@@ -99,6 +96,7 @@ export default function SinglequizPage() {
             console.log(data);
             setRawScore(data.addQuizResponse.rawScore);
             setGrade(data.addQuizResponse.grade);
+            setQuizDisplay('Time Up!');
             setAllowQuiz(false);
             updateScore();
             // setGrade(data.addQuizResponse.grade);
@@ -116,7 +114,7 @@ export default function SinglequizPage() {
         resetUserResponse();
         const randomQuestions = generateRandomTest(questions);
         setCustomQuestions(randomQuestions);
-        setQuizDisplay('Timer');
+        setQuizDisplay('Time Remaining');
         setTimer(quizDuration);
     };
 

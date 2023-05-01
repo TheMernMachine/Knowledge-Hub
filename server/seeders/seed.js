@@ -18,6 +18,7 @@ const quizSeeds = require('./quizSeeds.json');
 const questionSeeds = require('./questionSeeds.json');
 const lessonNotesSeeds = require('./lessonSeeds.json');
 const forumSeeds = require('./forumSeeds.json');
+const todoListSeeds = require('./todoListSeeds.json');
 
 
 
@@ -101,6 +102,15 @@ db.once('open', async () => {
     }
 
     console.log('Forum seeded');
+
+    // Seed Todo Lists
+    for (let i = 0; i < todoListSeeds.length; i++) {
+      let user = await User.findOne({ email: todoListSeeds[i].email });
+      todoListSeeds[i].userId = user._id;
+      await todoResolvers.addTodoList(todoListSeeds[i]);
+    }
+
+    console.log('Todo Lists seeded');
 
 
   } catch (err) {

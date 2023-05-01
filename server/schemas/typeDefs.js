@@ -186,7 +186,7 @@ const typeDefs = gql`
         removeAlert(_id: ID!): Alert
         updateAlert(_id: ID!, message: String, severity: String): Alert
 
-        addTodoList(_id: ID!, title: String!, todo: String!, priority: String!): TodoList
+        addTodoList(userId: ID!, title: String!, todo: String!, priority: String!): TodoList
         updateTodoList(_id: ID!, title: String, todo: String, priority: String): TodoList
         deleteTodoList(_id: ID!): TodoList
         

@@ -22,5 +22,53 @@
     "endDate": "12/20/2023",
     "price": 3000,
     "email": "ikubiti@knowledgehub.edu"
+  },
+  {
+    "title": "Economics 101",
+    "description": "Learn about Economics",
+    "startDate": "05/15/2023",
+    "endDate": "09/15/2023",
+    "price": 2300,
+    "email": "zcordeiro@knowledgehub.edu"
+  },
+  {
+    "title": "Higher Order Functions",
+    "description": "Fundamentals of Higher Order Functions",
+    "startDate": "07/20/2023",
+    "endDate": "10/01/2023",
+    "price": 2200,
+    "email": "cgirard@knowledgehub.edu"
+  },
+  {
+    "title": "Differential Equations",
+    "description": "Learn about Differential Equations",
+    "startDate": "07/01/2023",
+    "endDate": "08/15/2023",
+    "price": 2400,
+    "email": "ikubiti@knowledgehub.edu"
+  },
+  {
+    "title": "JavaScript - The Complete Guide",
+    "description": "Learn JavaScript from the ground up.",
+    "startDate": "06/20/2023",
+    "endDate": "12/15/2023",
+    "price": 3000,
+    "email": "zcordeiro@knowledgehub.edu"
+  },
+  {
+    "title": "NodeJs - The Complete Guide",
+    "description": "Learn paradigms of NodeJs such as asynchronous programming, event driven programming, MVC, REST APIs, GraphQL, Deno, and more.",
+    "startDate": "09/20/2023",
+    "endDate": "11/01/2023",
+    "price": 2200,
+    "email": "ikubiti@knowledgehub.edu"
+  },
+  {
+    "title": "Laravel: A Guide for Beginners",
+    "description": "Learn the essential concepts of Laravel, the most popular PHP framework.",
+    "startDate": "08/15/2023",
+    "endDate": "12/10/2023",
+    "price": 2500,
+    "email": "zcordeiro@knowledgehub.edu"
   }
 ]
