@@ -38,7 +38,7 @@ Zeus Cordeiro [Github](https://github.com/Zcordeiro)
 
 ## Link to Deployed Page
 
-[Link to Deployed Site](https://knowledge-hub-pi.vercel.app/)
+[Link to Deployed Site](https://shielded-thicket-93184.herokuapp.com/)
 
 ## Repo
 
